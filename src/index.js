@@ -1,5 +1,6 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
+const fs = require("fs");
 
 const fileUrl = (file) => `file://${__dirname}/${file}`
 
@@ -31,8 +32,15 @@ let controlWindow = null;
 //   controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
 // });
 
+
+const addDir = (folder) => {
+  fs.readdirSync(folder).forEach(file => {
+    controlWindow.webContents.send('add-file', `file://${file}`)
+  });
+}
+
 const createMain = () => {
-  return new BrowserWindow({
+  mainWindow = new BrowserWindow({
     // fullscreen: true,
     width: 800,
     height: 600,
@@ -43,11 +51,12 @@ const createMain = () => {
       contextIsolation: false,
       enableRemoteModule: true,
     },
-  }).loadURL(fileUrl("share.html"));
+  })
+  mainWindow.loadURL(fileUrl("share.html"));
 };
 
 const createControls = () => {
-  return new BrowserWindow({
+  controlWindow = new BrowserWindow({
     width: 800,
     height: 600,
     x: 900,
@@ -57,17 +66,17 @@ const createControls = () => {
       contextIsolation: false,
       enableRemoteModule: true,
     },
-  }).loadURL(fileUrl("controls.html"));
+  })
+  controlWindow.loadURL(fileUrl("controls.html"));
 };
 
 const onReady = () => {
   main = createMain();
-  controlWindow = createControls();
+  createControls();
 
-  ipcMain.on("controls:ready", () => {
-    controlWindow.webContents.on('did-finish-load', () => {
-      controlWindow.webContents.send('add-file', 'file-name.html')
-    })
+  controlWindow.webContents.on('did-finish-load', () => {
+    controlWindow.webContents.openDevTools()
+    addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
   })
 };
 
