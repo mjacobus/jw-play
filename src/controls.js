@@ -20,7 +20,7 @@ const loadFileHandler = (file, li) => (e) => {
 };
 
 ipcRenderer.on("add-file", (_, file) => {
-  const text = file.split('/').pop();
+  const text = file.split("/").pop();
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = file;
@@ -40,5 +40,4 @@ ipcRenderer.on("add-file", (_, file) => {
   files.appendChild(li);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-});
+document.addEventListener("DOMContentLoaded", () => {});

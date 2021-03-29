@@ -3,8 +3,7 @@ const path = require("path");
 const fs = require("fs");
 const { isFileSupported } = require("./utils");
 
-const fileUrl = (file) => `file://${__dirname}/${file}`
-
+const fileUrl = (file) => `file://${__dirname}/${file}`;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -33,14 +32,13 @@ app.whenReady().then(() => {
   // mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
 });
 
-
 const addDir = (folder) => {
-  fs.readdirSync(folder).forEach(file => {
+  fs.readdirSync(folder).forEach((file) => {
     if (isFileSupported(file)) {
-      controlWindow.webContents.send('add-file', `file://${folder}/${file}`)
+      controlWindow.webContents.send("add-file", `file://${folder}/${file}`);
     }
   });
-}
+};
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
@@ -54,7 +52,7 @@ const createMain = () => {
       contextIsolation: false,
       enableRemoteModule: true,
     },
-  })
+  });
   mainWindow.loadURL(fileUrl("main.html"));
 };
 
@@ -69,7 +67,7 @@ const createControls = () => {
       contextIsolation: false,
       enableRemoteModule: true,
     },
-  })
+  });
   controlWindow.loadURL(fileUrl("controls.html"));
 };
 
@@ -77,30 +75,30 @@ const onReady = () => {
   createMain();
   createControls();
 
-  controlWindow.webContents.on('did-finish-load', () => {
+  controlWindow.webContents.on("did-finish-load", () => {
     // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
-    addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
-  })
+    addDir("/Users/mjacobus/Projects/reunioes/_arquivos/");
+  });
 
   ipcMain.on("show-file", (_event, file) => {
-    mainWindow.webContents.send("show-file", file)
+    mainWindow.webContents.send("show-file", file);
   });
 
   ipcMain.on("video:play", () => {
-    mainWindow.webContents.send("video:play")
+    mainWindow.webContents.send("video:play");
   });
 
   ipcMain.on("video:pause", () => {
-    mainWindow.webContents.send("video:pause")
+    mainWindow.webContents.send("video:pause");
   });
 
   ipcMain.on("video:rewind", () => {
-    mainWindow.webContents.send("video:rewind")
+    mainWindow.webContents.send("video:rewind");
   });
 
   ipcMain.on("video:forward", () => {
-    mainWindow.webContents.send("video:forward")
+    mainWindow.webContents.send("video:forward");
   });
 };
 
