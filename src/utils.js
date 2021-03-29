@@ -1,9 +1,9 @@
-const fs = require('fs');
-const path = require("path")
+const fs = require("fs");
+const path = require("path");
 
 const DEFAULT_CONFIG = {
-  directories: []
-}
+  directories: [],
+};
 
 const hasExtension = (file, extensions) => {
   const parts = file.split(".");
@@ -32,11 +32,23 @@ const loadConfigFile = (configFile) => {
   const fileConfig = JSON.parse(fs.readFileSync(configFile));
 
   return Object.assign(DEFAULT_CONFIG, fileConfig);
-}
+};
+
+const maximizeImage = (image, window) => {
+  let xRatio = window.innerWidth / image.width;
+  let yRatio = window.innerHeight / image.height;
+  let ratio = Math.min(xRatio, yRatio);
+
+  console.log(image.with, image.height)
+  image.width *= ratio;
+  image.height *= ratio;
+  console.log(image.with, image.height)
+};
 
 module.exports = {
   isImage,
   isVideo,
   isFileSupported,
   loadConfigFile,
+  maximizeImage,
 };

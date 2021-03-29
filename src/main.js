@@ -1,5 +1,5 @@
 const { ipcRenderer } = require("electron");
-const { isImage, isVideo } = require("./utils");
+const { isImage, isVideo, maximizeImage } = require("./utils");
 
 ipcRenderer.on("show-file", (_sender, file) => {
   const container = document.getElementById("container");
@@ -43,7 +43,8 @@ const showImage = (file, doc, container) => {
   container.innerHTML = "";
   container.appendChild(img);
   img.src = file;
-  img.requestFullscreen();
+  maximizeImage(img, window)
+  // img.requestFullscreen();
 };
 
 const showVideo = (file, doc, container) => {
