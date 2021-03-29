@@ -10,12 +10,13 @@ ul {
 }
 
 li {
+  overflow: hidden;
   height: 125px;
   width: 220px;
   margin: 10px;
   padding: 10px;
   float: left;
-  background: #111111;
+  background: #292929;
 }
 
 li.active {

@@ -38,7 +38,7 @@ describe("loadConfigFile()", () => {
 
 describe("maximizeImage()", () => {
   const window = {};
-  const image = {};
+  const image = { style: {} };
 
   beforeEach(() => {
     window.innerWidth = 800;
@@ -75,9 +75,13 @@ describe("maximizeImage()", () => {
     expect(image.height).toBe(600);
   });
 
-  // Window: 926x495
-  // Image: 1200x600
-  //
-  // Window: 926x495
-  // Image: 925.9999999999999x462.99999999999994
+  it("adds marging top", () => {
+    image.width = 800;
+    image.height = 500;
+
+    maximizeImage(image, window);
+
+    expect(image.style['margin-top']).toEqual('50px');
+    expect(image.style['margin-left']).toEqual('0px');
+  });
 });
