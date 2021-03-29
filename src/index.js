@@ -35,7 +35,7 @@ let controlWindow = null;
 
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach(file => {
-    controlWindow.webContents.send('add-file', `file://${file}`)
+    controlWindow.webContents.send('add-file', `file://${folder}/${file}`)
   });
 }
 
@@ -71,13 +71,19 @@ const createControls = () => {
 };
 
 const onReady = () => {
-  main = createMain();
+  createMain();
   createControls();
 
   controlWindow.webContents.on('did-finish-load', () => {
     controlWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
   })
+
+  ipcMain.on("show-file", (_event, file) => {
+    console.log(file)
+    mainWindow.webContents.send("show-file", file)
+  });
 };
 
 // This method will be called when Electron has finished
