@@ -1,0 +1,17 @@
+body {
+  background: black;
+}
+
+li {
+  height: 200px;
+  padding: 10px;
+}
+
+li.active {
+  background: white;
+}
+
+img {
+  max-height: 200px;
+  max-width: 200px;
+}

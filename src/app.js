@@ -1,6 +1,7 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
+const { isFileSupported } = require("./utils");
 
 const fileUrl = (file) => `file://${__dirname}/${file}`
 
@@ -29,13 +30,16 @@ app.whenReady().then(() => {
 
   externalDisplay = externalDisplay || primaryDisplay;
   controlWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
-  mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  // mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
 });
 
 
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach(file => {
-    controlWindow.webContents.send('add-file', `file://${folder}/${file}`)
+    console.log(file)
+    if (isFileSupported(file)) {
+      controlWindow.webContents.send('add-file', `file://${folder}/${file}`)
+    }
   });
 }
 
@@ -75,7 +79,7 @@ const onReady = () => {
   createControls();
 
   controlWindow.webContents.on('did-finish-load', () => {
-    // controlWindow.webContents.openDevTools()
+    controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
     addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
   })
