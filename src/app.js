@@ -36,7 +36,6 @@ app.whenReady().then(() => {
 
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach(file => {
-    console.log(file)
     if (isFileSupported(file)) {
       controlWindow.webContents.send('add-file', `file://${folder}/${file}`)
     }
@@ -48,7 +47,7 @@ const createMain = () => {
     fullscreen: true,
     // width: 800,
     // height: 600,
-    x: 0,
+    x: 10,
     y: 0,
     webPreferences: {
       nodeIntegration: true,
@@ -79,13 +78,29 @@ const onReady = () => {
   createControls();
 
   controlWindow.webContents.on('did-finish-load', () => {
-    controlWindow.webContents.openDevTools()
+    // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
     addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
   })
 
   ipcMain.on("show-file", (_event, file) => {
     mainWindow.webContents.send("show-file", file)
+  });
+
+  ipcMain.on("video:play", () => {
+    mainWindow.webContents.send("video:play")
+  });
+
+  ipcMain.on("video:pause", () => {
+    mainWindow.webContents.send("video:pause")
+  });
+
+  ipcMain.on("video:rewind", () => {
+    mainWindow.webContents.send("video:rewind")
+  });
+
+  ipcMain.on("video:forward", () => {
+    mainWindow.webContents.send("video:forward")
   });
 };
 
