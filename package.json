@@ -1,6 +1,6 @@
 {
-  "name": "jw-play",
-  "productName": "jw-play",
+  "name": "JWPlay",
+  "productName": "JW Play",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/app.js",
