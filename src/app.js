@@ -38,10 +38,18 @@ app.whenReady().then(() => {
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach((file) => {
     if (isFileSupported(file)) {
-      controlWindow.webContents.send("add-file", `file://${folder}/${file}`);
+      const message = addMetadata({ url: `file://${folder}/${file}` })
+      console.log(message)
+      controlWindow.webContents.send("add-file", message);
     }
   });
 };
+
+const addMetadata = (file)  => {
+  file.width = 50
+  file.height = 60
+  return file;
+}
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
@@ -79,8 +87,8 @@ const onReady = () => {
   createControls();
 
   controlWindow.webContents.on("did-finish-load", () => {
-    // controlWindow.webContents.openDevTools()
-    // mainWindow.webContents.openDevTools()
+    controlWindow.webContents.openDevTools()
+    mainWindow.webContents.openDevTools()
     console.log(CONFIG)
     CONFIG.directories.forEach(addDir);
   });

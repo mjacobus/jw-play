@@ -4,11 +4,11 @@ const { isImage, isVideo, maximizeImage } = require("./utils");
 ipcRenderer.on("show-file", (_sender, file) => {
   const container = document.getElementById("container");
 
-  if (isImage(file)) {
+  if (isImage(file.url)) {
     return showImage(file, document, container);
   }
 
-  if (isVideo(file)) {
+  if (isVideo(file.url)) {
     return showVideo(file, document, container);
   }
 });
@@ -42,8 +42,10 @@ const showImage = (file, doc, container) => {
   const img = doc.createElement("img");
   container.innerHTML = "";
   container.appendChild(img);
-  img.src = file;
-  maximizeImage(img, window)
+  img.src = file.url;
+  maximizeImage(file, window)
+  img.width = file.width
+  img.height = file.height
   // img.requestFullscreen();
 };
 
@@ -56,6 +58,6 @@ const showVideo = (file, doc, container) => {
   video.width = window.innerWidth;
   video.controls = true;
   source.type = "video/mp4";
-  source.src = file;
+  source.src = file.url;
   container.appendChild(video);
 };

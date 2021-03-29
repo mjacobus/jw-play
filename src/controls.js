@@ -19,19 +19,19 @@ const loadFileHandler = (file, li) => (e) => {
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
   ipcRenderer.send("show-file", file);
-  controls.hidden = !isVideo(file);
+  controls.hidden = !isVideo(file.url);
 };
 
 ipcRenderer.on("add-file", (_, file) => {
-  const text = file.split("/").pop();
+  const text = file.url.split("/").pop();
   const li = document.createElement("li");
   const a = document.createElement("a");
-  a.href = file;
+  a.href = file.url;
   a.addEventListener("click", loadFileHandler(file, li));
 
-  if (isImage(file)) {
+  if (isImage(file.url)) {
     const img = document.createElement("img");
-    img.src = file;
+    img.src = file.url;
     img.title = text;
     img.alt = text;
     a.appendChild(img);

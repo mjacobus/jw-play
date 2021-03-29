@@ -35,9 +35,13 @@ const loadConfigFile = (configFile) => {
 };
 
 const maximizeImage = (image, window) => {
-  let xRatio = window.innerWidth / image.width;
-  let yRatio = window.innerHeight / image.height;
-  let ratio = Math.min(xRatio, yRatio);
+  if (!image.width || !!image.height) {
+    return;
+  }
+
+  const xRatio = window.innerWidth / image.width;
+  const yRatio = window.innerHeight / image.height;
+  const ratio = Math.min(xRatio, yRatio);
 
   console.log(image.with, image.height)
   image.width *= ratio;
