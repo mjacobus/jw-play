@@ -41,12 +41,7 @@ Create a file under your `$HOME/.config/jw-play/config.json` with similar config
 
 ## Screenshots
 
-![Opening the app](https://user-images.githubusercontent.com/226834/112857341-22935e00-9087-11eb-99a4-8834e4a9956b.png)
-
-----
-
-![When selecting a vídeo](https://user-images.githubusercontent.com/226834/112857346-23c48b00-9087-11eb-8772-2a3e6c2e2757.png)
-
-----
-
-![When nothing is selected](https://user-images.githubusercontent.com/226834/112857586-61291880-9087-11eb-9682-caeb514ddca3.png)
+![Screen Shot 2021-03-29 at 20 06 53](https://user-images.githubusercontent.com/226834/112910802-8ab76380-90ca-11eb-9ccb-f3c16d46b45e.png)
+![Screen Shot 2021-03-29 at 20 06 59](https://user-images.githubusercontent.com/226834/112910815-8f7c1780-90ca-11eb-976f-1c4d4906d6ce.png)
+![Screen Shot 2021-03-29 at 20 07 40](https://user-images.githubusercontent.com/226834/112910810-8db25400-90ca-11eb-803d-c77c8007fc2e.png)
+![Screen Shot 2021-03-29 at 20 07 05](https://user-images.githubusercontent.com/226834/112910814-8ee38100-90ca-11eb-9a8b-c9e8588aafdf.png)
