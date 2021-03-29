@@ -7,15 +7,24 @@
       rel="stylesheet"
       href="../node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
+    <link
+      rel="stylesheet"
+      href="../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+
     <link rel="stylesheet" href="controls.css" />
   </head>
   <body>
     <ul id="files"></ul>
-    <div class="fixed-bottom" id="video-controls">
-      <a data-video-action="video:play" href="#">Play</a>
-      <a data-video-action="video:pause" href="#">Pause</a>
-      <a data-video-action="video:rewind" href="#">Rewind</a>
-      <a data-video-action="video:forward" href="#">Forward</a>
+    <div class="fixed-bottom">
+      <div class="video-controls">
+        <div class="limit">
+          <a data-video-action="video:rewind" href="#"><i class="bi bi-skip-forward-circle-fill"></i></a>
+          <a data-video-action="video:play" href="#"><i class="bi bi-play-circle-fill"></i></a>
+          <a data-video-action="video:pause" href="#"><i class="bi bi-pause-circle-fill"></i></a>
+          <a data-video-action="video:forward" href="#"><i class="bi bi-skip-backward-circle-fill"></i></a>
+        </div>
+      </div>
     </div>
   </body>
   <script>

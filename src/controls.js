@@ -5,7 +5,7 @@ const videoActions = document.querySelectorAll("[data-video-action]");
 [].forEach.call(videoActions, (element) => {
   element.addEventListener("click", (e) => {
     e.preventDefault();
-    const action = e.target.getAttribute("data-video-action");
+    const action = element.getAttribute("data-video-action");
     ipcRenderer.send(action);
   });
 });
