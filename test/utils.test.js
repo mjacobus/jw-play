@@ -1,6 +1,4 @@
-const {
-  isImage
-} = require("../src/utils");
+const { isImage } = require("../src/utils");
 
 describe("is image", () => {
   it("returns true when file is image", () => {
