@@ -42,9 +42,9 @@ const showImage = (file, doc, container) => {
   container.innerHTML = "";
   container.appendChild(img);
   img.src = file.url;
-  maximizeImage(file, window)
   img.width = file.width
   img.height = file.height
+  maximizeImage(img, window)
 };
 
 const showVideo = (file, doc, container) => {
