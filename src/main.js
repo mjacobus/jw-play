@@ -53,7 +53,7 @@ const showVideo = (file, doc, container) => {
   const source = doc.createElement("source");
   video.appendChild(source)
 
-  video.width = 250;
+  video.width = window.innerWidth;
   video.controls = true;
   source.type="video/mp4"
   source.src = file;
