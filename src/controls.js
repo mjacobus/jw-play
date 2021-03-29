@@ -20,6 +20,7 @@ const loadFileHandler = (file, li) => (e) => {
 };
 
 ipcRenderer.on("add-file", (_, file) => {
+  const text = file.split('/').pop();
   const li = document.createElement("li");
   const a = document.createElement("a");
   a.href = file;
@@ -28,11 +29,11 @@ ipcRenderer.on("add-file", (_, file) => {
   if (isImage(file)) {
     const img = document.createElement("img");
     img.src = file;
-    img.title = file;
-    img.alt = file;
+    img.title = text;
+    img.alt = text;
     a.appendChild(img);
   } else {
-    a.text = file;
+    a.text = text;
   }
 
   li.appendChild(a);
