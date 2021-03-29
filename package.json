@@ -5,6 +5,7 @@
   "description": "My Electron application description",
   "main": "src/app.js",
   "scripts": {
+    "test": "npx jest test",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
