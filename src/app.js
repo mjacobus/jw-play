@@ -1,7 +1,7 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { isFileSupported, loadConfigFile } = require("./utils");
+const { createFilePayload, isFileSupported, loadConfigFile } = require("./utils");
 
 const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
 const CONFIG = loadConfigFile(CONFIG_FILE);
@@ -31,25 +31,22 @@ app.whenReady().then(() => {
   });
 
   externalDisplay = externalDisplay || primaryDisplay;
-  controlWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
-  // mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
 });
 
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach((file) => {
     if (isFileSupported(file)) {
-      controlWindow.webContents.send("add-file", `file://${folder}/${file}`);
+      const message = createFilePayload(`${folder}/${file}`)
+      console.log("Adding file:", message)
+      controlWindow.webContents.send("add-file", message);
     }
   });
 };
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
-    fullscreen: true,
-    // width: 800,
-    // height: 600,
-    x: 10,
-    y: 0,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -61,8 +58,8 @@ const createMain = () => {
 
 const createControls = () => {
   controlWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 1600,
     x: 900,
     y: 0,
     webPreferences: {
@@ -81,7 +78,6 @@ const onReady = () => {
   controlWindow.webContents.on("did-finish-load", () => {
     // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
-    console.log(CONFIG)
     CONFIG.directories.forEach(addDir);
   });
 

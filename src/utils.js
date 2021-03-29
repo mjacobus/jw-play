@@ -1,9 +1,10 @@
-const fs = require('fs');
-const path = require("path")
+const fs = require("fs");
+const path = require("path");
+const sizeOf = require('image-size')
 
 const DEFAULT_CONFIG = {
-  directories: []
-}
+  directories: [],
+};
 
 const hasExtension = (file, extensions) => {
   const parts = file.split(".");
@@ -32,6 +33,33 @@ const loadConfigFile = (configFile) => {
   const fileConfig = JSON.parse(fs.readFileSync(configFile));
 
   return Object.assign(DEFAULT_CONFIG, fileConfig);
+};
+
+const maximizeImage = (image, window) => {
+  if (!image.width || !image.height) {
+    return;
+  }
+
+  const xRatio = window.innerWidth / image.width;
+  const yRatio = window.innerHeight / image.height;
+  const ratio = Math.min(xRatio, yRatio);
+
+  image.width *= ratio;
+  image.height *= ratio;
+  image.width = Math.floor(image.width)
+  image.height = Math.floor(image.height)
+  image.style['margin-top'] = `${Math.floor(( window.innerHeight - image.height ) / 2)}px`
+  image.style['margin-left'] = `${Math.floor(( window.innerWidth - image.width ) / 2)}px`
+};
+
+const createFilePayload = (filePath)  => {
+  const file = { url: `file://${filePath}` }
+  if (isImage(filePath)) {
+    const dimensions = sizeOf(filePath)
+    file.width = dimensions.width;
+    file.height = dimensions.height;
+  }
+  return file;
 }
 
 module.exports = {
@@ -39,4 +67,6 @@ module.exports = {
   isVideo,
   isFileSupported,
   loadConfigFile,
+  maximizeImage,
+  createFilePayload,
 };
