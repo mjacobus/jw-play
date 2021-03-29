@@ -11,26 +11,26 @@ if (require("electron-squirrel-startup")) {
   app.quit();
 }
 
-let share = null;
+let mainWindow = null;
 let controlWindow = null;
-// let primaryDisplay = null;
-// let externalDisplay = null;
+let primaryDisplay = null;
+let externalDisplay = null;
 
-// app.whenReady().then(() => {
-//   primaryDisplay = screen.getPrimaryDisplay();
-//   const displays = screen.getAllDisplays();
-//
-//   externalDisplay = displays.find((display) => {
-//     return (
-//       display.bounds.x !== primaryDisplay.bounds.x ||
-//       display.bounds.y !== primaryDisplay.bounds.y
-//     );
-//   });
-//
-//   externalDisplay = externalDisplay || primaryDisplay;
-//   share.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
-//   controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
-// });
+app.whenReady().then(() => {
+  primaryDisplay = screen.getPrimaryDisplay();
+  const displays = screen.getAllDisplays();
+
+  externalDisplay = displays.find((display) => {
+    return (
+      display.bounds.x !== primaryDisplay.bounds.x ||
+      display.bounds.y !== primaryDisplay.bounds.y
+    );
+  });
+
+  externalDisplay = externalDisplay || primaryDisplay;
+  mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
+  // controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+});
 
 
 const addDir = (folder) => {
@@ -41,9 +41,9 @@ const addDir = (folder) => {
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
-    // fullscreen: true,
-    width: 800,
-    height: 600,
+    fullscreen: true,
+    // width: 800,
+    // height: 600,
     x: 0,
     y: 0,
     webPreferences: {
@@ -52,7 +52,7 @@ const createMain = () => {
       enableRemoteModule: true,
     },
   })
-  mainWindow.loadURL(fileUrl("share.html"));
+  mainWindow.loadURL(fileUrl("main.html"));
 };
 
 const createControls = () => {
@@ -75,13 +75,12 @@ const onReady = () => {
   createControls();
 
   controlWindow.webContents.on('did-finish-load', () => {
-    controlWindow.webContents.openDevTools()
-    mainWindow.webContents.openDevTools()
+    // controlWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
     addDir("/Users/mjacobus/Projects/reunioes/_arquivos/")
   })
 
   ipcMain.on("show-file", (_event, file) => {
-    console.log(file)
     mainWindow.webContents.send("show-file", file)
   });
 };
