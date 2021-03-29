@@ -28,8 +28,8 @@ app.whenReady().then(() => {
   });
 
   externalDisplay = externalDisplay || primaryDisplay;
-  mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
-  // controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  controlWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
+  mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
 });
 
 
