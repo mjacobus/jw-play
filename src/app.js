@@ -31,8 +31,8 @@ app.whenReady().then(() => {
   });
 
   externalDisplay = externalDisplay || primaryDisplay;
-  controlWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
-  // mainWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
+  mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
 });
 
 const addDir = (folder) => {
@@ -47,11 +47,6 @@ const addDir = (folder) => {
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
-    fullscreen: true,
-    // width: 800,
-    // height: 600,
-    x: 10,
-    y: 0,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -63,8 +58,8 @@ const createMain = () => {
 
 const createControls = () => {
   controlWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 600,
+    height: 1600,
     x: 900,
     y: 0,
     webPreferences: {
