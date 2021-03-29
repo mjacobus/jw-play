@@ -74,4 +74,10 @@ describe("maximizeImage()", () => {
     expect(image.width).toBe(400);
     expect(image.height).toBe(600);
   });
+
+  // Window: 926x495
+  // Image: 1200x600
+  //
+  // Window: 926x495
+  // Image: 925.9999999999999x462.99999999999994
 });

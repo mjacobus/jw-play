@@ -1,7 +1,7 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { isFileSupported, loadConfigFile } = require("./utils");
+const { createFilePayload, isFileSupported, loadConfigFile } = require("./utils");
 
 const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
 const CONFIG = loadConfigFile(CONFIG_FILE);
@@ -38,18 +38,12 @@ app.whenReady().then(() => {
 const addDir = (folder) => {
   fs.readdirSync(folder).forEach((file) => {
     if (isFileSupported(file)) {
-      const message = addMetadata({ url: `file://${folder}/${file}` })
-      console.log(message)
+      const message = createFilePayload(`${folder}/${file}`)
+      console.log("Adding file:", message)
       controlWindow.webContents.send("add-file", message);
     }
   });
 };
-
-const addMetadata = (file)  => {
-  file.width = 50
-  file.height = 60
-  return file;
-}
 
 const createMain = () => {
   mainWindow = new BrowserWindow({
@@ -87,9 +81,8 @@ const onReady = () => {
   createControls();
 
   controlWindow.webContents.on("did-finish-load", () => {
-    controlWindow.webContents.openDevTools()
-    mainWindow.webContents.openDevTools()
-    console.log(CONFIG)
+    // controlWindow.webContents.openDevTools()
+    // mainWindow.webContents.openDevTools()
     CONFIG.directories.forEach(addDir);
   });
 

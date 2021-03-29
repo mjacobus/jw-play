@@ -14,7 +14,6 @@ ipcRenderer.on("show-file", (_sender, file) => {
 });
 
 ipcRenderer.on("video:play", () => {
-  console.log("play");
   document.querySelector("video")?.play();
 });
 
@@ -46,7 +45,6 @@ const showImage = (file, doc, container) => {
   maximizeImage(file, window)
   img.width = file.width
   img.height = file.height
-  // img.requestFullscreen();
 };
 
 const showVideo = (file, doc, container) => {

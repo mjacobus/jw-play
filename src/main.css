@@ -4,6 +4,11 @@ body {
   background: black;
 }
 
+img  {
+  margin: 0 auto;
+  vertical-align: middle;
+}
+
 /* https://css-tricks.com/quick-css-trick-how-to-center-an-object-exactly-in-the-center/ */
 /* img { */
 /*   position: fixed; */

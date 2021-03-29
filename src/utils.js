@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const sizeOf = require('image-size')
 
 const DEFAULT_CONFIG = {
   directories: [],
@@ -35,7 +36,7 @@ const loadConfigFile = (configFile) => {
 };
 
 const maximizeImage = (image, window) => {
-  if (!image.width || !!image.height) {
+  if (!image.width || !image.height) {
     return;
   }
 
@@ -43,11 +44,21 @@ const maximizeImage = (image, window) => {
   const yRatio = window.innerHeight / image.height;
   const ratio = Math.min(xRatio, yRatio);
 
-  console.log(image.with, image.height)
   image.width *= ratio;
   image.height *= ratio;
-  console.log(image.with, image.height)
+  image.width = Math.floor(image.width)
+  image.height = Math.floor(image.height)
 };
+
+const createFilePayload = (filePath)  => {
+  const file = { url: `file://${filePath}` }
+  if (isImage(filePath)) {
+    const dimensions = sizeOf(filePath)
+    file.width = dimensions.width;
+    file.height = dimensions.height;
+  }
+  return file;
+}
 
 module.exports = {
   isImage,
@@ -55,4 +66,5 @@ module.exports = {
   isFileSupported,
   loadConfigFile,
   maximizeImage,
+  createFilePayload,
 };
