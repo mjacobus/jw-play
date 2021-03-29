@@ -1,0 +1,13 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    koine-test_runner (0.4.0)
+
+PLATFORMS
+  x86_64-darwin-20
+
+DEPENDENCIES
+  koine-test_runner
+
+BUNDLED WITH
+   2.2.10

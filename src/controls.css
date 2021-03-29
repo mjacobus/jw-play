@@ -1,0 +1,51 @@
+body {
+  background: black;
+}
+
+a {
+  color: #4a6da7;
+}
+ul {
+  list-style-type: none;
+}
+
+li {
+  height: 125px;
+  width: 220px;
+  margin: 10px;
+  padding: 10px;
+  float: left;
+  background: #111111;
+}
+
+li.active {
+  background: white;
+}
+
+img {
+  max-height: 200px;
+  max-width: 200px;
+}
+
+#files {
+  margin-bottom: 100px;
+  display: block;
+  float: left;
+}
+
+.video-controls {
+  background: #4a6da7;
+  /* background: #292929; */
+  /* height: 150px; */
+  padding: 10 40px;
+  margin: 0 auto;
+}
+
+.video-controls .limit {
+  width: 256px;
+  margin: 0 auto;
+}
+.video-controls a i {
+  color: white;
+  font-size: 60px;
+}
