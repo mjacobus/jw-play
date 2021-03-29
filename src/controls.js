@@ -1,7 +1,9 @@
 const { ipcRenderer } = require("electron");
-const { isImage } = require("./utils");
+const { isImage, isVideo } = require("./utils");
 
+const controls = document.getElementById("video-controls");
 const videoActions = document.querySelectorAll("[data-video-action]");
+
 [].forEach.call(videoActions, (element) => {
   element.addEventListener("click", (e) => {
     e.preventDefault();
@@ -17,6 +19,7 @@ const loadFileHandler = (file, li) => (e) => {
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
   ipcRenderer.send("show-file", file);
+  controls.hidden = !isVideo(file)
 };
 
 ipcRenderer.on("add-file", (_, file) => {
