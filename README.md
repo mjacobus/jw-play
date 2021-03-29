@@ -7,6 +7,12 @@ npm install
 npm start
 ```
 
+## Compile
+
+```
+npm run package # check the out file
+```
+
 ## Running tests
 
 ```
@@ -18,6 +24,7 @@ npm test
 ```
 ./node_modules/.bin/prettier --write src test
 ```
+
 
 
 ## Usage
