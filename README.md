@@ -18,3 +18,16 @@ npm test
 ```
 ./node_modules/.bin/prettier --write src test
 ```
+
+
+## Usage
+
+Create a file under your `$HOME/.config/jw-play/config.json` with similar configuration:
+
+```json
+{
+  "directories": [
+    "/Users/mjacobus/Projects/reunioes/_arquivos"
+  ]
+}
+```

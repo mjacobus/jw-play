@@ -1,7 +1,10 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const path = require("path");
 const fs = require("fs");
-const { isFileSupported } = require("./utils");
+const { isFileSupported, loadConfigFile } = require("./utils");
+
+const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
+const CONFIG = loadConfigFile(CONFIG_FILE);
 
 const fileUrl = (file) => `file://${__dirname}/${file}`;
 
@@ -78,7 +81,8 @@ const onReady = () => {
   controlWindow.webContents.on("did-finish-load", () => {
     // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
-    addDir("/Users/mjacobus/Projects/reunioes/_arquivos/");
+    console.log(CONFIG)
+    CONFIG.directories.forEach(addDir);
   });
 
   ipcMain.on("show-file", (_event, file) => {
