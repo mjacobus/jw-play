@@ -5,6 +5,8 @@ const { createFilePayload, isFileSupported, loadConfigFile } = require("./utils"
 
 const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
 const CONFIG = loadConfigFile(CONFIG_FILE);
+const ControlWindow = require('./ControlWindow')
+const MainWindow = require('./MainWindow')
 
 const fileUrl = (file) => `file://${__dirname}/${file}`;
 
@@ -35,29 +37,12 @@ app.whenReady().then(() => {
   mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
 });
 
-const addDir = (folder) => {
-  fs.readdirSync(folder).forEach((file) => {
-    if (isFileSupported(file)) {
-      const message = createFilePayload(`${folder}/${file}`)
-      console.log("Adding file:", message)
-      controlWindow.webContents.send("add-file", message);
-    }
-  });
-};
-
 const createMain = () => {
-  mainWindow = new BrowserWindow({
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
-    },
-  });
-  mainWindow.loadURL(fileUrl("main.html"));
+  mainWindow = new MainWindow();
 };
 
 const createControls = () => {
-  controlWindow = new BrowserWindow({
+  controlWindow = new ControlWindow({
     width: 600,
     height: 1600,
     x: 900,
@@ -78,7 +63,9 @@ const onReady = () => {
   controlWindow.webContents.on("did-finish-load", () => {
     // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
-    CONFIG.directories.forEach(addDir);
+    CONFIG.directories.forEach((dir) => {
+      controlWindow.addDir(dir)
+    });
   });
 
   ipcMain.on("show-file", (_event, file) => {
