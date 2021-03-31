@@ -18,6 +18,10 @@ class ControlWindow extends Window {
     this.onFinishLoad();
   }
 
+  clearFiles() {
+    this.webContents.send("clear-files");
+  }
+
   addFile(file) {
     if (isFileSupported(file)) {
       const message = createFilePayload(file);
@@ -25,7 +29,7 @@ class ControlWindow extends Window {
     }
   }
 
-  addDir(folder) {
+  addFolder(folder) {
     fs.readdirSync(folder).forEach((file) => {
       this.addFile(`${folder}/${file}`);
     });
@@ -34,7 +38,7 @@ class ControlWindow extends Window {
   onFinishLoad() {
     this.webContents.on("did-finish-load", () => {
       this.getConfig().directories.forEach((dir) => {
-        this.addDir(dir);
+        this.addFolder(dir);
       });
     });
   }
