@@ -1,18 +1,32 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
 
-const fileUrl = (file) => `file://${__dirname}/${file}`;
+const Window = require("./Window");
 
-class MainWindow extends BrowserWindow {
+class MainWindow extends Window {
   constructor() {
-    super({
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
-      },
+    super();
+
+    this.loadAppFile("main.html");
+
+    ipcMain.on("show-file", (_event, file) => {
+      this.webContents.send("show-file", file);
     });
 
-    this.loadURL(fileUrl("main.html"));
+    ipcMain.on("video:play", () => {
+      this.webContents.send("video:play");
+    });
+
+    ipcMain.on("video:pause", () => {
+      this.webContents.send("video:pause");
+    });
+
+    ipcMain.on("video:rewind", () => {
+      this.webContents.send("video:rewind");
+    });
+
+    ipcMain.on("video:forward", () => {
+      this.webContents.send("video:forward");
+    });
   }
 }
 

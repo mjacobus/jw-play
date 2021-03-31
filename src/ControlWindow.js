@@ -1,10 +1,9 @@
-const { app, BrowserWindow, screen, ipcMain } = require("electron");
 const { createFilePayload, isFileSupported } = require("./utils");
 const fs = require("fs");
 
-const fileUrl = (file) => `file://${__dirname}/${file}`;
+const Window = require("./Window");
 
-class ControlWindow extends BrowserWindow {
+class ControlWindow extends Window {
   constructor() {
     super({
       width: 600,
@@ -12,20 +11,15 @@ class ControlWindow extends BrowserWindow {
       height: 1600,
       x: 900,
       y: 0,
-      webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
-        enableRemoteModule: true,
-      },
     });
 
-    this.loadURL(fileUrl("controls.html"));
+    this.loadAppFile("controls.html");
+    this.onFinishLoad();
   }
 
   addFile(file) {
     if (isFileSupported(file)) {
       const message = createFilePayload(file);
-      console.log("Adding file:", message);
       this.webContents.send("add-file", message);
     }
   }
@@ -34,6 +28,18 @@ class ControlWindow extends BrowserWindow {
     fs.readdirSync(folder).forEach((file) => {
       this.addFile(`${folder}/${file}`);
     });
+  }
+
+  onFinishLoad() {
+    this.webContents.on("did-finish-load", () => {
+      this.getConfig().directories.forEach((dir) => {
+        this.addDir(dir);
+      });
+    });
+  }
+
+  toggleDevTools() {
+    this.webContents.toggleDevTools();
   }
 }
 

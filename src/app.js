@@ -1,8 +1,5 @@
-const { app, BrowserWindow, screen, ipcMain } = require("electron");
-const { loadConfigFile } = require("./utils");
+const { app, BrowserWindow, screen } = require("electron");
 
-const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
-const CONFIG = loadConfigFile(CONFIG_FILE);
 const ControlWindow = require("./ControlWindow");
 const MainWindow = require("./MainWindow");
 
@@ -29,41 +26,14 @@ app.whenReady().then(() => {
   });
 
   externalDisplay = externalDisplay || primaryDisplay;
-  controlWindow.setPosition(primaryDisplay.bounds.x, primaryDisplay.bounds.y);
-  mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
+
+  controlWindow.moveToDisplay(primaryDisplay);
+  mainWindow.moveToDisplay(externalDisplay);
 });
 
 const onReady = () => {
   mainWindow = new MainWindow();
   controlWindow = new ControlWindow();
-
-  controlWindow.webContents.on("did-finish-load", () => {
-    // controlWindow.webContents.openDevTools()
-    // mainWindow.webContents.openDevTools()
-    CONFIG.directories.forEach((dir) => {
-      controlWindow.addDir(dir);
-    });
-  });
-
-  ipcMain.on("show-file", (_event, file) => {
-    mainWindow.webContents.send("show-file", file);
-  });
-
-  ipcMain.on("video:play", () => {
-    mainWindow.webContents.send("video:play");
-  });
-
-  ipcMain.on("video:pause", () => {
-    mainWindow.webContents.send("video:pause");
-  });
-
-  ipcMain.on("video:rewind", () => {
-    mainWindow.webContents.send("video:rewind");
-  });
-
-  ipcMain.on("video:forward", () => {
-    mainWindow.webContents.send("video:forward");
-  });
 };
 
 // This method will be called when Electron has finished
