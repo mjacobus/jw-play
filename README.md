@@ -4,7 +4,7 @@ A prototype player meant for remote meetings. Made with [Electron JS](https://ww
 
 ```
 npm install
-npm start
+npm dev
 ```
 
 ## Compile

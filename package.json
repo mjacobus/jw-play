@@ -6,6 +6,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "npx jest test",
+    "dev": "nodemon --exec electron-forge start",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -60,6 +61,7 @@
     "electron": "12.0.2",
     "jest": "^26.6.3",
     "jest-dot-reporter": "^1.0.14",
+    "nodemon": "^2.0.7",
     "prettier": "2.2.1"
   }
 }
