@@ -16,12 +16,16 @@ class ApplicationDriver {
   }
 
   addFolder() {
-    const folders = dialog.showOpenDialogSync({ properties: ["openDirectory"] }) || [];
+    const folders =
+      dialog.showOpenDialogSync({ properties: ["openDirectory"] }) || [];
     folders.forEach((folder) => this.controlWindow.addFolder(folder));
   }
 
   addFiles() {
-    const files = dialog.showOpenDialogSync({ properties: ["openFile", "multiSelections"] }) || [];
+    const files =
+      dialog.showOpenDialogSync({
+        properties: ["openFile", "multiSelections"],
+      }) || [];
     files.forEach((folder) => this.controlWindow.addFile(folder));
   }
 
