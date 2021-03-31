@@ -4,8 +4,7 @@ const Window = require("./Window");
 
 class MainWindow extends Window {
   constructor(app) {
-    super();
-    this.app = app;
+    super({ app });
 
     this.loadAppFile("main.html");
 

@@ -30,8 +30,11 @@ class ApplicationMenu {
           },
           {
             label: "Quit",
-            click: () => driver.quit()
-          }
+            click: () => {
+              driver.isQuiting = true;
+              driver.quit();
+            },
+          },
         ],
       },
     ];

@@ -6,7 +6,7 @@ const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
 const CONFIG = loadConfigFile(CONFIG_FILE);
 
 class BaseWindow extends BrowserWindow {
-  constructor(options = {}) {
+  constructor({ app, ...options }) {
     const default_options = {
       webPreferences: {
         nodeIntegration: true,
@@ -16,6 +16,14 @@ class BaseWindow extends BrowserWindow {
     };
     options = Object.assign({}, default_options, options);
     super(options);
+    this.app = app;
+
+    this.on("close", (e) => {
+      if (!app.isQuiting) {
+        return e.preventDefault();
+      }
+      this.hide();
+    });
   }
 
   loadAppFile(file) {

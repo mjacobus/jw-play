@@ -6,6 +6,7 @@ const Window = require("./Window");
 class ControlWindow extends Window {
   constructor(app) {
     super({
+      app: app,
       width: 600,
       // it will not be higher then the display
       height: 1600,
