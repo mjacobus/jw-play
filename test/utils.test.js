@@ -26,7 +26,7 @@ describe("loadConfigFile()", () => {
       expect(value).toBeTruthy();
     });
 
-    it("returns the configuratioh", () => {
+    it("returns the configuration", () => {
       const config = loadConfigFile(configFile);
 
       expect(config).toEqual({
