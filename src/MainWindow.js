@@ -1,5 +1,4 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
-const { createFilePayload, isFileSupported, loadConfigFile } = require("./utils");
 
 const fileUrl = (file) => `file://${__dirname}/${file}`;
 
@@ -11,11 +10,10 @@ class MainWindow extends BrowserWindow {
         contextIsolation: false,
         enableRemoteModule: true,
       },
-    })
+    });
 
     this.loadURL(fileUrl("main.html"));
   }
 }
 
-module.exports = MainWindow
-
+module.exports = MainWindow;

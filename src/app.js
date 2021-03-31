@@ -1,14 +1,10 @@
 const { app, BrowserWindow, screen, ipcMain } = require("electron");
-const path = require("path");
-const fs = require("fs");
-const { createFilePayload, isFileSupported, loadConfigFile } = require("./utils");
+const { loadConfigFile } = require("./utils");
 
 const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
 const CONFIG = loadConfigFile(CONFIG_FILE);
-const ControlWindow = require('./ControlWindow')
-const MainWindow = require('./MainWindow')
-
-const fileUrl = (file) => `file://${__dirname}/${file}`;
+const ControlWindow = require("./ControlWindow");
+const MainWindow = require("./MainWindow");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -18,10 +14,10 @@ if (require("electron-squirrel-startup")) {
 
 let mainWindow = null;
 let controlWindow = null;
-let primaryDisplay = null;
-let externalDisplay = null;
 
 app.whenReady().then(() => {
+  let primaryDisplay = null;
+  let externalDisplay = null;
   primaryDisplay = screen.getPrimaryDisplay();
   const displays = screen.getAllDisplays();
 
@@ -37,34 +33,15 @@ app.whenReady().then(() => {
   mainWindow.setPosition(externalDisplay.bounds.x, externalDisplay.bounds.y);
 });
 
-const createMain = () => {
-  mainWindow = new MainWindow();
-};
-
-const createControls = () => {
-  controlWindow = new ControlWindow({
-    width: 600,
-    height: 1600,
-    x: 900,
-    y: 0,
-    webPreferences: {
-      nodeIntegration: true,
-      contextIsolation: false,
-      enableRemoteModule: true,
-    },
-  });
-  controlWindow.loadURL(fileUrl("controls.html"));
-};
-
 const onReady = () => {
-  createMain();
-  createControls();
+  mainWindow = new MainWindow();
+  controlWindow = new ControlWindow();
 
   controlWindow.webContents.on("did-finish-load", () => {
     // controlWindow.webContents.openDevTools()
     // mainWindow.webContents.openDevTools()
     CONFIG.directories.forEach((dir) => {
-      controlWindow.addDir(dir)
+      controlWindow.addDir(dir);
     });
   });
 
