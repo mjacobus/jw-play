@@ -81,7 +81,7 @@ describe("maximizeImage()", () => {
 
     maximizeImage(image, window);
 
-    expect(image.style['margin-top']).toEqual('50px');
-    expect(image.style['margin-left']).toEqual('0px');
+    expect(image.style["margin-top"]).toEqual("50px");
+    expect(image.style["margin-left"]).toEqual("0px");
   });
 });

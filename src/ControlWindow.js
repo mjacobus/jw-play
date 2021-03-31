@@ -4,7 +4,7 @@ const fs = require("fs");
 const Window = require("./Window");
 
 class ControlWindow extends Window {
-  constructor() {
+  constructor(app) {
     super({
       width: 600,
       // it will not be higher then the display
@@ -13,6 +13,7 @@ class ControlWindow extends Window {
       y: 0,
     });
 
+    this.app = app;
     this.loadAppFile("controls.html");
     this.onFinishLoad();
   }

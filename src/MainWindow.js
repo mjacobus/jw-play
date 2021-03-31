@@ -1,10 +1,11 @@
-const { app, BrowserWindow, screen, ipcMain } = require("electron");
+const { BrowserWindow, screen, ipcMain } = require("electron");
 
 const Window = require("./Window");
 
 class MainWindow extends Window {
-  constructor() {
+  constructor(app) {
     super();
+    this.app = app;
 
     this.loadAppFile("main.html");
 
