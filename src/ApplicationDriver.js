@@ -16,11 +16,13 @@ class ApplicationDriver {
   }
 
   addFolder() {
-    const folders = dialog.showOpenDialogSync({
-      properties: ["openDirectory"],
-    });
-
+    const folders = dialog.showOpenDialogSync({ properties: ["openDirectory"] }) || [];
     folders.forEach((folder) => this.controlWindow.addFolder(folder));
+  }
+
+  addFiles() {
+    const files = dialog.showOpenDialogSync({ properties: ["openFile", "multiSelections"] }) || [];
+    files.forEach((folder) => this.controlWindow.addFile(folder));
   }
 
   clearFiles() {
@@ -29,6 +31,18 @@ class ApplicationDriver {
 
   appName() {
     return "JW Play";
+  }
+
+  ifMac(trueValue, falseValue) {
+    if (this.isMac()) {
+      return trueValue;
+    }
+
+    return falseValue;
+  }
+
+  isMac() {
+    return process.platform === "darwin";
   }
 
   start() {

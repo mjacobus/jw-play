@@ -12,7 +12,6 @@ class ApplicationMenu {
 
   getTemplate() {
     const driver = this.driver;
-    const isMac = process.platform === "darwin";
     return [
       {
         label: driver.appName(),
@@ -22,9 +21,17 @@ class ApplicationMenu {
             click: () => driver.addFolder(),
           },
           {
+            label: "Add Files",
+            click: () => driver.addFiles(),
+          },
+          {
             label: "ClearFiles",
             click: () => driver.clearFiles(),
           },
+          {
+            label: "Quit",
+            click: () => driver.quit()
+          }
         ],
       },
     ];
