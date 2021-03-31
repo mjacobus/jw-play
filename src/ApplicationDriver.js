@@ -1,21 +1,38 @@
-const { screen } = require("electron");
+const { screen, dialog } = require("electron");
 const ControlWindow = require("./ControlWindow");
 const MainWindow = require("./MainWindow");
+const ApplicationMenu = require("./ApplicationMenu");
 
 class ApplicationDriver {
   constructor(app) {
     this.app = app;
+    this.menu = new ApplicationMenu(this);
+    this.mainWindow = null;
+    this.controlWindow = null;
   }
 
   quit() {
     this.app.quit();
   }
 
+  addFolder() {
+    const folders = dialog.showOpenDialogSync({
+      properties: ["openDirectory"],
+    });
+
+    folders.forEach((folder) => this.controlWindow.addFolder(folder));
+  }
+
+  clearFiles() {
+    this.controlWindow.clearFiles();
+  }
+
+  appName() {
+    return "JW Play";
+  }
+
   start() {
     const app = this.app;
-    let mainWindow = null;
-    let controlWindow = null;
-
     app.whenReady().then(() => {
       let primaryDisplay = null;
       let externalDisplay = null;
@@ -31,13 +48,14 @@ class ApplicationDriver {
 
       externalDisplay = externalDisplay || primaryDisplay;
 
-      controlWindow.moveToDisplay(primaryDisplay);
-      mainWindow.moveToDisplay(externalDisplay);
+      this.controlWindow.moveToDisplay(primaryDisplay);
+      this.mainWindow.moveToDisplay(externalDisplay);
     });
 
     const onReady = () => {
-      mainWindow = new MainWindow(this);
-      controlWindow = new ControlWindow(this);
+      this.menu.attach();
+      this.mainWindow = new MainWindow(this);
+      this.controlWindow = new ControlWindow(this);
     };
 
     // This method will be called when Electron has finished

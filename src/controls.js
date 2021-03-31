@@ -43,4 +43,8 @@ ipcRenderer.on("add-file", (_, file) => {
   files.appendChild(li);
 });
 
+ipcRenderer.on("clear-files", () => {
+  files.innerHTML = "";
+});
+
 document.addEventListener("DOMContentLoaded", () => {});
