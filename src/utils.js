@@ -1,6 +1,10 @@
+const url = require("url");
 const fs = require("fs");
 const path = require("path");
 const sizeOf = require("image-size");
+const ffmpeg = require("fluent-ffmpeg");
+const { app } = require("electron");
+const { v4: uuidv4 } = require("uuid");
 
 const DEFAULT_CONFIG = {
   directories: [],
@@ -63,7 +67,33 @@ const createFilePayload = (filePath) => {
     file.width = dimensions.width;
     file.height = dimensions.height;
   }
+
+  if (isVideo(filePath)) {
+    const thumbnail = createVideoThumbnail(filePath);
+    file.thumbnail = new URL(`file://${thumbnail}`).toString();
+    console.log(file);
+  }
+
   return file;
+};
+
+const createVideoThumbnail = (file) => {
+  try {
+    const size = "320x180";
+    const folder = path.join(app.getPath("appData"), "JWPlay", "thumbnails");
+    const filename = uuidv4() + `-${size}.png`;
+    fs.mkdirSync(folder, { recursive: true });
+    const result = ffmpeg(file).screenshots({
+      timestamps: [2],
+      folder,
+      filename,
+      size,
+    });
+    const screenshot = path.join(folder, filename);
+    return screenshot;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {

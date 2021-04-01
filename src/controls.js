@@ -29,9 +29,10 @@ ipcRenderer.on("add-file", (_, file) => {
   a.href = file.url;
   a.addEventListener("click", loadFileHandler(file, li));
 
-  if (isImage(file.url)) {
+  if (isImage(file.url) || file.thumbnail) {
     const img = document.createElement("img");
-    img.src = file.url;
+    console.log(file.thumbnail);
+    img.src = file.thumbnail || file.url;
     img.title = text;
     img.alt = text;
     a.appendChild(img);
