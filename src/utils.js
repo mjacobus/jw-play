@@ -17,7 +17,7 @@ const isImage = (file) => {
 };
 
 const isVideo = (file) => {
-  return hasExtension(file, ["mp4", "mpeg", ""]);
+  return hasExtension(file, ["mp4", "mpeg", "m4v", ""]);
 };
 
 const isFileSupported = (file) => {
