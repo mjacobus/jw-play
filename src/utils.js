@@ -83,7 +83,7 @@ const createFilePayload = (filePath) => {
 };
 
 const clearThumbnails = () => {
-  const folder = path.join(app.getPath("appData"), "JWPlay", "thumbnails");
+  const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
   try {
     fs.rmSync(folder, { recursive: true });
   } catch (e) {}
@@ -92,7 +92,7 @@ const clearThumbnails = () => {
 const createVideoThumbnail = (file) => {
   try {
     const size = "320x180";
-    const folder = path.join(app.getPath("appData"), "JWPlay", "thumbnails");
+    const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
     const filename = uuidv4() + `-${size}.png`;
     fs.mkdirSync(folder, { recursive: true });
     ffmpeg(file).screenshots({
