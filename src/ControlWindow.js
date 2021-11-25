@@ -20,12 +20,19 @@ class ControlWindow extends Window {
   }
 
   clearFiles() {
+    this.store.clearCollection("app.files");
     this.webContents.send("clear-files");
   }
 
   addFile(file) {
+    if (!fs.existsSync(file)) {
+      return;
+    }
+
     if (isFileSupported(file)) {
       const message = createFilePayload(file);
+      this.store.append("app.files", file, { unique: true });
+
       this.webContents.send("add-file", message);
     }
   }
@@ -38,8 +45,8 @@ class ControlWindow extends Window {
 
   onFinishLoad() {
     this.webContents.on("did-finish-load", () => {
-      this.getConfig().directories.forEach((dir) => {
-        this.addFolder(dir);
+      this.store.get("app.files", []).forEach((file) => {
+        this.addFile(file);
       });
     });
   }

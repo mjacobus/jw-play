@@ -5,7 +5,8 @@ const name = process.env.NODE_ENV === "test" ? "config_test" : "config";
 const store = new Store({ name });
 
 function clear() {
-  return store.clear();
+  store.clear();
+  return `Cleared config for store named: ${name}`;
 }
 
 function get(key, defaultValue) {
