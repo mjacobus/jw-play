@@ -1,9 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-const { loadConfigFile } = require("./utils");
 const store = require("./store")
-
-const CONFIG_FILE = `${app.getPath("home")}/.config/jw-play/config.json`;
-const CONFIG = loadConfigFile(CONFIG_FILE);
 
 class BaseWindow extends BrowserWindow {
   constructor({ app, ...options }) {
@@ -38,10 +34,6 @@ class BaseWindow extends BrowserWindow {
 
   moveToDisplay(display) {
     this.setPosition(display.bounds.x, display.bounds.y);
-  }
-
-  getConfig() {
-    return CONFIG;
   }
 }
 

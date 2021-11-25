@@ -1,5 +1,4 @@
-const { isImage, loadConfigFile, maximizeImage } = require("../src/utils");
-const fs = require("fs");
+const { isImage, maximizeImage } = require("../src/utils");
 
 describe("isImage()", () => {
   it("returns true when file is image", () => {
@@ -11,28 +10,6 @@ describe("isImage()", () => {
 
   it("returns false when file is not image", () => {
     expect(isImage("foo.mov")).toBeFalsy();
-  });
-});
-
-describe("loadConfigFile()", () => {
-  const configFile = "/tmp/jw-play/unit-tests";
-
-  describe("when file does not exist", () => {
-    it("creates a new file", () => {
-      loadConfigFile(configFile);
-
-      const value = fs.existsSync(configFile);
-
-      expect(value).toBeTruthy();
-    });
-
-    it("returns the configuration", () => {
-      const config = loadConfigFile(configFile);
-
-      expect(config).toEqual({
-        directories: [],
-      });
-    });
   });
 });
 
