@@ -39,6 +39,7 @@
     "buildDependenciesFromSource": true
   },
   "scripts": {
+    "clear-config": "node scripts/clear-config.js",
     "test": "npx jest test",
     "dev": "nodemon --exec electron-forge start",
     "start": "electron-forge start",
