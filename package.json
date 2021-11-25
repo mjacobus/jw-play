@@ -4,14 +4,52 @@
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/app.js",
+  "build": {
+    "appId": "mjacobus.jw-play",
+    "productName": "JW Play",
+    "win": {
+      "target": "NSIS",
+      "publish": [
+        "github"
+      ]
+    },
+    "linux": {
+      "category": "Utilities",
+      "target": "AppImage",
+      "publish": [
+        "github"
+      ]
+    },
+    "mac": {
+      "target": {
+        "target": "dmg",
+        "arch": [
+          "universal"
+        ]
+      },
+      "publish": [
+        "github"
+      ]
+    },
+    "buildDependenciesFromSource": true
+  },
   "scripts": {
     "test": "npx jest test",
     "dev": "nodemon --exec electron-forge start",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
-    "lint": "echo \"No linting configured\""
+    "lint": "echo \"No linting configured\"",
+    "start-debug": "electron .  --trace-warnings > ./app-run.log  2>&1",
+    "pack-win": "electron-builder --win",
+    "pack-win-test": "electron-builder --dir --win",
+    "pack-linux-test": "electron-builder --dir --linux",
+    "pack-linux": "electron-builder --linux",
+    "pack-mac": "electron-builder --mac",
+    "publish": "electron-builder --win -p always",
+    "publish-linux": "electron-builder --linux -p always",
+    "postinstall": "electron-builder install-app-deps",
+    "release": "electron-builder"
   },
   "keywords": [],
   "author": {
@@ -54,6 +92,7 @@
     "image-size": "^0.9.7"
   },
   "devDependencies": {
+    "electron-builder": "^22.14.5",
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
