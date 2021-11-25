@@ -2,6 +2,8 @@ A prototype player meant for remote meetings. Made with [Electron JS](https://ww
 
 ## Development
 
+Install ffmpeg if you you want to see vídeo thumbnails
+
 ```
 npm install
 npm dev

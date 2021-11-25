@@ -48,12 +48,13 @@ ipcRenderer.on("add-file", (_, file) => {
   a.href = file.url;
   a.addEventListener("click", loadFileHandler(file, li));
 
-  if (isImage(file.url)) {
+  if (isImage(file.url) || file.thumbnail) {
     const img = document.createElement("img");
-    img.src = file.url;
+    img.src = file.thumbnail || file.url;
     img.title = text;
     img.alt = text;
     a.appendChild(img);
+    checkImage(img);
   } else {
     a.text = text;
   }
@@ -61,6 +62,19 @@ ipcRenderer.on("add-file", (_, file) => {
   li.appendChild(a);
   files.appendChild(li);
 });
+
+function checkImage(img, attempt = 1) {
+  if (attempt > 10) {
+    return;
+  }
+
+  if (!img.complete || img.naturalHeight === 0) {
+    setTimeout(() => {
+      img.src = img.src;
+      checkImage(img, attempt + 1);
+    }, 1000);
+  }
+}
 
 ipcRenderer.on("clear-files", () => {
   files.innerHTML = "";

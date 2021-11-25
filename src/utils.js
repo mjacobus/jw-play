@@ -1,6 +1,16 @@
+const url = require("url");
 const fs = require("fs");
 const path = require("path");
 const sizeOf = require("image-size");
+const ffmpeg = require("fluent-ffmpeg");
+const ffmpegPath = require("ffmpeg-static").replace(
+  "app.asar",
+  "app.asar.unpacked"
+);
+const { app } = require("electron");
+const { v4: uuidv4 } = require("uuid");
+
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const DEFAULT_CONFIG = {
   directories: [],
@@ -63,7 +73,39 @@ const createFilePayload = (filePath) => {
     file.width = dimensions.width;
     file.height = dimensions.height;
   }
+
+  if (isVideo(filePath)) {
+    const thumbnail = createVideoThumbnail(filePath);
+    file.thumbnail = new URL(`file://${thumbnail}`).toString();
+  }
+
   return file;
+};
+
+const clearThumbnails = () => {
+  const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
+  try {
+    fs.rmSync(folder, { recursive: true });
+  } catch (e) {}
+};
+
+const createVideoThumbnail = (file) => {
+  try {
+    const size = "320x180";
+    const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
+    const filename = uuidv4() + `-${size}.png`;
+    fs.mkdirSync(folder, { recursive: true });
+    ffmpeg(file).screenshots({
+      timestamps: [2],
+      folder,
+      filename,
+      size,
+    });
+    const screenshot = path.join(folder, filename);
+    return screenshot;
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 module.exports = {
@@ -72,5 +114,6 @@ module.exports = {
   isFileSupported,
   loadConfigFile,
   maximizeImage,
+  clearThumbnails,
   createFilePayload,
 };
