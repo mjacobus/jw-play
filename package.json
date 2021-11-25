@@ -31,7 +31,7 @@
         "github"
       ]
     },
-    "asarUnpack":[
+    "asarUnpack": [
       "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg",
       "node_modules/ffmpeg-static/index.js",
       "node_modules/ffmpeg-static/package.json"
@@ -94,6 +94,7 @@
     "bootstrap-icons": "^1.4.0",
     "delegated-events": "^1.1.2",
     "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.0.1",
     "ffmpeg-static": "^4.4.0",
     "ffprobe-static": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
