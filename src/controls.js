@@ -1,3 +1,4 @@
+const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
 const { isImage, isVideo } = require("./utils");
 
@@ -10,6 +11,24 @@ const videoActions = document.querySelectorAll("[data-video-action]");
     const action = element.getAttribute("data-video-action");
     ipcRenderer.send(action);
   });
+});
+
+on("click", "[data-video-action='video:unmute']", (e) => {
+  let el = e.target;
+  if (el.tagName === "I") {
+    el = el.parentElement;
+  }
+  el.hidden = true;
+  document.querySelector("[data-video-action='video:mute']").hidden = false;
+});
+
+on("click", "[data-video-action='video:mute']", (e) => {
+  let el = e.target;
+  if (el.tagName === "I") {
+    el = el.parentElement;
+  }
+  el.hidden = true;
+  document.querySelector("[data-video-action='video:unmute']").hidden = false;
 });
 
 const files = document.getElementById("files");

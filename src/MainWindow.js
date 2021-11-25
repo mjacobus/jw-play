@@ -27,6 +27,14 @@ class MainWindow extends Window {
     ipcMain.on("video:forward", () => {
       this.webContents.send("video:forward");
     });
+
+    ipcMain.on("video:mute", () => {
+      this.webContents.send("video:mute");
+    });
+
+    ipcMain.on("video:unmute", () => {
+      this.webContents.send("video:unmute");
+    });
   }
 }
 
