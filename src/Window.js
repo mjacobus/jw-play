@@ -1,5 +1,5 @@
 const { app, BrowserWindow } = require("electron");
-const store = require("./store")
+const store = require("./store");
 
 class BaseWindow extends BrowserWindow {
   constructor({ app, ...options }) {

@@ -2,10 +2,12 @@ const { ipcRenderer } = require("electron");
 const { isImage, isVideo, maximizeImage } = require("./utils");
 
 function video() {
-  return document.querySelector('video') || {
-    play: () => {},
-    pause: () => {},
-  }
+  return (
+    document.querySelector("video") || {
+      play: () => {},
+      pause: () => {},
+    }
+  );
 }
 
 ipcRenderer.on("show-file", (_sender, file) => {

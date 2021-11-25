@@ -2,7 +2,7 @@ const { screen, dialog } = require("electron");
 const ControlWindow = require("./ControlWindow");
 const MainWindow = require("./MainWindow");
 const ApplicationMenu = require("./ApplicationMenu");
-const { clearThumbnails } = require("./utils")
+const { clearThumbnails } = require("./utils");
 
 class ApplicationDriver {
   constructor(app) {
