@@ -37,6 +37,19 @@ class ApplicationMenu {
           },
         ],
       },
+      {
+        label: "DevTools",
+        submenu: [
+          {
+            label: "Main Window",
+            click: () => driver.mainWindow.toggleDevTools(),
+          },
+          {
+            label: "Control Window",
+            click: () => driver.controlWindow.toggleDevTools(),
+          },
+        ],
+      },
     ];
   }
 }
