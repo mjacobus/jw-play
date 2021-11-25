@@ -28,7 +28,7 @@ class ApplicationDriver {
       dialog.showOpenDialogSync({
         properties: ["openFile", "multiSelections"],
       }) || [];
-    files.forEach((folder) => this.controlWindow.addFile(folder));
+    files.forEach((file) => this.controlWindow.addFile(file));
   }
 
   clearFiles() {
