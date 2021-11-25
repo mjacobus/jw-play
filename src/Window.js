@@ -19,7 +19,7 @@ class BaseWindow extends BrowserWindow {
     this.app = app;
 
     this.on("close", (e) => {
-      if (!app.isQuiting) {
+      if (!app.isQuitting) {
         return e.preventDefault();
       }
       this.hide();

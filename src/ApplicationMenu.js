@@ -31,9 +31,22 @@ class ApplicationMenu {
           {
             label: "Quit",
             click: () => {
-              driver.isQuiting = true;
+              driver.isQuitting = true;
               driver.quit();
             },
+          },
+        ],
+      },
+      {
+        label: "DevTools",
+        submenu: [
+          {
+            label: "Main Window",
+            click: () => driver.mainWindow.toggleDevTools(),
+          },
+          {
+            label: "Control Window",
+            click: () => driver.controlWindow.toggleDevTools(),
           },
         ],
       },
