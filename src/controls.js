@@ -50,7 +50,6 @@ ipcRenderer.on("add-file", (_, file) => {
 
   if (isImage(file.url) || file.thumbnail) {
     const img = document.createElement("img");
-    console.log(file.thumbnail);
     img.src = file.thumbnail || file.url;
     img.title = text;
     img.alt = text;

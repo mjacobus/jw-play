@@ -71,7 +71,6 @@ const createFilePayload = (filePath) => {
   if (isVideo(filePath)) {
     const thumbnail = createVideoThumbnail(filePath);
     file.thumbnail = new URL(`file://${thumbnail}`).toString();
-    console.log(file);
   }
 
   return file;
@@ -83,7 +82,7 @@ const createVideoThumbnail = (file) => {
     const folder = path.join(app.getPath("appData"), "JWPlay", "thumbnails");
     const filename = uuidv4() + `-${size}.png`;
     fs.mkdirSync(folder, { recursive: true });
-    const result = ffmpeg(file).screenshots({
+    ffmpeg(file).screenshots({
       timestamps: [2],
       folder,
       filename,
