@@ -82,6 +82,13 @@ const createFilePayload = (filePath) => {
   return file;
 };
 
+const clearThumbnails = () => {
+  const folder = path.join(app.getPath("appData"), "JWPlay", "thumbnails");
+  try {
+    fs.rmSync(folder, { recursive: true });
+  } catch (e) {}
+};
+
 const createVideoThumbnail = (file) => {
   try {
     const size = "320x180";
@@ -107,5 +114,6 @@ module.exports = {
   isFileSupported,
   loadConfigFile,
   maximizeImage,
+  clearThumbnails,
   createFilePayload,
 };
