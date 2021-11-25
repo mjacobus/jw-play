@@ -1,6 +1,13 @@
 const { ipcRenderer } = require("electron");
 const { isImage, isVideo, maximizeImage } = require("./utils");
 
+function video() {
+  return document.querySelector('video') || {
+    play: () => {},
+    pause: () => {},
+  }
+}
+
 ipcRenderer.on("show-file", (_sender, file) => {
   const container = document.getElementById("container");
 
@@ -14,11 +21,19 @@ ipcRenderer.on("show-file", (_sender, file) => {
 });
 
 ipcRenderer.on("video:play", () => {
-  document.querySelector("video")?.play();
+  video().play();
 });
 
 ipcRenderer.on("video:pause", () => {
-  document.querySelector("video")?.pause();
+  video().pause();
+});
+
+ipcRenderer.on("video:mute", () => {
+  video().volume = 0;
+});
+
+ipcRenderer.on("video:unmute", () => {
+  video().volume = 1;
 });
 
 ipcRenderer.on("video:forward", (_sender, file) => {
