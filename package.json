@@ -31,6 +31,11 @@
         "github"
       ]
     },
+    "asarUnpack":[
+      "node_modules/ffmpeg-static/bin/${os}/${arch}/ffmpeg",
+      "node_modules/ffmpeg-static/index.js",
+      "node_modules/ffmpeg-static/package.json"
+    ],
     "buildDependenciesFromSource": true
   },
   "scripts": {
@@ -89,18 +94,20 @@
     "bootstrap-icons": "^1.4.0",
     "delegated-events": "^1.1.2",
     "electron-squirrel-startup": "^1.0.0",
+    "ffmpeg-static": "^4.4.0",
+    "ffprobe-static": "^3.0.0",
     "fluent-ffmpeg": "^2.1.2",
     "image-size": "^0.9.7",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "electron-builder": "^22.14.5",
     "@electron-forge/cli": "^6.0.0-beta.54",
     "@electron-forge/maker-deb": "^6.0.0-beta.54",
     "@electron-forge/maker-rpm": "^6.0.0-beta.54",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.54",
     "@electron-forge/maker-zip": "^6.0.0-beta.54",
     "electron": "^16.0.1",
+    "electron-builder": "^22.14.5",
     "jest": "^26.6.3",
     "jest-dot-reporter": "^1.0.14",
     "nodemon": "^2.0.7",

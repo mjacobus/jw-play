@@ -3,8 +3,14 @@ const fs = require("fs");
 const path = require("path");
 const sizeOf = require("image-size");
 const ffmpeg = require("fluent-ffmpeg");
+const ffmpegPath = require("ffmpeg-static").replace(
+  "app.asar",
+  "app.asar.unpacked"
+);
 const { app } = require("electron");
 const { v4: uuidv4 } = require("uuid");
+
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 const DEFAULT_CONFIG = {
   directories: [],
