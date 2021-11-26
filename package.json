@@ -15,7 +15,10 @@
     },
     "linux": {
       "category": "Utilities",
-      "target": "AppImage deb tar.gz",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
       "publish": [
         "github"
       ]
