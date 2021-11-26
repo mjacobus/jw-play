@@ -88,3 +88,4 @@ typings/
 # Electron-Forge
 out/
 /erl_crash.dump
+/dist
