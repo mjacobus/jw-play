@@ -38,6 +38,27 @@ class ApplicationMenu {
         ],
       },
       {
+        label: "Main Window",
+        submenu: [
+          {
+            label: "Resize",
+            submenu: [
+              { ratio: "16x9", width: 640, height: 360 },
+              { ratio: "16x9", width: 800, height: 450 },
+              { ratio: "16x9", width: 1200, height: 675 },
+              { ratio: "9x16", width: 360, height: 640 },
+              { ratio: "9x16", width: 450, height: 800 },
+              { ratio: "9x16", width: 675, height: 1200 },
+            ].map((item) => {
+              return {
+                label: `${item.width}x${item.height} (${item.ratio})`,
+                click: () => driver.mainWindow.resize(item.width, item.height),
+              };
+            }),
+          },
+        ],
+      },
+      {
         label: "DevTools",
         submenu: [
           {
