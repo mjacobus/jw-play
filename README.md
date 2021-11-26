@@ -33,3 +33,7 @@ npm test
 ![Screen Shot 2021-03-29 at 20 06 59](https://user-images.githubusercontent.com/226834/112910815-8f7c1780-90ca-11eb-976f-1c4d4906d6ce.png)
 ![Screen Shot 2021-03-29 at 20 07 40](https://user-images.githubusercontent.com/226834/112910810-8db25400-90ca-11eb-803d-c77c8007fc2e.png)
 ![Screen Shot 2021-03-29 at 20 07 05](https://user-images.githubusercontent.com/226834/112910814-8ee38100-90ca-11eb-9a8b-c9e8588aafdf.png)
+
+## Installation
+
+- Find the installation files in the latest [release](https://github.com/mjacobus/jw-play/releases/latest)
