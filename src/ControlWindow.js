@@ -5,16 +5,8 @@ const Window = require("./Window");
 
 class ControlWindow extends Window {
   constructor(app) {
-    super({
-      app: app,
-      width: 600,
-      // it will not be higher then the display
-      height: 1600,
-      x: 900,
-      y: 0,
-    });
-
-    this.app = app;
+    super({ app, x: 900, y: 0 });
+    this.resize(600, 1600); // it will cap to screen height
     this.loadAppFile("controls.html");
     this.onFinishLoad();
   }

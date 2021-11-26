@@ -35,6 +35,12 @@ class BaseWindow extends BrowserWindow {
   moveToDisplay(display) {
     this.setPosition(display.bounds.x, display.bounds.y);
   }
+
+  resize(width, height) {
+    this.setSize(width, height);
+    const diff = height - this.getContentSize()[1];
+    this.setSize(width, height + diff);
+  }
 }
 
 module.exports = BaseWindow;
