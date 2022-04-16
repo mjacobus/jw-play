@@ -38,7 +38,6 @@ class MainWindow extends Window {
     });
 
     this.setMenuBarVisibility(false);
-    this.setClosable(false);
     this.setFullScreenable(true);
   }
 
