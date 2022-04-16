@@ -40,24 +40,6 @@ class MainWindow extends Window {
     this.setMenuBarVisibility(false);
     this.setFullScreenable(true);
   }
-
-  fullScreen() {
-    this.keepOnTop();
-    this.setFullScreen(true);
-  }
-
-  unFullScreen() {
-    this.notOnAlwaysOnTop();
-    this.setFullScreen(false);
-  }
-
-  keepOnTop() {
-    this.setAlwaysOnTop(true, "screen-saver");
-  }
-
-  notOnAlwaysOnTop() {
-    this.setAlwaysOnTop(false);
-  }
 }
 
 module.exports = MainWindow;

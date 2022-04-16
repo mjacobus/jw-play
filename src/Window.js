@@ -41,6 +41,24 @@ class BaseWindow extends BrowserWindow {
     const diff = height - this.getContentSize()[1];
     this.setSize(width, height + diff);
   }
+
+  fullScreen() {
+    this.keepOnTop();
+    this.setFullScreen(true);
+  }
+
+  unFullScreen() {
+    this.notOnAlwaysOnTop();
+    this.setFullScreen(false);
+  }
+
+  keepOnTop() {
+    this.setAlwaysOnTop(true, "screen-saver");
+  }
+
+  notOnAlwaysOnTop() {
+    this.setAlwaysOnTop(false);
+  }
 }
 
 module.exports = BaseWindow;

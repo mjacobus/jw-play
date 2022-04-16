@@ -1,4 +1,4 @@
-const { app, Menu } = require("electron");
+const { app, Menu, screen } = require("electron");
 
 class ApplicationMenu {
   constructor(driver) {
@@ -57,6 +57,10 @@ class ApplicationMenu {
             }),
           },
           {
+            label: "Move to",
+            submenu: this.getMoveToItems(),
+          },
+          {
             label: "Fullscreen",
             click: () => driver.mainWindow.fullScreen(),
           },
@@ -80,6 +84,17 @@ class ApplicationMenu {
         ],
       },
     ];
+  }
+
+  getMoveToItems() {
+    return screen.getAllDisplays().map((display, index) => {
+      return {
+        label: `Display ${index + 1}`,
+        click: () => {
+          this.driver.mainWindow.moveToDisplay(display);
+        },
+      };
+    });
   }
 }
 
