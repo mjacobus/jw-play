@@ -53,23 +53,14 @@ class ApplicationDriver {
 
   start() {
     const app = this.app;
+
     app.whenReady().then(() => {
-      let primaryDisplay = null;
-      let externalDisplay = null;
-      primaryDisplay = screen.getPrimaryDisplay();
-      const displays = screen.getAllDisplays();
-
-      externalDisplay = displays.find((display) => {
-        return (
-          display.bounds.x !== primaryDisplay.bounds.x ||
-          display.bounds.y !== primaryDisplay.bounds.y
-        );
-      });
-
-      externalDisplay = externalDisplay || primaryDisplay;
+      const primaryDisplay = screen.getPrimaryDisplay();
+      const [mainWidth, _] = this.controlWindow.getSize();
 
       this.controlWindow.moveToDisplay(primaryDisplay);
-      this.mainWindow.moveToDisplay(externalDisplay);
+      this.mainWindow.moveToDisplay(primaryDisplay);
+      this.mainWindow.setPosition(mainWidth + 1, 0);
     });
 
     const onReady = () => {
