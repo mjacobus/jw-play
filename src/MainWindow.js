@@ -36,6 +36,28 @@ class MainWindow extends Window {
     ipcMain.on("video:unmute", () => {
       this.webContents.send("video:unmute");
     });
+
+    this.setMenuBarVisibility(false);
+    this.setClosable(false);
+    this.setFullScreenable(true);
+  }
+
+  fullScreen() {
+    this.keepOnTop();
+    this.setFullScreen(true);
+  }
+
+  unFullScreen() {
+    this.notOnAlwaysOnTop();
+    this.setFullScreen(false);
+  }
+
+  keepOnTop() {
+    this.setAlwaysOnTop(true, "screen-saver");
+  }
+
+  notOnAlwaysOnTop() {
+    this.setAlwaysOnTop(false);
   }
 }
 

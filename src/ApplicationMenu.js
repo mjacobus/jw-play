@@ -56,6 +56,14 @@ class ApplicationMenu {
               };
             }),
           },
+          {
+            label: "Fullscreen",
+            click: () => driver.mainWindow.fullScreen(),
+          },
+          {
+            label: "Exit Fullscreen",
+            click: () => driver.mainWindow.unFullScreen(),
+          },
         ],
       },
       {
