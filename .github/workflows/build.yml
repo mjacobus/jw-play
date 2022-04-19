@@ -27,7 +27,7 @@ jobs:
           check-latest: true
 
       - name: Build/release Electron app
-        uses: samuelmeuli/action-electron-builder@v1
+        uses: samuelmeuli/action-electron-builder@v1.6.0
         
         with:
           # GitHub token, automatically provided to the action
