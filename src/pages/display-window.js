@@ -6,6 +6,7 @@ function video() {
     document.querySelector("video") || {
       play: () => {},
       pause: () => {},
+      currentTime: 0,
     }
   );
 }
@@ -41,19 +42,15 @@ ipcRenderer.on("video:toggle-controls", () => {
 });
 
 ipcRenderer.on("video:forward", (_sender, file) => {
-  const video = document.querySelector("video");
-
-  if (video) {
-    video.currentTime += 5;
-  }
+  video().currentTime += 5;
 });
 
 ipcRenderer.on("video:rewind", (_sender, file) => {
-  const video = document.querySelector("video");
+  video().currentTime -= 5;
+});
 
-  if (video) {
-    video.currentTime -= 5;
-  }
+ipcRenderer.on("video:forward", (_sender, time) => {
+  video().currentTime = parseInt(time);
 });
 
 const showImage = (file, doc, container) => {
@@ -82,7 +79,7 @@ const showVideo = (file, doc, container) => {
       currentTime: 0,
       duration: video.duration,
     });
-  })
+  });
 
   video.ontimeupdate = (event) => {
     ipcRenderer.send("video:time-updated", {

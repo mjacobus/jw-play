@@ -29,6 +29,10 @@ class DisplayWindow extends Window {
       this.webContents.send("video:forward");
     });
 
+    ipcMain.on("video:set_time", (_sender, time) => {
+      this.webContents.send("video:forward", time);
+    });
+
     ipcMain.on("video:toggle-mute", () => {
       this.webContents.send("video:toggle-mute");
     });
