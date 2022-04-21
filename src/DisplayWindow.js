@@ -2,7 +2,7 @@ const { BrowserWindow, screen, ipcMain } = require("electron");
 
 const Window = require("./Window");
 
-class MainWindow extends Window {
+class DisplayWindow extends Window {
   constructor(app) {
     super({ app });
     this.resize(400, 225);
@@ -42,4 +42,4 @@ class MainWindow extends Window {
   }
 }
 
-module.exports = MainWindow;
+module.exports = DisplayWindow;

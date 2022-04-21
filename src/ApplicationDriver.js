@@ -1,6 +1,6 @@
 const { screen, dialog } = require("electron");
 const ControlWindow = require("./ControlWindow");
-const MainWindow = require("./MainWindow");
+const DisplayWindow = require("./DisplayWindow");
 const ApplicationMenu = require("./ApplicationMenu");
 const { clearThumbnails } = require("./utils");
 
@@ -65,7 +65,7 @@ class ApplicationDriver {
 
     const onReady = () => {
       this.menu.attach();
-      this.mainWindow = new MainWindow(this);
+      this.mainWindow = new DisplayWindow(this);
       this.controlWindow = new ControlWindow(this);
     };
 
