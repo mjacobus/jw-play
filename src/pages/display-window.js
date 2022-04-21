@@ -30,12 +30,14 @@ ipcRenderer.on("video:pause", () => {
   video().pause();
 });
 
-ipcRenderer.on("video:mute", () => {
-  video().volume = 0;
+ipcRenderer.on("video:toggle-mute", () => {
+  let v = video();
+  v.volume = v.volume == 0 ? 1 : 0;
 });
 
-ipcRenderer.on("video:unmute", () => {
-  video().volume = 1;
+ipcRenderer.on("video:toggle-controls", () => {
+  let v = video();
+  v.controls = !v.controls;
 });
 
 ipcRenderer.on("video:forward", (_sender, file) => {
@@ -71,7 +73,6 @@ const showVideo = (file, doc, container) => {
   video.appendChild(source);
 
   video.width = window.innerWidth;
-  video.controls = true;
   source.type = "video/mp4";
   source.src = file.url;
   container.appendChild(video);

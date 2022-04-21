@@ -29,12 +29,12 @@ class DisplayWindow extends Window {
       this.webContents.send("video:forward");
     });
 
-    ipcMain.on("video:mute", () => {
-      this.webContents.send("video:mute");
+    ipcMain.on("video:toggle-mute", () => {
+      this.webContents.send("video:toggle-mute");
     });
 
-    ipcMain.on("video:unmute", () => {
-      this.webContents.send("video:unmute");
+    ipcMain.on("video:toggle-controls", () => {
+      this.webContents.send("video:toggle-controls");
     });
 
     this.setMenuBarVisibility(false);
