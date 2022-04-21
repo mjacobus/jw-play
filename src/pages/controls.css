@@ -42,3 +42,11 @@ img {
   color: white;
   font-size: 60px;
 }
+
+.video-controls a.small i {
+  font-size: 30px;
+}
+
+.video-controls a.option-off i {
+  color: #444;
+}

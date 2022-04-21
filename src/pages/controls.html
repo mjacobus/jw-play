@@ -16,23 +16,22 @@
   </head>
   <body>
     <ul id="files"></ul>
-    <div id="video-controls" class="fixed-bottom" hidden>
-      <div class="video-controls d-flex justify-content-center">
-          <a data-video-action="video:rewind" href="#"><i class="m-1 bi bi-skip-forward-circle-fill"></i></a>
-          <a data-video-action="video:play" href="#"><i class="m-1 bi bi-play-circle-fill"></i></a>
-          <a data-video-action="video:pause" href="#"><i class="m-1 bi bi-pause-circle-fill"></i></a>
-          <a data-video-action="video:forward" href="#"><i class="m-1 bi bi-skip-backward-circle-fill"></i></a>
-          <a
-            data-toggle-on-click
-            data-video-action="video:unmute"
-            href="#"
-            hidden
-            ><i class="m-1 bi bi-volume-up-fill"></i></a>
-          <a data-toggle-on-click data-video-action="video:mute" href="#"><i class="m-1 bi bi-volume-mute-fill"></i></a>
-        </div>
-    </div>
-
+    <div id="footer" class="fixed-bottom"></div>
   </body>
+
+  <template id="video-controls-template">
+    <div id="video-controls">
+      <div class="video-controls d-flex justify-content-center">
+        <a class="align-self-center" data-video-action="video:rewind" href="#"><i class="m-1 bi bi-skip-backward-circle-fill"></i></a>
+        <a class="align-self-center" data-video-action="video:play" href="#"><i class="m-1 bi bi-play-circle-fill"></i></a>
+        <a class="align-self-center" data-video-action="video:pause" href="#"><i class="m-1 bi bi-pause-circle-fill"></i></a>
+        <a class="align-self-center" data-video-action="video:forward" href="#"><i class="m-1 bi bi-skip-forward-circle-fill"></i></a>
+        <a class="align-self-center small align-middle" data-toggle-on-click data-video-action="video:toggle-mute" href="#"><i class="m-1 bi bi-volume-up-fill"></i></a>
+        <a class="align-self-center small option-off " data-toggle-on-click data-video-action="video:toggle-controls" href="#" ><i class="m-1 bi bi-sliders"></i></a>
+      </div>
+    </div>
+  </template>
+
   <script>
     require("./controls.js");
   </script>

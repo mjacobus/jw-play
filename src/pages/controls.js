@@ -2,33 +2,34 @@ const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
 const { isImage, isVideo } = require("../utils");
 
-const controls = document.getElementById("video-controls");
-const videoActions = document.querySelectorAll("[data-video-action]");
+const footer = document.getElementById("footer");
 
-[].forEach.call(videoActions, (element) => {
-  element.addEventListener("click", (e) => {
-    e.preventDefault();
-    const action = element.getAttribute("data-video-action");
-    ipcRenderer.send(action);
-  });
+on("click", "[data-video-action]", (e) => {
+  e.preventDefault();
+  const action = e.target
+    .closest("[data-video-action]")
+    .getAttribute("data-video-action");
+  ipcRenderer.send(action);
 });
 
 on("click", "[data-video-action='video:unmute']", (e) => {
-  let el = e.target;
-  if (el.tagName === "I") {
-    el = el.parentElement;
-  }
-  el.hidden = true;
+  e.target.closest("[data-video-action]").hidden = true;
   document.querySelector("[data-video-action='video:mute']").hidden = false;
 });
 
 on("click", "[data-video-action='video:mute']", (e) => {
-  let el = e.target;
-  if (el.tagName === "I") {
-    el = el.parentElement;
-  }
-  el.hidden = true;
+  e.target.closest("[data-video-action]").hidden = true;
   document.querySelector("[data-video-action='video:unmute']").hidden = false;
+});
+
+on("click", "[data-video-action='video:toggle-controls']", (e) => {
+  const el = e.target.closest("[data-video-action]");
+  el.classList.toggle("option-off");
+});
+
+on("click", "[data-video-action='video:toggle-mute']", (e) => {
+  const el = e.target.closest("[data-video-action]");
+  el.classList.toggle("option-off");
 });
 
 const files = document.getElementById("files");
@@ -38,7 +39,9 @@ const loadFileHandler = (file, li) => (e) => {
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
   ipcRenderer.send("file:display", file);
-  controls.hidden = !isVideo(file.url);
+  footer.innerHTML = isVideo(file.url)
+    ? document.getElementById("video-controls-template").innerHTML
+    : "";
 };
 
 ipcRenderer.on("add-file", (_, file) => {
