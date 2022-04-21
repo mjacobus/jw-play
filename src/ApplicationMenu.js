@@ -76,7 +76,7 @@ class ApplicationMenu {
           },
           {
             label: "Control Window",
-            click: () => driver.controlWindow.toggleDevTools(),
+            click: () => driver.controls.toggleDevTools(),
           },
           {
             label: `Version ${app.getVersion()}`,
