@@ -1,0 +1,11 @@
+# for gem: koine-test_runner
+adapters:
+  jest:
+    adapter: custom
+    file_pattern: ".*test.js"
+    command: "time npm test"
+    commands:
+      all: "{command}"
+      file: "{command} -- {file}"
+      line: "{command} -- {file}"
+
