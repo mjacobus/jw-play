@@ -1,6 +1,10 @@
 const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
-const { isImage, isVideo } = require("../utils");
+const { isImage, isVideo, mediaProgress } = require("../utils");
+
+function select(selector, base = document) {
+  return base.querySelector(selector);
+}
 
 const footer = document.getElementById("footer");
 
@@ -84,7 +88,18 @@ ipcRenderer.on("clear-files", () => {
 });
 
 ipcRenderer.on("video:time-updated", (_sender, payload) => {
-  console.log("time-updated", payload);
+  const result = mediaProgress(payload);
+  console.log("time-updated", result);
+  const controls = select("#video-controls");
+  const currentTime = select("#video-progress-current-time", controls);
+  const duration = select("#video-progress-duration", controls);
+  const bar = select("#video-progress-bar", controls);
+
+  // debugger
+  bar.max = result.duration;
+  bar.value = result.currentTime;
+  currentTime.innerText = result.timeString.current;
+  duration.innerText = result.timeString.duration;
 });
 
 document.addEventListener("DOMContentLoaded", () => {});
