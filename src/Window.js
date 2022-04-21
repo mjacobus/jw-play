@@ -42,6 +42,13 @@ class BaseWindow extends BrowserWindow {
     this.setSize(width, height + diff);
   }
 
+  toggleFullScreen() {
+    if (this.isFullScreen()) {
+      return this.unFullScreen();
+    }
+    return this.fullScreen();
+  }
+
   fullScreen() {
     this.keepOnTop();
     this.setFullScreen(true);

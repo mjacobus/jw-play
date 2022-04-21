@@ -61,12 +61,9 @@ class ApplicationMenu {
             submenu: this.getMoveToItems(),
           },
           {
-            label: "Fullscreen",
-            click: () => driver.mainWindow.fullScreen(),
-          },
-          {
-            label: "Exit Fullscreen",
-            click: () => driver.mainWindow.unFullScreen(),
+            label: "Toggle Fullscreen",
+            accelerator: "F",
+            click: () => driver.mainWindow.toggleFullScreen(),
           },
         ],
       },
