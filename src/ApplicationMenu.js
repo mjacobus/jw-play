@@ -38,7 +38,7 @@ class ApplicationMenu {
         ],
       },
       {
-        label: "Main Window",
+        label: "Display Window",
         submenu: [
           {
             label: "Resize",
@@ -71,7 +71,7 @@ class ApplicationMenu {
         label: "DevTools",
         submenu: [
           {
-            label: "Main Window",
+            label: "Display Window",
             click: () => driver.display.toggleDevTools(),
           },
           {
@@ -89,7 +89,7 @@ class ApplicationMenu {
   getMoveToItems() {
     return screen.getAllDisplays().map((display, index) => {
       return {
-        label: `Display ${index + 1}`,
+        label: `Screen ${index + 1}`,
         accelerator: `${index + 1}`,
         click: () => {
           this.driver.display.moveToDisplay(display);
