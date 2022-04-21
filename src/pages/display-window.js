@@ -10,7 +10,7 @@ function video() {
   );
 }
 
-ipcRenderer.on("show-file", (_sender, file) => {
+ipcRenderer.on("file:display", (_sender, file) => {
   const container = document.getElementById("container");
 
   if (isImage(file.url)) {

@@ -37,7 +37,7 @@ const loadFileHandler = (file, li) => (e) => {
   e.preventDefault();
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
-  ipcRenderer.send("show-file", file);
+  ipcRenderer.send("file:display", file);
   controls.hidden = !isVideo(file.url);
 };
 
