@@ -34,27 +34,33 @@ img {
   float: left;
 }
 
-.video-controls {
+#video-controls {
   background: #4a6da7;
 }
 
-.video-controls a i {
+#video-controls a i {
   color: white;
   font-size: 60px;
 }
 
-.video-controls a.small i {
+#video-controls a.small i {
   font-size: 30px;
 }
 
-.video-controls a.option-off i {
+#video-controls a.option-off i {
   color: #444;
 }
 
-.video-controls a:hover i {
+#video-controls a:hover i {
   text-shadow: 1px 2px #395c96;
 }
 
+#video-controls .time-holder {
+  min-width: 40px;
+  font-weight: bold;
+}
+
 #video-progress-bar {
-  width: 300px;
+  width: 80%;
+  min-width: 340px;
 }
