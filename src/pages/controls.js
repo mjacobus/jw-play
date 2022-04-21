@@ -8,6 +8,10 @@ function select(selector, base = document) {
 
 const footer = document.getElementById("footer");
 
+on("click", "#video-progress-bar", (e) => {
+  ipcRenderer.send("video:set_time", e.target.value);
+});
+
 on("click", "[data-video-action]", (e) => {
   e.preventDefault();
   const action = e.target
@@ -89,7 +93,6 @@ ipcRenderer.on("clear-files", () => {
 
 ipcRenderer.on("video:time-updated", (_sender, payload) => {
   const result = mediaProgress(payload);
-  console.log("time-updated", result);
   const controls = select("#video-controls");
   const currentTime = select("#video-progress-current-time", controls);
   const duration = select("#video-progress-duration", controls);
