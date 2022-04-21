@@ -83,4 +83,8 @@ ipcRenderer.on("clear-files", () => {
   files.innerHTML = "";
 });
 
+ipcRenderer.on("video:time-updated", (_sender, payload) => {
+  console.log("time-updated", payload);
+});
+
 document.addEventListener("DOMContentLoaded", () => {});

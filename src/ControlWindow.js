@@ -1,4 +1,5 @@
 const { createFilePayload, isFileSupported } = require("./utils");
+const { ipcMain } = require("electron");
 const fs = require("fs");
 
 const Window = require("./Window");
@@ -9,6 +10,10 @@ class ControlWindow extends Window {
     this.resize(600, 600);
     this.loadAppFile("pages/controls.html");
     this.onFinishLoad();
+
+    ipcMain.on("video:time-updated", (_event, payload) => {
+      this.webContents.send("video:time-updated", payload);
+    });
   }
 
   clearFiles() {

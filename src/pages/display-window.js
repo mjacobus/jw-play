@@ -76,4 +76,11 @@ const showVideo = (file, doc, container) => {
   source.type = "video/mp4";
   source.src = file.url;
   container.appendChild(video);
+
+  video.ontimeupdate = (event) => {
+    ipcRenderer.send("video:time-updated", {
+      currentTime: video.currentTime,
+      duration: video.duration,
+    });
+  };
 };
