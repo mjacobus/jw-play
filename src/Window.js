@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require("electron");
+const { BrowserWindow } = require("electron");
 const store = require("./store");
 
 class BaseWindow extends BrowserWindow {
@@ -40,6 +40,13 @@ class BaseWindow extends BrowserWindow {
     this.setSize(width, height);
     const diff = height - this.getContentSize()[1];
     this.setSize(width, height + diff);
+  }
+
+  toggleFullScreen() {
+    if (this.isFullScreen()) {
+      return this.unFullScreen();
+    }
+    return this.fullScreen();
   }
 
   fullScreen() {

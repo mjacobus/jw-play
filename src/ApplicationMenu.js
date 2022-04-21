@@ -61,12 +61,9 @@ class ApplicationMenu {
             submenu: this.getMoveToItems(),
           },
           {
-            label: "Fullscreen",
-            click: () => driver.mainWindow.fullScreen(),
-          },
-          {
-            label: "Exit Fullscreen",
-            click: () => driver.mainWindow.unFullScreen(),
+            label: "Toggle Fullscreen",
+            accelerator: "F",
+            click: () => driver.mainWindow.toggleFullScreen(),
           },
         ],
       },
@@ -93,6 +90,7 @@ class ApplicationMenu {
     return screen.getAllDisplays().map((display, index) => {
       return {
         label: `Display ${index + 1}`,
+        accelerator: `${index + 1}`,
         click: () => {
           this.driver.mainWindow.moveToDisplay(display);
         },
