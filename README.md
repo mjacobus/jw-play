@@ -30,7 +30,7 @@ npm test
 ## Screenshots
 
 <img width="1409" alt="image" src="https://user-images.githubusercontent.com/226834/164533878-ba148626-8fa9-4ab9-879a-522c0d2d291e.png">
-<img width="1413" alt="image" src="https://user-images.githubusercontent.com/226834/164534142-6d096b47-bf6a-43e1-b409-d0051b08e011.png">
+<img width="1404" alt="image" src="https://user-images.githubusercontent.com/226834/164558200-d6eb90ad-ec09-493d-b0ca-db03186eb61c.png">
 
 ## Installation
 
