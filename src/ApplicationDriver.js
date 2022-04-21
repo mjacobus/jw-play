@@ -1,4 +1,4 @@
-const { screen, dialog } = require("electron");
+const { screen, dialog, BrowserWindow } = require("electron");
 const ControlWindow = require("./ControlWindow");
 const DisplayWindow = require("./DisplayWindow");
 const ApplicationMenu = require("./ApplicationMenu");
