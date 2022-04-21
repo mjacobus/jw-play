@@ -1,4 +1,4 @@
-const { app, Menu, screen } = require("electron");
+const { Menu, screen } = require("electron");
 
 class ApplicationMenu {
   constructor(driver) {
