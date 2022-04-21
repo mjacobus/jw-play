@@ -1,4 +1,9 @@
-const { isImage, maximizeImage } = require("../src/utils");
+const {
+  isImage,
+  maximizeImage,
+  mediaProgress,
+  secondsToTime,
+} = require("../src/utils");
 
 describe("isImage()", () => {
   it("returns true when file is image", () => {
@@ -60,5 +65,25 @@ describe("maximizeImage()", () => {
 
     expect(image.style["margin-top"]).toEqual("50px");
     expect(image.style["margin-left"]).toEqual("0px");
+  });
+
+  describe("mediaProgress()", () => {
+    it("resolves media progress", () => {
+      const data = mediaProgress({ duration: 90, currentTime: 32 });
+
+      expect(data.duration).toEqual(90);
+      expect(data.currentTime).toEqual(32);
+      expect(data.timeString.current).toEqual("0:32");
+      expect(data.timeString.duration).toEqual("1:30");
+    });
+  });
+
+  describe("secondsToTime()", () => {
+    it("resolves start time", () => {
+      expect(secondsToTime(90)).toEqual("1:30");
+      expect(secondsToTime(30)).toEqual("0:30");
+      expect(secondsToTime(9)).toEqual("0:09");
+      expect(secondsToTime(60 * 60 * 2 + 97)).toEqual("2:01:37");
+    });
   });
 });
