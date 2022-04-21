@@ -52,7 +52,7 @@ class ApplicationMenu {
             ].map((item) => {
               return {
                 label: `${item.width}x${item.height} (${item.ratio})`,
-                click: () => driver.mainWindow.resize(item.width, item.height),
+                click: () => driver.display.resize(item.width, item.height),
               };
             }),
           },
@@ -63,7 +63,7 @@ class ApplicationMenu {
           {
             label: "Toggle Fullscreen",
             accelerator: "F",
-            click: () => driver.mainWindow.toggleFullScreen(),
+            click: () => driver.display.toggleFullScreen(),
           },
         ],
       },
@@ -72,7 +72,7 @@ class ApplicationMenu {
         submenu: [
           {
             label: "Main Window",
-            click: () => driver.mainWindow.toggleDevTools(),
+            click: () => driver.display.toggleDevTools(),
           },
           {
             label: "Control Window",
@@ -92,7 +92,7 @@ class ApplicationMenu {
         label: `Display ${index + 1}`,
         accelerator: `${index + 1}`,
         click: () => {
-          this.driver.mainWindow.moveToDisplay(display);
+          this.driver.display.moveToDisplay(display);
         },
       };
     });

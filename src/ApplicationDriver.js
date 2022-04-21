@@ -8,7 +8,7 @@ class ApplicationDriver {
   constructor(app) {
     this.app = app;
     this.menu = new ApplicationMenu(this);
-    this.mainWindow = null;
+    this.display = null;
     this.controlWindow = null;
   }
 
@@ -59,13 +59,13 @@ class ApplicationDriver {
       const [mainWidth, _] = this.controlWindow.getSize();
 
       this.controlWindow.moveToDisplay(primaryDisplay);
-      this.mainWindow.moveToDisplay(primaryDisplay);
-      this.mainWindow.setPosition(mainWidth + 1, 0);
+      this.display.moveToDisplay(primaryDisplay);
+      this.display.setPosition(mainWidth + 1, 0);
     });
 
     const onReady = () => {
       this.menu.attach();
-      this.mainWindow = new DisplayWindow(this);
+      this.display = new DisplayWindow(this);
       this.controlWindow = new ControlWindow(this);
     };
 
