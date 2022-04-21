@@ -48,7 +48,7 @@
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "lint": "echo \"No linting configured\"",
+    "lint": "node_modules/.bin/prettier --write src test",
     "start-debug": "electron .  --trace-warnings > ./app-run.log  2>&1",
     "pack-win": "electron-builder --win",
     "pack-win-test": "electron-builder --dir --win",
