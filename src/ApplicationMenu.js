@@ -87,6 +87,7 @@ class ApplicationMenu {
     return screen.getAllDisplays().map((display, index) => {
       return {
         label: `Display ${index + 1}`,
+        accelerator: `${index + 1}`,
         click: () => {
           this.driver.mainWindow.moveToDisplay(display);
         },
