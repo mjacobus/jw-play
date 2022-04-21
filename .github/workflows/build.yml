@@ -2,10 +2,12 @@ name: Build/release
 
 on:
   push:
+    branches: 
+      - master
+  pull_request:
     branches:
-      - 'releases/v*'
+      - '*'
     tags:
-      - 'v*'
     
 jobs:
   release:
@@ -13,8 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        # os: [macos-latest, ubuntu-latest, windows-latest]
-        os: [ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
       - name: Check out Git repository
