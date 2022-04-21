@@ -1,4 +1,4 @@
-const { app, Menu, screen } = require("electron");
+const { Menu, screen, app } = require("electron");
 
 class ApplicationMenu {
   constructor(driver) {
@@ -80,6 +80,9 @@ class ApplicationMenu {
           {
             label: "Control Window",
             click: () => driver.controlWindow.toggleDevTools(),
+          },
+          {
+            label: `Version ${app.getVersion()}`,
           },
         ],
       },
