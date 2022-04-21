@@ -7,7 +7,7 @@ class ControlWindow extends Window {
   constructor(app) {
     super({ app, x: 900, y: 0 });
     this.resize(600, 600);
-    this.loadAppFile("controls.html");
+    this.loadAppFile("pages/controls.html");
     this.onFinishLoad();
   }
 
