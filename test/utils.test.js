@@ -83,6 +83,7 @@ describe("maximizeImage()", () => {
       expect(secondsToTime(90)).toEqual("1:30");
       expect(secondsToTime(30)).toEqual("0:30");
       expect(secondsToTime(9)).toEqual("0:09");
+      expect(secondsToTime(9.000001)).toEqual("0:09");
       expect(secondsToTime(60 * 60 * 2 + 97)).toEqual("2:01:37");
     });
   });
