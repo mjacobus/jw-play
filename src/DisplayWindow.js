@@ -7,7 +7,7 @@ class DisplayWindow extends Window {
     super({ app });
     this.resize(400, 225);
 
-    this.loadAppFile("display-window.html");
+    this.loadAppFile("pages/display-window.html");
 
     ipcMain.on("show-file", (_event, file) => {
       this.webContents.send("show-file", file);
