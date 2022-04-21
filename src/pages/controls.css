@@ -36,16 +36,8 @@ img {
 
 .video-controls {
   background: #4a6da7;
-  /* background: #292929; */
-  /* height: 150px; */
-  padding: 10 40px;
-  margin: 0 auto;
 }
 
-.video-controls .limit {
-  width: 317px;
-  margin: 0 auto;
-}
 .video-controls a i {
   color: white;
   font-size: 60px;
