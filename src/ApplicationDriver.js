@@ -9,7 +9,7 @@ class ApplicationDriver {
     this.app = app;
     this.menu = new ApplicationMenu(this);
     this.display = null;
-    this.controlWindow = null;
+    this.controls = null;
   }
 
   quit() {
@@ -20,7 +20,7 @@ class ApplicationDriver {
   addFolder() {
     const folders =
       dialog.showOpenDialogSync({ properties: ["openDirectory"] }) || [];
-    folders.forEach((folder) => this.controlWindow.addFolder(folder));
+    folders.forEach((folder) => this.controls.addFolder(folder));
   }
 
   addFiles() {
@@ -28,11 +28,11 @@ class ApplicationDriver {
       dialog.showOpenDialogSync({
         properties: ["openFile", "multiSelections"],
       }) || [];
-    files.forEach((file) => this.controlWindow.addFile(file));
+    files.forEach((file) => this.controls.addFile(file));
   }
 
   clearFiles() {
-    this.controlWindow.clearFiles();
+    this.controls.clearFiles();
   }
 
   appName() {
@@ -56,9 +56,9 @@ class ApplicationDriver {
 
     app.whenReady().then(() => {
       const primaryDisplay = screen.getPrimaryDisplay();
-      const [mainWidth, _] = this.controlWindow.getSize();
+      const [mainWidth, _] = this.controls.getSize();
 
-      this.controlWindow.moveToDisplay(primaryDisplay);
+      this.controls.moveToDisplay(primaryDisplay);
       this.display.moveToDisplay(primaryDisplay);
       this.display.setPosition(mainWidth + 1, 0);
     });
@@ -66,7 +66,7 @@ class ApplicationDriver {
     const onReady = () => {
       this.menu.attach();
       this.display = new DisplayWindow(this);
-      this.controlWindow = new ControlWindow(this);
+      this.controls = new ControlWindow(this);
     };
 
     // This method will be called when Electron has finished
