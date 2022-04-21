@@ -1,6 +1,6 @@
 const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
-const { isImage, isVideo } = require("./utils");
+const { isImage, isVideo } = require("../utils");
 
 const controls = document.getElementById("video-controls");
 const videoActions = document.querySelectorAll("[data-video-action]");
