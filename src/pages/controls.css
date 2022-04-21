@@ -50,3 +50,7 @@ img {
 .video-controls a.option-off i {
   color: #444;
 }
+
+.video-controls a:hover i {
+  text-shadow: 1px 2px #395c96;
+}
