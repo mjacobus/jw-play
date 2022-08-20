@@ -61,6 +61,12 @@ class ApplicationDriver {
       this.controls.moveToDisplay(primaryDisplay);
       this.display.moveToDisplay(primaryDisplay);
       this.display.setPosition(mainWidth + 1, 0);
+
+      if (screen.getAllDisplays().length >= 2){
+        const externalDisplay = screen.getAllDisplays().find((display)=> display.bounds.x !== 0 || display.bounds.y !== 0);
+        this.display.moveToDisplay(externalDisplay);
+        this.display.fullScreen()
+      }
     });
 
     const onReady = () => {
