@@ -70,6 +70,7 @@ const showVideo = (file, doc, container) => {
   video.appendChild(source);
 
   video.width = window.innerWidth;
+  video.classList.add("vertical-center");
   source.type = "video/mp4";
   source.src = file.url;
   container.appendChild(video);
