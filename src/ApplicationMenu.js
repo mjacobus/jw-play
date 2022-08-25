@@ -21,11 +21,11 @@ class ApplicationMenu {
             click: () => driver.addFolder(),
           },
           {
-            label: "Add Files",
+            label: "Add files",
             click: () => driver.addFiles(),
           },
           {
-            label: "ClearFiles",
+            label: "Remove all files",
             click: () => driver.clearFiles(),
           },
           {
