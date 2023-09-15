@@ -19,4 +19,5 @@ jobs:
           node-version-file: .tool-versions
           check-latest: true
 
+      - run: yarn install
       - run: yarn run test
