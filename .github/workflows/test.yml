@@ -15,5 +15,8 @@ jobs:
 
       - name: Install Node.js, NPM and Yarn
         uses: actions/setup-node@v2.1.5
+        with:
+          node-version-file: .tool-versions
+          check-latest: true
 
       - run: yarn run test
