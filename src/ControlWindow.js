@@ -14,11 +14,19 @@ class ControlWindow extends Window {
     ipcMain.on("video:time-updated", (_event, payload) => {
       this.webContents.send("video:time-updated", payload);
     });
+
+    ipcMain.on("file:remove", (_event, payload) => {
+      this.removeFile(payload);
+    });
   }
 
   clearFiles() {
     this.store.clearCollection("app.files");
     this.webContents.send("clear-files");
+  }
+
+  removeFile(file) {
+    console.log("file removed", file);
   }
 
   addFile(file) {

@@ -40,7 +40,7 @@ on("click", "[data-video-action='video:toggle-mute']", (e) => {
   el.classList.toggle("option-off");
 });
 
-const files = document.getElementById("files");
+const filesContainer = document.getElementById("filesContainer");
 
 const loadFileHandler = (file, li) => (e) => {
   e.preventDefault();
@@ -55,6 +55,7 @@ const loadFileHandler = (file, li) => (e) => {
 ipcRenderer.on("add-file", (_, file) => {
   const text = file.url.split("/").pop();
   const li = document.createElement("li");
+  li.classList.add("media-file");
   const a = document.createElement("a");
   a.href = file.url;
   a.addEventListener("click", loadFileHandler(file, li));
@@ -70,8 +71,21 @@ ipcRenderer.on("add-file", (_, file) => {
     a.text = text;
   }
 
+  const removeButton = document.createElement("a");
+  removeButton.href = "#";
+  removeButton.innerHTML = '<i class="m-1 bi bi-x-circle-fill">';
+  removeButton.classList.add("remove-button");
+  removeButton.onclick = (e) => {
+    e.preventDefault();
+    if (confirm("Are you sure?")) {
+      filesContainer.removeChild(li);
+      console.log("Removing file: ", file);
+      ipcRenderer.send("file:remove", file);
+    }
+  };
+  li.appendChild(removeButton);
   li.appendChild(a);
-  files.appendChild(li);
+  filesContainer.appendChild(li);
 });
 
 function checkImage(img, attempt = 1) {
@@ -88,7 +102,7 @@ function checkImage(img, attempt = 1) {
 }
 
 ipcRenderer.on("clear-files", () => {
-  files.innerHTML = "";
+  filesContainer.innerHTML = "";
 });
 
 ipcRenderer.on("video:time-updated", (_sender, payload) => {

@@ -9,7 +9,7 @@ ul {
   list-style-type: none;
 }
 
-li {
+li.media-file {
   overflow: hidden;
   height: 125px;
   width: 220px;
@@ -17,6 +17,7 @@ li {
   padding: 10px;
   float: left;
   background: #292929;
+  position: relative;
 }
 
 li.active {
@@ -26,6 +27,25 @@ li.active {
 img {
   max-height: 200px;
   max-width: 200px;
+}
+
+a.remove-button {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  /* 50% transparent */
+  color: rgba(139, 0, 0, 1);
+}
+
+a.remove-button:hover {
+  color: rgba(139, 0, 0, 1);
+  /* increase in size by 20% */
+  font-size: 150%;
+}
+
+
+a.remove-button i {
+  -webkit-text-stroke: 1px white;
 }
 
 #files {
