@@ -2,13 +2,13 @@ name: Build/release
 
 on:
   push:
-    branches: 
+    branches:
       - master
   pull_request:
     branches:
       - '*'
     tags:
-    
+
 jobs:
   release:
     runs-on: ${{ matrix.os }}
@@ -20,16 +20,18 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2.3.4
-        
+
       - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v2.1.5
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version-file: .tool-versions
           check-latest: true
+
+      - run: yarn install
 
       - name: Build/release Electron app
         uses: samuelmeuli/action-electron-builder@v1.6.0
-        
+
         with:
           # GitHub token, automatically provided to the action
           # (No need to define this secret in the repo settings)
