@@ -43,7 +43,7 @@
   },
   "scripts": {
     "clear-config": "node scripts/clear-config.js",
-    "test": "npx jest test",
+    "test": "npx jest --runInBand test",
     "dev": "nodemon --exec electron-forge start",
     "start": "electron-forge start",
     "package": "electron-forge package",
