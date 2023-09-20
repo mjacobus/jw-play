@@ -26,22 +26,17 @@ class ControlWindow extends Window {
   }
 
   removeFile(file) {
-    console.log("collection", this.store.get("app.files"));
-    this.store.removeItem("app.files", file);
     console.log("file removed", file);
   }
 
-  addFile(file, store = true) {
+  addFile(file) {
     if (!fs.existsSync(file)) {
       return;
     }
 
     if (isFileSupported(file)) {
       const message = createFilePayload(file);
-
-      if (store) {
-        this.store.append("app.files", message);
-      }
+      this.store.append("app.files", file, { unique: true });
 
       this.webContents.send("add-file", message);
     }
@@ -56,7 +51,7 @@ class ControlWindow extends Window {
   onFinishLoad() {
     this.webContents.on("did-finish-load", () => {
       this.store.get("app.files", []).forEach((file) => {
-        this.addFile(file, false);
+        this.addFile(file);
       });
     });
   }
