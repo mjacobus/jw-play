@@ -1,9 +1,3 @@
-const hasExtension = (file, extensions) => {
-  const parts = file.split(".");
-  const extension = parts[parts.length - 1].toLowerCase();
-  return extensions.includes(extension);
-};
-
 const IMAGE_EXTENSIONS = ["png", "jpeg", "jpg", "gif"];
 const VIDEO_EXTENSIONS = ["mp4", "mpeg", "m4v", "mov"];
 
@@ -27,15 +21,23 @@ class MediaFile {
   }
 
   isImage() {
-    return hasExtension(this.path, IMAGE_EXTENSIONS);
+    return IMAGE_EXTENSIONS.includes(this.getExtension());
   }
 
   isVideo() {
-    return hasExtension(this.path, VIDEO_EXTENSIONS);
+    return VIDEO_EXTENSIONS.includes(this.getExtension());
   }
 
   isSupported() {
     return this.isImage() || this.isVideo();
+  }
+
+  getExtension() {
+    return this.path.split(".").pop();
+  }
+
+  getThumbnailPath() {
+    return this.#data.thumbnailPath;
   }
 }
 

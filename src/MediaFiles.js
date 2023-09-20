@@ -1,11 +1,21 @@
 const store = require("./store");
 const MediaFile = require("./MediaFile");
+const { uuid } = require("./utils");
 
 class MediaFiles {
+  #filesPath = null;
+
+  constructor() {}
+
   all() {
     return Object.values(store.get("mediaFiles") || {}).map((data) => {
       return new MediaFile(data);
     });
+  }
+
+  setFilesPath(path) {
+    this.#filesPath = path;
+    return this;
   }
 
   find(id) {
@@ -30,6 +40,21 @@ class MediaFiles {
     this.all().forEach((file) => {
       this.delete(file);
     });
+  }
+
+  createFromPath(path) {
+    if (!this.#filesPath) {
+      throw new Error("Files path not set");
+    }
+
+    const data = { id: uuid(), path };
+    const file = new MediaFile(data);
+    data.thumbnailPath = `${this.#filesPath}/thumbnails/${
+      file.id
+    }.${file.getExtension()}`;
+
+    this.save(file);
+    return file;
   }
 }
 

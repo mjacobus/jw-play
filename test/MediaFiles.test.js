@@ -1,11 +1,18 @@
-// jest.mock("../src/utils", () => ({
-//   ...jest.requireActual("../src/utils"),
-//   uuid: jest.fn(() => "the-uuid"),
-// }));
-
 const store = require("../src/store");
 const MediaFiles = require("../src/MediaFiles");
 const MediaFile = require("../src/MediaFile");
+
+function fixturePath(filename) {
+  const testFilePath = __filename;
+  const dir = testFilePath.split("/").slice(0, -1).join("/");
+  return `${dir}/fixtures/${filename}`;
+}
+
+function tmpPath(file) {
+  const testFilePath = __filename;
+  const dir = testFilePath.split("/").slice(0, -1).join("/");
+  return `${dir}/tmp/${file}`;
+}
 
 const createFile = (id) => ({ id });
 
@@ -13,9 +20,8 @@ describe("MediaFiles", () => {
   let repository = null;
 
   beforeEach(() => {
-    repository = new MediaFiles();
+    repository = new MediaFiles().setFilesPath(tmpPath("appData/JW Play"));
     repository.deleteAll();
-    store.remove("mediaFiles.the-id");
   });
 
   describe("all", () => {
@@ -74,6 +80,31 @@ describe("MediaFiles", () => {
       repository.delete(file);
 
       expect(store.get("mediaFiles.the-id")).toBeUndefined();
+    });
+  });
+
+  describe(".createFromPath", () => {
+    let file = null;
+
+    beforeEach(() => {
+      file = repository.createFromPath(fixturePath("video.mp4"));
+    });
+
+    it("creates a new MediaFile", () => {
+      expect(file.path).toEqual(fixturePath("video.mp4"));
+      expect(file.id.length).toEqual(36);
+    });
+
+    it("persists the file", () => {
+      const ids = repository.all().map((file) => file.id);
+
+      expect(ids).toEqual([file.id]);
+    });
+
+    it("sets the path for the thumbnail", () => {
+      expect(file.getThumbnailPath()).toEqual(
+        tmpPath(`appData/JW Play/thumbnails/${file.id}.${file.getExtension()}`)
+      );
     });
   });
 });
