@@ -1,4 +1,3 @@
-const url = require("url");
 const fs = require("fs");
 const path = require("path");
 const sizeOf = require("image-size");
@@ -12,6 +11,9 @@ const { v4: uuidv4 } = require("uuid");
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 
+function uuid() {
+  return uuidv4();
+}
 const hasExtension = (file, extensions) => {
   const parts = file.split(".");
   const extension = parts[parts.length - 1].toLowerCase();
@@ -78,7 +80,7 @@ const createVideoThumbnail = (file) => {
   try {
     const size = "320x180";
     const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
-    const filename = uuidv4() + `-${size}.png`;
+    const filename = uuid() + `-${size}.png`;
     fs.mkdirSync(folder, { recursive: true });
     ffmpeg(file).screenshots({
       timestamps: [2],
@@ -138,4 +140,5 @@ module.exports = {
   createFilePayload,
   mediaProgress,
   secondsToTime,
+  uuid,
 };
