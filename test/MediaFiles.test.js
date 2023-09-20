@@ -14,7 +14,28 @@ describe("MediaFiles", () => {
 
   beforeEach(() => {
     repository = new MediaFiles();
+    repository.deleteAll();
     store.remove("mediaFiles.the-id");
+  });
+
+  describe("all", () => {
+    it("returns all files", () => {
+      store.set("something-else", createFile("the-id"));
+      store.set("mediaFiles.one", createFile("one"));
+      store.set("mediaFiles.two", createFile("two"));
+
+      const files = repository.all();
+
+      expect(files).toHaveLength(2);
+      expect(files[0].id).toEqual("one");
+      expect(files[1].id).toEqual("two");
+    });
+
+    it("returns empty array when there are no files", () => {
+      const files = repository.all();
+
+      expect(files).toEqual([]);
+    });
   });
 
   describe("find", () => {
