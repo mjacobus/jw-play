@@ -8,29 +8,14 @@ const ffmpegPath = require("ffmpeg-static").replace(
 );
 const { app } = require("electron");
 const { v4: uuidv4 } = require("uuid");
+const MediaFile = require("./MediaFile");
 
 ffmpeg.setFfmpegPath(ffmpegPath);
 
-function uuid() {
-  return uuidv4();
-}
-const hasExtension = (file, extensions) => {
-  const parts = file.split(".");
-  const extension = parts[parts.length - 1].toLowerCase();
-  return extensions.includes(extension);
-};
-
-const isImage = (file) => {
-  return hasExtension(file, ["png", "jpeg", "jpg", "gif"]);
-};
-
-const isVideo = (file) => {
-  return hasExtension(file, ["mp4", "mpeg", "m4v", ""]);
-};
-
-const isFileSupported = (file) => {
-  return isImage(file) || isVideo(file);
-};
+const uuid = () => uuidv4();
+const isImage = (file) => new MediaFile({ path: file }).isImage();
+const isVideo = (file) => new MediaFile({ path: file }).isVideo();
+const isFileSupported = (file) => new MediaFile({ path: file }).isSupported();
 
 const maximizeImage = (image, window) => {
   if (!image.width || !image.height) {
