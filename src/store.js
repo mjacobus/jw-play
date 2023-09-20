@@ -10,10 +10,12 @@ function clear() {
 }
 
 function get(key, defaultValue) {
+  console.log("get", key, defaultValue);
   return store.get(key, defaultValue);
 }
 
 function set(key, value) {
+  console.log("set", value);
   return store.set(key, value);
 }
 

@@ -10,6 +10,10 @@ const ffmpegPath = require("ffmpeg-static").replace(
 const { app } = require("electron");
 const { v4: uuidv4 } = require("uuid");
 
+const uuid = () => {
+  return uuidv4();
+};
+
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 const hasExtension = (file, extensions) => {
@@ -53,6 +57,9 @@ const maximizeImage = (image, window) => {
 
 const createFilePayload = (filePath) => {
   const file = { url: `file://${filePath}` };
+  file.uuid = uuid();
+  file.thumbnail = file.url;
+
   if (isImage(filePath)) {
     const dimensions = sizeOf(filePath);
     file.width = dimensions.width;
@@ -78,7 +85,7 @@ const createVideoThumbnail = (file) => {
   try {
     const size = "320x180";
     const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
-    const filename = uuidv4() + `-${size}.png`;
+    const filename = uuid() + `-${size}.png`;
     fs.mkdirSync(folder, { recursive: true });
     ffmpeg(file).screenshots({
       timestamps: [2],
@@ -138,4 +145,5 @@ module.exports = {
   createFilePayload,
   mediaProgress,
   secondsToTime,
+  uuid,
 };
