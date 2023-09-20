@@ -79,7 +79,6 @@ ipcRenderer.on("add-file", (_, file) => {
     e.preventDefault();
     if (confirm("Are you sure?")) {
       filesContainer.removeChild(li);
-      console.log("Removing file: ", file);
       ipcRenderer.send("file:remove", file);
     }
   };
