@@ -29,11 +29,11 @@ class MediaFiles {
   }
 
   save(file) {
-    store.set(`mediaFiles.${file.id}`, file.toJson());
+    store.set(`mediaFiles.${file.getId()}`, file.toJson());
   }
 
   delete(file) {
-    store.remove(`mediaFiles.${file.id}`);
+    store.remove(`mediaFiles.${file.getId()}`);
   }
 
   deleteAll() {
@@ -49,9 +49,9 @@ class MediaFiles {
 
     const data = { id: uuid(), path };
     const file = new MediaFile(data);
-    data.thumbnailPath = `${this.#filesPath}/thumbnails/${
-      file.id
-    }.${file.getExtension()}`;
+    data.thumbnailPath = `${
+      this.#filesPath
+    }/thumbnails/${file.getId()}.${file.getExtension()}`;
 
     this.save(file);
     return file;
