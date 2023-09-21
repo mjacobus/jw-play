@@ -60,7 +60,7 @@ ipcRenderer.on("add-file", (_, fileId) => {
   const li = document.createElement("li");
   li.classList.add("media-file");
   const a = document.createElement("a");
-  a.href = file.url;
+  a.href = file.getUrl();
   a.addEventListener("click", loadFileHandler(file, li));
 
   const img = document.createElement("img");

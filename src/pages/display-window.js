@@ -62,8 +62,9 @@ const showImage = (file, doc, container) => {
   container.innerHTML = "";
   container.appendChild(img);
   img.src = file.getUrl();
-  // img.width = file.width; // TODO: add width and height
-  // img.height = file.height; // TODO: add width and height
+  img.width = file.getWidth();
+  img.height = file.getHeight();
+  console.log(file.toJson());
   maximizeImage(img, window);
 };
 

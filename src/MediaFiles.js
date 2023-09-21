@@ -3,6 +3,7 @@ const MediaFile = require("./MediaFile");
 const { uuid } = require("./utils");
 const fs = require("fs");
 const ffmpeg = require("./wrappers/ffmpeg");
+const sizeOf = require("image-size");
 
 class MediaFiles {
   #filesPath = null;
@@ -58,6 +59,12 @@ class MediaFiles {
 
     if (file.isVideo()) {
       this.#saveScreenshot(file);
+    }
+
+    if (file.isImage()) {
+      const dimensions = sizeOf(file.getPath());
+      data.width = dimensions.width;
+      data.height = dimensions.height;
     }
 
     return file;
