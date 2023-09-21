@@ -66,8 +66,6 @@ class MediaFiles {
     const file = new MediaFile(data);
     data.thumbnailPath = `${this.#filesPath}/thumbnails/${file.getId()}.png`;
 
-    this.save(file);
-
     if (file.isVideo()) {
       this.#saveScreenshot(file);
     }
@@ -79,6 +77,7 @@ class MediaFiles {
       this.#createThumbnail(file);
     }
 
+    this.save(file);
     return file;
   }
 
