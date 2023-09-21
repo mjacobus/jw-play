@@ -36,6 +36,7 @@ class MediaFiles {
 
   delete(file) {
     store.remove(`mediaFiles.${file.getId()}`);
+    // TODO: Remove thumbnail
   }
 
   deleteAll() {

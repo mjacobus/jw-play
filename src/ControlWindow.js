@@ -1,6 +1,8 @@
 const { createFilePayload, isFileSupported } = require("./utils");
 const { ipcMain } = require("electron");
 const fs = require("fs");
+const path = require("path");
+const MediaFiles = require("./MediaFiles");
 
 const Window = require("./Window");
 
@@ -15,9 +17,13 @@ class ControlWindow extends Window {
       this.webContents.send("video:time-updated", payload);
     });
 
-    ipcMain.on("file:remove", (_event, payload) => {
-      this.removeFile(payload);
+    ipcMain.on("file:remove", (_event, fileId) => {
+      this.removeFile(fileId);
     });
+
+    this.medias = new MediaFiles().setFilesPath(
+      path.join(app.getPath("appData"), "JWPlay", "files")
+    );
   }
 
   clearFiles() {
@@ -25,21 +31,20 @@ class ControlWindow extends Window {
     this.webContents.send("clear-files");
   }
 
-  removeFile(file) {
-    console.log("file removed", file);
+  removeFile(fileId) {
+    const file = this.medias.find(fileId);
+    this.medias.remove(file);
+    console.log("file removed", file.getId(), file.getPath());
   }
 
-  addFile(file) {
-    if (!fs.existsSync(file)) {
+  addFile(filePath) {
+    const file = this.medias.createFromPath(filePath);
+
+    if (!file.exists() || !file.isSupported()) {
       return;
     }
 
-    if (isFileSupported(file)) {
-      const message = createFilePayload(file);
-      this.store.append("app.files", file, { unique: true });
-
-      this.webContents.send("add-file", message);
-    }
+    this.webContents.send("add-file", file.getId());
   }
 
   addFolder(folder) {
