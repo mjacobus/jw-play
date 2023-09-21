@@ -64,6 +64,14 @@ class MediaFile {
 
     return this.getUrl();
   }
+
+  getWidth() {
+    return this.#data.width;
+  }
+
+  getHeight() {
+    return this.#data.height;
+  }
 }
 
 module.exports = MediaFile;
