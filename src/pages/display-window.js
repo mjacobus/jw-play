@@ -18,8 +18,6 @@ ipcRenderer.on("file:display", (_sender, fileId) => {
   const file = files.find(fileId);
   const container = document.getElementById("container");
 
-  console.log("file:display", file.toJson());
-
   if (file.isImage()) {
     return showImage(file, document, container);
   }
@@ -66,7 +64,6 @@ const showImage = (file, doc, container) => {
   img.src = file.getUrl();
   img.width = file.getWidth();
   img.height = file.getHeight();
-  console.log(file.toJson());
   maximizeImage(img, window);
 };
 

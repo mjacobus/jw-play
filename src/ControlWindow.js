@@ -33,7 +33,6 @@ class ControlWindow extends Window {
   removeFile(fileId) {
     const file = this.medias.find(fileId);
     this.medias.delete(file);
-    console.log("file removed", file.getId(), file.getPath());
   }
 
   addFile(filePath) {
