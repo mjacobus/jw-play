@@ -47,11 +47,11 @@ ipcRenderer.on("video:toggle-controls", () => {
   v.controls = !v.controls;
 });
 
-ipcRenderer.on("video:forward", (_sender, file) => {
+ipcRenderer.on("video:forward", (_sender) => {
   video().currentTime += 5;
 });
 
-ipcRenderer.on("video:rewind", (_sender, file) => {
+ipcRenderer.on("video:rewind", (_sender) => {
   video().currentTime -= 5;
 });
 
@@ -89,7 +89,7 @@ const showVideo = (file, doc, container) => {
     });
   });
 
-  video.ontimeupdate = (event) => {
+  video.ontimeupdate = (_event) => {
     ipcRenderer.send("video:time-updated", {
       currentTime: video.currentTime,
       duration: video.duration,

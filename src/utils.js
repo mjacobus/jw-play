@@ -1,21 +1,6 @@
-const fs = require("fs");
-const path = require("path");
-const sizeOf = require("image-size");
-const ffmpeg = require("fluent-ffmpeg");
-const ffmpegPath = require("ffmpeg-static").replace(
-  "app.asar",
-  "app.asar.unpacked"
-);
-const { app } = require("electron");
 const { v4: uuidv4 } = require("uuid");
-const MediaFile = require("./MediaFile");
-
-ffmpeg.setFfmpegPath(ffmpegPath);
 
 const uuid = () => uuidv4();
-const isImage = (file) => new MediaFile({ path: file }).isImage();
-const isVideo = (file) => new MediaFile({ path: file }).isVideo();
-const isFileSupported = (file) => new MediaFile({ path: file }).isSupported();
 
 const maximizeImage = (image, window) => {
   if (!image.width || !image.height) {
@@ -75,9 +60,6 @@ function mediaProgress({ duration, currentTime }) {
 }
 
 module.exports = {
-  isImage,
-  isVideo,
-  isFileSupported,
   maximizeImage,
   mediaProgress,
   secondsToTime,
