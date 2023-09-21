@@ -37,10 +37,18 @@ class MediaFiles {
   }
 
   delete(file) {
-    if (file.thumbnailExists()) {
-      fs.unlinkSync(file.getThumbnailPath());
-    }
     store.remove(`mediaFiles.${file.getId()}`);
+
+    if (!file.thumbnailExists()) {
+      return;
+    }
+
+    // do not delete if thumbnail is the original file
+    if (file.getThumbnailPath() !== file.getPath()) {
+      return;
+    }
+
+    fs.unlinkSync(file.getThumbnailPath());
   }
 
   deleteAll() {
@@ -69,7 +77,6 @@ class MediaFiles {
       data.width = dimensions.width;
       data.height = dimensions.height;
       this.#createThumbnail(file);
-      data.thumbnailPath = file.getPath();
     }
 
     return file;
