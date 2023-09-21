@@ -20,7 +20,7 @@ describe("MediaFiles", () => {
   let repository = null;
 
   beforeEach(() => {
-    repository = new MediaFiles().setFilesPath(tmpPath("appData/JW Play"));
+    repository = new MediaFiles().setFilesPath(tmpPath("appData/JWPlay"));
     repository.deleteAll();
   });
 
@@ -103,10 +103,15 @@ describe("MediaFiles", () => {
 
     it("sets the path for the thumbnail", () => {
       expect(file.getThumbnailPath()).toEqual(
-        tmpPath(
-          `appData/JW Play/thumbnails/${file.getId()}.${file.getExtension()}`
-        )
+        tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
       );
+    });
+
+    it("creates a the thumbnail", async (done) => {
+      setTimeout(() => {
+        expect(file.thumbnailExists()).toEqual(true);
+        done();
+      }, 200);
     });
   });
 });
