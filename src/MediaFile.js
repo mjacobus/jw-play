@@ -58,11 +58,7 @@ class MediaFile {
   }
 
   getThumbnailUrl() {
-    if (this.thumbnailExists()) {
-      return `file://${this.getThumbnailPath()}`;
-    }
-
-    return this.getUrl();
+    return `file://${this.getThumbnailPath()}`;
   }
 
   getWidth() {

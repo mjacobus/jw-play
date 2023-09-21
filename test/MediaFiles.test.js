@@ -86,32 +86,64 @@ describe("MediaFiles", () => {
   describe(".createFromPath", () => {
     let file = null;
 
-    beforeEach(() => {
-      file = repository.createFromPath(fixturePath("video.mp4"));
+    describe("with a video", () => {
+      beforeEach(() => {
+        file = repository.createFromPath(fixturePath("video.mp4"));
+      });
+
+      it("creates a new MediaFile", () => {
+        expect(file.getPath()).toEqual(fixturePath("video.mp4"));
+        expect(file.getId().length).toEqual(36);
+      });
+
+      it("persists the file", () => {
+        const ids = repository.all().map((file) => file.getId());
+
+        expect(ids).toEqual([file.getId()]);
+      });
+
+      it("sets the path for the thumbnail", () => {
+        expect(file.getThumbnailPath()).toEqual(
+          tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
+        );
+      });
+
+      it("creates a the thumbnail", async (done) => {
+        setTimeout(() => {
+          expect(file.thumbnailExists()).toEqual(true);
+          done();
+        }, 200);
+      });
     });
 
-    it("creates a new MediaFile", () => {
-      expect(file.getPath()).toEqual(fixturePath("video.mp4"));
-      expect(file.getId().length).toEqual(36);
-    });
+    describe("with an image", () => {
+      beforeEach(() => {
+        file = repository.createFromPath(fixturePath("picture.jpeg"));
+      });
 
-    it("persists the file", () => {
-      const ids = repository.all().map((file) => file.getId());
+      it("creates a new MediaFile", () => {
+        expect(file.getPath()).toEqual(fixturePath("picture.jpeg"));
+        expect(file.getId().length).toEqual(36);
+      });
 
-      expect(ids).toEqual([file.getId()]);
-    });
+      it("persists the file", () => {
+        const ids = repository.all().map((file) => file.getId());
 
-    it("sets the path for the thumbnail", () => {
-      expect(file.getThumbnailPath()).toEqual(
-        tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
-      );
-    });
+        expect(ids).toEqual([file.getId()]);
+      });
 
-    it("creates a the thumbnail", async (done) => {
-      setTimeout(() => {
-        expect(file.thumbnailExists()).toEqual(true);
-        done();
-      }, 200);
+      it("sets the path for the thumbnail", () => {
+        expect(file.getThumbnailPath()).toEqual(
+          tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
+        );
+      });
+
+      it("creates a the thumbnail", async (done) => {
+        setTimeout(() => {
+          expect(file.thumbnailExists()).toEqual(true);
+          done();
+        }, 200);
+      });
     });
   });
 });
