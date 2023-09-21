@@ -4,6 +4,7 @@ const { uuid } = require("./utils");
 const fs = require("fs");
 const ffmpeg = require("./wrappers/ffmpeg");
 const sizeOf = require("image-size");
+const sharp = require("sharp");
 
 class MediaFiles {
   #filesPath = null;
@@ -36,8 +37,10 @@ class MediaFiles {
   }
 
   delete(file) {
+    if (file.thumbnailExists()) {
+      fs.unlinkSync(file.getThumbnailPath());
+    }
     store.remove(`mediaFiles.${file.getId()}`);
-    // TODO: Remove thumbnail
   }
 
   deleteAll() {
@@ -65,6 +68,8 @@ class MediaFiles {
       const dimensions = sizeOf(file.getPath());
       data.width = dimensions.width;
       data.height = dimensions.height;
+      this.#createThumbnail(file);
+      data.thumbnailPath = file.getPath();
     }
 
     return file;
@@ -83,6 +88,10 @@ class MediaFiles {
       filename,
       size,
     });
+  }
+
+  #createThumbnail(file) {
+    sharp(file.getPath()).resize(320, 180).toFile(file.getThumbnailPath());
   }
 }
 
