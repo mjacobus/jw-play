@@ -11,7 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install libvips
-        run: sudo apt-get install -y libvips-dev
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libvips-dev
 
       - name: Check out Git repository
         uses: actions/checkout@v2.3.4
