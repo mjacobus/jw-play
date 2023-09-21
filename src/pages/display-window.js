@@ -1,5 +1,5 @@
 const { ipcRenderer } = require("electron");
-const { isImage, isVideo, maximizeImage } = require("../utils");
+const { maximizeImage } = require("../utils");
 const MediaFiles = require("../MediaFiles");
 
 const files = new MediaFiles();

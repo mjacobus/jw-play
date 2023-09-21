@@ -1,6 +1,6 @@
 const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
-const { isImage, isVideo, mediaProgress } = require("../utils");
+const { mediaProgress } = require("../utils");
 const MediaFiles = require("../MediaFiles");
 
 const files = new MediaFiles();

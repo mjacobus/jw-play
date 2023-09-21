@@ -2,7 +2,6 @@ const { screen, dialog, BrowserWindow } = require("electron");
 const ControlWindow = require("./ControlWindow");
 const DisplayWindow = require("./DisplayWindow");
 const ApplicationMenu = require("./ApplicationMenu");
-const { clearThumbnails } = require("./utils");
 
 class ApplicationDriver {
   constructor(app) {
@@ -13,7 +12,6 @@ class ApplicationDriver {
   }
 
   quit() {
-    clearThumbnails();
     this.app.quit();
   }
 
