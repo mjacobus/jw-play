@@ -1,6 +1,8 @@
 const store = require("./store");
 const MediaFile = require("./MediaFile");
 const { uuid } = require("./utils");
+const fs = require("fs");
+const ffmpeg = require("./wrappers/ffmpeg");
 
 class MediaFiles {
   #filesPath = null;
@@ -49,12 +51,30 @@ class MediaFiles {
 
     const data = { id: uuid(), path };
     const file = new MediaFile(data);
-    data.thumbnailPath = `${
-      this.#filesPath
-    }/thumbnails/${file.getId()}.${file.getExtension()}`;
+    data.thumbnailPath = `${this.#filesPath}/thumbnails/${file.getId()}.png`;
 
     this.save(file);
+
+    if (file.isVideo()) {
+      this.#saveScreenshot(file);
+    }
+
     return file;
+  }
+
+  #saveScreenshot(file) {
+    const size = "320x180";
+    const folder = file.getThumbnailPath().split("/").slice(0, -1).join("/");
+    const filename = file.getThumbnailPath().split("/").pop();
+
+    fs.mkdirSync(folder, { recursive: true });
+
+    ffmpeg(file.getPath()).screenshots({
+      timestamps: [2],
+      folder,
+      filename,
+      size,
+    });
   }
 }
 
