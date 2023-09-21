@@ -44,7 +44,7 @@ class MediaFiles {
     }
 
     // do not delete if thumbnail is the original file
-    if (file.getThumbnailPath() !== file.getPath()) {
+    if (file.getThumbnailPath() == file.getPath()) {
       return;
     }
 
