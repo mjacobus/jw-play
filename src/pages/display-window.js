@@ -1,5 +1,8 @@
 const { ipcRenderer } = require("electron");
 const { isImage, isVideo, maximizeImage } = require("../utils");
+const MediaFiles = require("../MediaFiles");
+
+const files = new MediaFiles();
 
 function video() {
   return (
@@ -11,14 +14,15 @@ function video() {
   );
 }
 
-ipcRenderer.on("file:display", (_sender, file) => {
+ipcRenderer.on("file:display", (_sender, fileId) => {
+  const file = files.find(fileId);
   const container = document.getElementById("container");
 
-  if (isImage(file.url)) {
+  if (file.isImage()) {
     return showImage(file, document, container);
   }
 
-  if (isVideo(file.url)) {
+  if (file.isVideo()) {
     return showVideo(file, document, container);
   }
 });
@@ -57,9 +61,9 @@ const showImage = (file, doc, container) => {
   const img = doc.createElement("img");
   container.innerHTML = "";
   container.appendChild(img);
-  img.src = file.url;
-  img.width = file.width;
-  img.height = file.height;
+  img.src = file.getUrl();
+  // img.width = file.width; // TODO: add width and height
+  // img.height = file.height; // TODO: add width and height
   maximizeImage(img, window);
 };
 
@@ -72,7 +76,7 @@ const showVideo = (file, doc, container) => {
   video.width = window.innerWidth;
   video.classList.add("vertical-center");
   source.type = "video/mp4";
-  source.src = file.url;
+  source.src = file.getUrl();
   container.appendChild(video);
 
   video.addEventListener("loadeddata", () => {

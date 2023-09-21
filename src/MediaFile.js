@@ -53,6 +53,10 @@ class MediaFile {
     return `file://${this.getPath()}`;
   }
 
+  getFilename() {
+    return this.getPath().split("/").pop();
+  }
+
   getThumbnailUrl() {
     if (this.thumbnailExists()) {
       return `file://${this.getThumbnailPath()}`;

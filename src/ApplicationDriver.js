@@ -51,6 +51,10 @@ class ApplicationDriver {
     return process.platform === "darwin";
   }
 
+  getPath(name) {
+    return this.app.getPath(name);
+  }
+
   start() {
     const app = this.app;
 

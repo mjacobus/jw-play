@@ -9,8 +9,8 @@ class DisplayWindow extends Window {
 
     this.loadAppFile("pages/display-window.html");
 
-    ipcMain.on("file:display", (_event, file) => {
-      this.webContents.send("file:display", file);
+    ipcMain.on("file:display", (_event, fileId) => {
+      this.webContents.send("file:display", fileId);
     });
 
     ipcMain.on("video:play", () => {

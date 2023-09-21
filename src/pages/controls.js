@@ -1,6 +1,9 @@
 const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
 const { isImage, isVideo, mediaProgress } = require("../utils");
+const MediaFiles = require("../MediaFiles");
+
+const files = new MediaFiles();
 
 function select(selector, base = document) {
   return base.querySelector(selector);
@@ -46,30 +49,26 @@ const loadFileHandler = (file, li) => (e) => {
   e.preventDefault();
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
-  ipcRenderer.send("file:display", file);
-  footer.innerHTML = isVideo(file.url)
+  ipcRenderer.send("file:display", file.getId());
+  footer.innerHTML = file.isVideo()
     ? document.getElementById("video-controls-template").innerHTML
     : "";
 };
 
-ipcRenderer.on("add-file", (_, file) => {
-  const text = file.url.split("/").pop();
+ipcRenderer.on("add-file", (_, fileId) => {
+  const file = files.find(fileId);
   const li = document.createElement("li");
   li.classList.add("media-file");
   const a = document.createElement("a");
   a.href = file.url;
   a.addEventListener("click", loadFileHandler(file, li));
 
-  if (isImage(file.url) || file.thumbnail) {
-    const img = document.createElement("img");
-    img.src = file.thumbnail || file.url;
-    img.title = text;
-    img.alt = text;
-    a.appendChild(img);
-    checkImage(img);
-  } else {
-    a.text = text;
-  }
+  const img = document.createElement("img");
+  img.src = file.getThumbnailUrl();
+  img.title = file.getFilename();
+  img.alt = file.getFilename();
+  a.appendChild(img);
+  checkImage(img);
 
   const removeButton = document.createElement("a");
   removeButton.href = "#";
@@ -80,7 +79,7 @@ ipcRenderer.on("add-file", (_, file) => {
     if (confirm("Are you sure?")) {
       filesContainer.removeChild(li);
       console.log("Removing file: ", file);
-      ipcRenderer.send("file:remove", file);
+      ipcRenderer.send("file:remove", file.getId());
     }
   };
   li.appendChild(removeButton);
