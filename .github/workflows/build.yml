@@ -51,6 +51,18 @@ jobs:
           node-version-file: .tool-versions
           check-latest: true
 
+      - name: Install sharp on ubuntu
+        if: matrix.os == 'ubuntu-latest'
+        run: yarn add --arch=x64 --platform=linux sharp
+
+      - name: Install sharp on ubuntu
+        if: matrix.os == 'macos-latest'
+        run: yarn add --arch=x64 --platform=darwin sharp
+
+      - name: Install sharp on windows
+        if: matrix.os == 'windows-latest'
+        run: yarn add --arch=x64 --platform=windows sharp
+
       - run: yarn install
 
       - name: Build/release Electron app
