@@ -38,48 +38,6 @@ const maximizeImage = (image, window) => {
   )}px`;
 };
 
-const createFilePayload = (filePath) => {
-  const file = { url: `file://${filePath}` };
-  if (isImage(filePath)) {
-    const dimensions = sizeOf(filePath);
-    file.width = dimensions.width;
-    file.height = dimensions.height;
-  }
-
-  if (isVideo(filePath)) {
-    const thumbnail = createVideoThumbnail(filePath);
-    file.thumbnail = new URL(`file://${thumbnail}`).toString();
-  }
-
-  return file;
-};
-
-const clearThumbnails = () => {
-  const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
-  try {
-    fs.rmSync(folder, { recursive: true });
-  } catch (e) {}
-};
-
-const createVideoThumbnail = (file) => {
-  try {
-    const size = "320x180";
-    const folder = path.join(app.getPath("appData"), "JW Play", "thumbnails");
-    const filename = uuid() + `-${size}.png`;
-    fs.mkdirSync(folder, { recursive: true });
-    ffmpeg(file).screenshots({
-      timestamps: [2],
-      folder,
-      filename,
-      size,
-    });
-    const screenshot = path.join(folder, filename);
-    return screenshot;
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 function secondsToTime(totalSeconds) {
   totalSeconds = Math.floor(totalSeconds);
   let hours = Math.floor(totalSeconds / 3600);
@@ -121,8 +79,6 @@ module.exports = {
   isVideo,
   isFileSupported,
   maximizeImage,
-  clearThumbnails,
-  createFilePayload,
   mediaProgress,
   secondsToTime,
   uuid,

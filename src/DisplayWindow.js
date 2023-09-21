@@ -1,4 +1,4 @@
-const { BrowserWindow, screen, ipcMain } = require("electron");
+const { ipcMain } = require("electron");
 
 const Window = require("./Window");
 

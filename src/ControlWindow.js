@@ -1,4 +1,3 @@
-const { createFilePayload, isFileSupported } = require("./utils");
 const { ipcMain } = require("electron");
 const fs = require("fs");
 const path = require("path");
@@ -27,13 +26,13 @@ class ControlWindow extends Window {
   }
 
   clearFiles() {
-    this.store.clearCollection("app.files");
+    this.medias.deleteAll();
     this.webContents.send("clear-files");
   }
 
   removeFile(fileId) {
     const file = this.medias.find(fileId);
-    this.medias.remove(file);
+    this.medias.delete(file);
     console.log("file removed", file.getId(), file.getPath());
   }
 
@@ -55,8 +54,8 @@ class ControlWindow extends Window {
 
   onFinishLoad() {
     this.webContents.on("did-finish-load", () => {
-      this.store.get("app.files", []).forEach((file) => {
-        this.addFile(file);
+      this.medias.all().forEach((file) => {
+        this.webContents.send("add-file", file.getId());
       });
     });
   }
