@@ -33,8 +33,8 @@ describe("MediaFiles", () => {
       const files = repository.all();
 
       expect(files).toHaveLength(2);
-      expect(files[0].id).toEqual("one");
-      expect(files[1].id).toEqual("two");
+      expect(files[0].getId()).toEqual("one");
+      expect(files[1].getId()).toEqual("two");
     });
 
     it("returns empty array when there are no files", () => {
@@ -50,7 +50,7 @@ describe("MediaFiles", () => {
 
       const file = repository.find("the-id");
 
-      expect(file.id).toEqual("the-id");
+      expect(file.getId()).toEqual("the-id");
     });
 
     it("returns null when file cannot be found", () => {
@@ -91,19 +91,21 @@ describe("MediaFiles", () => {
     });
 
     it("creates a new MediaFile", () => {
-      expect(file.path).toEqual(fixturePath("video.mp4"));
-      expect(file.id.length).toEqual(36);
+      expect(file.getPath()).toEqual(fixturePath("video.mp4"));
+      expect(file.getId().length).toEqual(36);
     });
 
     it("persists the file", () => {
-      const ids = repository.all().map((file) => file.id);
+      const ids = repository.all().map((file) => file.getId());
 
-      expect(ids).toEqual([file.id]);
+      expect(ids).toEqual([file.getId()]);
     });
 
     it("sets the path for the thumbnail", () => {
       expect(file.getThumbnailPath()).toEqual(
-        tmpPath(`appData/JW Play/thumbnails/${file.id}.${file.getExtension()}`)
+        tmpPath(
+          `appData/JW Play/thumbnails/${file.getId()}.${file.getExtension()}`
+        )
       );
     });
   });

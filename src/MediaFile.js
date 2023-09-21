@@ -8,11 +8,11 @@ class MediaFile {
     this.#data = data;
   }
 
-  get id() {
+  getId() {
     return this.#data.id;
   }
 
-  get path() {
+  getPath() {
     return this.#data.path;
   }
 
@@ -33,7 +33,7 @@ class MediaFile {
   }
 
   getExtension() {
-    return this.path.split(".").pop();
+    return this.getPath().split(".").pop();
   }
 
   getThumbnailPath() {
