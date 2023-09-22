@@ -24,5 +24,6 @@ jobs:
           node-version-file: .tool-versions
           check-latest: true
 
+      - run: yarn add --arch=x64 --platform=linux sharp
       - run: yarn install
       - run: yarn run test
