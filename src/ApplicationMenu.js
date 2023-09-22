@@ -44,7 +44,7 @@ class ApplicationMenu {
         label: t("menu.displayWindow"),
         submenu: [
           {
-            label: "Resize",
+            label: t("menu.displayWindow.resize"),
             submenu: [
               { ratio: "16x9", width: 640, height: 360 },
               { ratio: "16x9", width: 800, height: 450 },
