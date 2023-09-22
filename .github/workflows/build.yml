@@ -53,15 +53,23 @@ jobs:
 
       - name: Install sharp on ubuntu
         if: matrix.os == 'ubuntu-latest'
-        run: yarn add --arch=x64 --platform=linux sharp
+        run: |
+          yarn remove sharp
+          yarn add --arch=x64 --platform=linux sharp
 
       - name: Install sharp on mac
         if: matrix.os == 'macos-latest'
-        run: yarn add --arch=x64 --platform=darwin sharp
+        run: |
+          yarn remove sharp
+          yarn add --arch=x64 --platform=darwin sharp
+          yarn rebuild --arch=x64 --platform=darwin sharp
 
       - name: Install sharp on windows
         if: matrix.os == 'windows-latest'
-        run: yarn add --arch=x64 --platform=windows sharp
+        run: |
+          yarn remove sharp
+          yarn add --arch=x64 --platform=windows sharp
+          yarn rebuild --arch=x64 --platform=darwin sharp
 
       - run: yarn install
 
