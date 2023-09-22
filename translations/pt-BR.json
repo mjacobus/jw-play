@@ -21,5 +21,7 @@
   "menu.devTools.displayWindow": "Janela de Exibição",
   "menu.devTools.controlWindow": "Janela de Controle",
   "menu.devTools.version": "Versão %{version}",
-  "messages.languageChangedRestartRequired": "Reinicie para aplicar o idioma escolhido."
+  "messages.languageChangedRestartRequired": "Reinicie para aplicar o idioma escolhido.",
+  "messages.confirmFileRemoval": "Tem certeza que quer excluir o seguinte arquivo? \n\n\"%{file}\""
+
 }
