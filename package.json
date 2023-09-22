@@ -1,7 +1,7 @@
 {
   "name": "JWPlay",
   "productName": "JWPlay2",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "This is a media presenter for 2-screen computers.",
   "main": "src/app.js",
   "build": {
