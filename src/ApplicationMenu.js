@@ -30,6 +30,7 @@ class ApplicationMenu {
           },
           {
             label: "Quit",
+            accelerator: process.platform === "darwin" ? `Cmd+Q` : `Ctrl+Q`,
             click: () => {
               driver.isQuitting = true;
               driver.quit();
