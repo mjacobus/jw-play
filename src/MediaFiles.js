@@ -65,7 +65,7 @@ class MediaFiles {
     const data = { id: uuid(), path };
     const file = new MediaFile(data);
 
-    file.thumbnailPath = file.getPath();
+    data.thumbnailPath = file.getPath();
 
     if (file.isVideo()) {
       // TODO: Remove this condition when we are able to use sharp in ci
