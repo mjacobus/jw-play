@@ -25,8 +25,9 @@ jobs:
           check-latest: true
 
       # force sharp rebuild
-      - run: yarn remove sharp
-      - run: yarn add --arch=x64 --platform=linux sharp
-      - run: yarn rebuild --arch=x64 --platform=linux sharp
-      - run: yarn install
-      - run: yarn run test
+      # - run: yarn remove sharp
+      # - run: yarn add --arch=x64 --platform=linux sharp
+      # - run: yarn rebuild --arch=x64 --platform=linux sharp
+      # - run: yarn install
+      - run: npm install
+      - run: npm run test
