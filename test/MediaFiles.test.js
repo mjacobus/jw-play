@@ -175,6 +175,10 @@ describe("MediaFiles", () => {
         expect(ids).toEqual([file.getId()]);
       });
 
+      it("sets thumbnail path to the same as the image path when sharp is not installed", () => {
+        expect(file.getThumbnailPath()).toEqual(file.getPath());
+      });
+
       xit("sets the path for the thumbnail", () => {
         expect(file.getThumbnailPath()).toEqual(
           tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
