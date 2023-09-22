@@ -1,6 +1,9 @@
 const { ipcRenderer } = require("electron");
 const { maximizeImage } = require("../utils");
 const MediaFiles = require("../MediaFiles");
+const t = require("../translations");
+
+document.title = t("window.titles.displayWindow");
 
 const files = new MediaFiles();
 

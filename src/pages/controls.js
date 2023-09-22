@@ -2,6 +2,9 @@ const { on } = require("delegated-events");
 const { ipcRenderer } = require("electron");
 const { mediaProgress } = require("../utils");
 const MediaFiles = require("../MediaFiles");
+const t = require("../translations");
+
+document.title = t("window.titles.controlWindow");
 
 const files = new MediaFiles();
 
