@@ -1,4 +1,6 @@
 const { Menu, screen, app } = require("electron");
+const t = require("./translations");
+const store = require("./store");
 
 class ApplicationMenu {
   constructor(driver) {
@@ -17,19 +19,19 @@ class ApplicationMenu {
         label: driver.appName(),
         submenu: [
           {
-            label: "Add folder",
+            label: t("menu.addFolder"),
             click: () => driver.addFolder(),
           },
           {
-            label: "Add files",
+            label: t("menu.addFiles"),
             click: () => driver.addFiles(),
           },
           {
-            label: "Remove all files",
+            label: t("menu.removeAllFiles"),
             click: () => driver.clearFiles(),
           },
           {
-            label: "Quit",
+            label: t("menu.quit"),
             accelerator: process.platform === "darwin" ? `Cmd+Q` : `Ctrl+Q`,
             click: () => {
               driver.isQuitting = true;
@@ -39,7 +41,7 @@ class ApplicationMenu {
         ],
       },
       {
-        label: "Display Window",
+        label: t("menu.displayWindow"),
         submenu: [
           {
             label: "Resize",
@@ -58,29 +60,42 @@ class ApplicationMenu {
             }),
           },
           {
-            label: "Move to",
+            label: t("menu.displayWindow.moveTo"),
             submenu: this.getMoveToItems(),
           },
           {
-            label: "Toggle Fullscreen",
+            label: t("menu.displayWindow.toggleFullScreen"),
             accelerator: process.platform === "darwin" ? "Cmd+F" : "Ctrl+F",
             click: () => driver.display.toggleFullScreen(),
           },
         ],
       },
       {
-        label: "DevTools",
+        label: t("menu.languages"),
         submenu: [
           {
-            label: "Display Window",
+            label: t("menu.languages.en"),
+            click: () => this.setLanguage("en"),
+          },
+          {
+            label: t("menu.languages.pt-BR"),
+            click: () => this.setLanguage("pt-BR"),
+          },
+        ],
+      },
+      {
+        label: t("menu.devTools"),
+        submenu: [
+          {
+            label: t("menu.devTools.displayWindow"),
             click: () => driver.display.toggleDevTools(),
           },
           {
-            label: "Control Window",
+            label: t("menu.devTools.controlWindow"),
             click: () => driver.controls.toggleDevTools(),
           },
           {
-            label: `Version ${app.getVersion()}`,
+            label: t("menu.devTools.version", { version: app.getVersion() }),
           },
         ],
       },
@@ -90,7 +105,7 @@ class ApplicationMenu {
   getMoveToItems() {
     return screen.getAllDisplays().map((display, index) => {
       return {
-        label: `Screen ${index + 1}`,
+        label: t(`menu.displayWindow.moveTo.${index + 1}`),
         accelerator:
           process.platform === "darwin"
             ? `Cmd+${index + 1}`
@@ -100,6 +115,11 @@ class ApplicationMenu {
         },
       };
     });
+  }
+
+  setLanguage(language) {
+    store.set("settings.language", language);
+    this.driver.showAlertMessage(t("messages.languageChangedRestartRequired"));
   }
 }
 

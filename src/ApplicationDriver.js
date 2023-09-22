@@ -93,6 +93,13 @@ class ApplicationDriver {
       }
     });
   }
+
+  showAlertMessage(message) {
+    dialog.showMessageBox(this.controls, {
+      title: "Warning",
+      message,
+    });
+  }
 }
 
 module.exports = ApplicationDriver;
