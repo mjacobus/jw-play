@@ -3,16 +3,20 @@ const MediaFiles = require("../src/MediaFiles");
 const MediaFile = require("../src/MediaFile");
 const fs = require("fs");
 
+function baseDir(path) {
+  return path.split("/").slice(0, -1).join("/");
+}
+
 function fixturePath(filename) {
-  const testFilePath = __filename;
-  const dir = testFilePath.split("/").slice(0, -1).join("/");
+  const dir = baseDir(__filename);
   return `${dir}/fixtures/${filename}`;
 }
 
 function tmpPath(file) {
-  const testFilePath = __filename;
-  const dir = testFilePath.split("/").slice(0, -1).join("/");
-  return `${dir}/tmp/${file}`;
+  const dir = baseDir(__filename);
+  file = `${dir}/tmp/${file}`;
+  fs.mkdirSync(baseDir(file), { recursive: true });
+  return file;
 }
 
 const createFile = (id, data = {}) => ({ ...data, id });
