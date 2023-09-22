@@ -62,7 +62,7 @@ class ApplicationMenu {
           },
           {
             label: "Toggle Fullscreen",
-            accelerator: "F",
+            accelerator: process.platform === "darwin" ? "Cmd+F" : "Ctrl+F",
             click: () => driver.display.toggleFullScreen(),
           },
         ],
@@ -90,7 +90,10 @@ class ApplicationMenu {
     return screen.getAllDisplays().map((display, index) => {
       return {
         label: `Screen ${index + 1}`,
-        accelerator: `${index + 1}`,
+        accelerator:
+          process.platform === "darwin"
+            ? `Cmd+${index + 1}`
+            : `Ctrl+${index + 1}`,
         click: () => {
           this.driver.display.moveToDisplay(display);
         },
