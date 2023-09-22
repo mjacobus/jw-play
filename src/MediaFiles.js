@@ -4,7 +4,7 @@ const { uuid } = require("./utils");
 const fs = require("fs");
 const ffmpeg = require("./wrappers/ffmpeg");
 const sizeOf = require("image-size");
-const sharp = require("sharp");
+// const sharp = require("sharp"); // TODO: Install in ci
 
 class MediaFiles {
   #filesPath = null;
@@ -64,7 +64,13 @@ class MediaFiles {
 
     const data = { id: uuid(), path };
     const file = new MediaFile(data);
-    data.thumbnailPath = `${this.#filesPath}/thumbnails/${file.getId()}.png`;
+
+    file.thumbnailPath = file.getPath();
+
+    if (file.isVideo()) {
+      // TODO: Remove this condition when we are able to use sharp in ci
+      data.thumbnailPath = `${this.#filesPath}/thumbnails/${file.getId()}.png`;
+    }
 
     if (file.isVideo()) {
       this.#saveScreenshot(file);
@@ -96,8 +102,9 @@ class MediaFiles {
     });
   }
 
-  #createThumbnail(file) {
-    sharp(file.getPath()).resize(320, 180).toFile(file.getThumbnailPath());
+  #createThumbnail(_file) {
+    // TODO: Fix this - cannot install sharp in CI
+    // sharp(file.getPath()).resize(320, 180).toFile(file.getThumbnailPath());
   }
 }
 

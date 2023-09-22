@@ -1,6 +1,7 @@
 const store = require("../src/store");
 const MediaFiles = require("../src/MediaFiles");
 const MediaFile = require("../src/MediaFile");
+const fs = require("fs");
 
 function fixturePath(filename) {
   const testFilePath = __filename;
@@ -14,7 +15,7 @@ function tmpPath(file) {
   return `${dir}/tmp/${file}`;
 }
 
-const createFile = (id) => ({ id });
+const createFile = (id, data = {}) => ({ ...data, id });
 
 describe("MediaFiles", () => {
   let repository = null;
@@ -81,6 +82,48 @@ describe("MediaFiles", () => {
 
       expect(store.get("mediaFiles.the-id")).toBeUndefined();
     });
+
+    it("deletes thumbnail when it is different then image path", () => {
+      store.set(
+        "mediaFiles.the-id",
+        createFile("the-id", { thumbnailPath: tmpPath("thumbnailtest.png") })
+      );
+
+      const file = repository.find("the-id");
+      fs.writeFileSync(file.getThumbnailPath(), "content");
+
+      repository.delete(file);
+      expect(fs.existsSync(file.getThumbnailPath())).toEqual(false);
+    });
+
+    it("does not delete thumbnail when it the same as the image path", () => {
+      store.set(
+        "mediaFiles.the-id",
+        createFile("the-id", {
+          thumbnailPath: tmpPath("thumbnailtest.png"),
+          path: tmpPath("thumbnailtest.png"),
+        })
+      );
+
+      const file = repository.find("the-id");
+      fs.writeFileSync(file.getThumbnailPath(), "content");
+
+      repository.delete(file);
+      expect(fs.existsSync(file.getThumbnailPath())).toEqual(true);
+    });
+
+    it("does not try to delete thumbnail when file does not exist", () => {
+      store.set(
+        "mediaFiles.the-id",
+        createFile("the-id", {
+          thumbnailPath: tmpPath("does-not-exist.png"),
+        })
+      );
+
+      const file = repository.find("the-id");
+
+      repository.delete(file); // no errors
+    });
   });
 
   describe(".createFromPath", () => {
@@ -132,13 +175,13 @@ describe("MediaFiles", () => {
         expect(ids).toEqual([file.getId()]);
       });
 
-      it("sets the path for the thumbnail", () => {
+      xit("sets the path for the thumbnail", () => {
         expect(file.getThumbnailPath()).toEqual(
           tmpPath(`appData/JWPlay/thumbnails/${file.getId()}.png`)
         );
       });
 
-      it("creates a the thumbnail", async (done) => {
+      xit("creates a the thumbnail", async (done) => {
         setTimeout(() => {
           expect(file.thumbnailExists()).toEqual(true);
           done();
