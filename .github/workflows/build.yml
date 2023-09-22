@@ -19,28 +19,28 @@ jobs:
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-      - name: Install libvips on Ubuntu
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libvips-dev
+      # - name: Install libvips on Ubuntu
+      #   if: matrix.os == 'ubuntu-latest'
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install -y libvips-dev
 
-      - name: Install libvips on macOS
-        if: matrix.os == 'macos-latest'
-        run: |
-          brew install vips
+      # - name: Install libvips on macOS
+      #   if: matrix.os == 'macos-latest'
+      #   run: |
+      #     brew install vips
 
-      # For Windows, you'd need an equivalent way to install libvips, e.g., using Chocolatey
-      # Here's a hypothetical step, but make sure the package exists and is named correctly in Chocolatey
-      - name: Install libvips on Windows
-        if: matrix.os == 'windows-latest'
-        run: |
-          # Download the libvips ZIP for Windows (replace with the correct URL!)
-          curl -L -o vips.zip https://github.com/libvips/libvips/releases/download/{VERSION}/vips-{VERSION}-win.zip
-          # Extract the ZIP
-          7z x vips.zip
-          # Optionally, set paths or move binaries as needed
-          echo "$(pwd)/vips-{VERSION}-win/bin" >> $GITHUB_PATH
+      # # For Windows, you'd need an equivalent way to install libvips, e.g., using Chocolatey
+      # # Here's a hypothetical step, but make sure the package exists and is named correctly in Chocolatey
+      # - name: Install libvips on Windows
+      #   if: matrix.os == 'windows-latest'
+      #   run: |
+      #     # Download the libvips ZIP for Windows (replace with the correct URL!)
+      #     curl -L -o vips.zip https://github.com/libvips/libvips/releases/download/{VERSION}/vips-{VERSION}-win.zip
+      #     # Extract the ZIP
+      #     7z x vips.zip
+      #     # Optionally, set paths or move binaries as needed
+      #     echo "$(pwd)/vips-{VERSION}-win/bin" >> $GITHUB_PATH
 
       - name: Check out Git repository
         uses: actions/checkout@v2.3.4
@@ -55,7 +55,7 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: yarn add --arch=x64 --platform=linux sharp
 
-      - name: Install sharp on ubuntu
+      - name: Install sharp on mac
         if: matrix.os == 'macos-latest'
         run: yarn add --arch=x64 --platform=darwin sharp
 
