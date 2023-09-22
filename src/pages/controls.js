@@ -79,7 +79,9 @@ ipcRenderer.on("add-file", (_, fileId) => {
   removeButton.classList.add("remove-button");
   removeButton.onclick = (e) => {
     e.preventDefault();
-    if (confirm("Are you sure?")) {
+    if (
+      confirm(t("messages.confirmFileRemoval", { file: file.getFilename() }))
+    ) {
       filesContainer.removeChild(li);
       ipcRenderer.send("file:remove", file.getId());
     }

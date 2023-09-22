@@ -21,5 +21,6 @@
   "menu.devTools.displayWindow": "Display window",
   "menu.devTools.controlWindow": "Control window",
   "menu.devTools.version": "Version %{version}",
-  "messages.languageChangedRestartRequired": "Restart to apply the chosen language."
+  "messages.languageChangedRestartRequired": "Restart to apply the chosen language.",
+  "messages.confirmFileRemoval": "Are you sure you want to remove the following file? \n\n\"%{file}\""
 }
