@@ -337,4 +337,39 @@ ipcRenderer.on("media:zoom-updated", (_sender, payload) => {
   }
 });
 
+// Keyboard shortcuts for panning and zooming
+document.addEventListener("keydown", (e) => {
+  // Skip if typing in an input field
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+    return;
+  }
+
+  switch (e.key) {
+    // Pan: hjkl (vim-style) and arrow keys
+    case "h":
+    case "ArrowLeft":
+      ipcRenderer.send("media:pan-left");
+      break;
+    case "j":
+    case "ArrowDown":
+      ipcRenderer.send("media:pan-down");
+      break;
+    case "k":
+    case "ArrowUp":
+      ipcRenderer.send("media:pan-up");
+      break;
+    case "l":
+    case "ArrowRight":
+      ipcRenderer.send("media:pan-right");
+      break;
+    // Zoom: u/i
+    case "u":
+      ipcRenderer.send("media:zoom-out");
+      break;
+    case "i":
+      ipcRenderer.send("media:zoom-in");
+      break;
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {});
