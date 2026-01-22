@@ -24,6 +24,18 @@ li.active {
   background: white;
 }
 
+li.media-file.dragging {
+  opacity: 0.5;
+}
+
+li.media-file.drop-before {
+  border-left: 3px solid #4a6da7;
+}
+
+li.media-file.drop-after {
+  border-right: 3px solid #4a6da7;
+}
+
 img {
   max-height: 200px;
   max-width: 200px;
