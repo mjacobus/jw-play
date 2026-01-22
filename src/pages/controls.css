@@ -243,3 +243,69 @@ a.remove-button i {
   width: 80%;
   min-width: 340px;
 }
+
+/* Pan Controls */
+.pan-btn {
+  color: white;
+  text-decoration: none;
+}
+
+.pan-btn i {
+  font-size: 20px;
+}
+
+.pan-btn:hover i {
+  text-shadow: 1px 2px #395c96;
+  color: white;
+}
+
+/* Responsive Controls for Narrow Width */
+@media (max-width: 500px) {
+  .controls-bar {
+    flex-wrap: wrap;
+    padding: 8px;
+    gap: 8px;
+  }
+
+  .controls-left {
+    order: 1;
+    flex: 1 1 100%;
+    justify-content: space-between;
+  }
+
+  .controls-center {
+    order: 2;
+    flex: 1 1 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .controls-right {
+    order: 1;
+  }
+
+  .file-name {
+    max-width: 120px;
+  }
+
+  #video-progress-bar,
+  #pdf-page-slider {
+    min-width: 200px;
+  }
+
+  #video-controls .video-btn i {
+    font-size: 30px;
+  }
+
+  #pdf-controls .pdf-btn i {
+    font-size: 24px;
+  }
+}
+
+/* Responsive Media Files for Narrow Width */
+@media (max-width: 280px) {
+  li.media-file {
+    width: calc(100% - 20px);
+    margin: 5px 10px;
+  }
+}
