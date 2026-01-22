@@ -46,6 +46,18 @@ on("click", "[data-video-action='video:toggle-mute']", (e) => {
   el.classList.toggle("option-off");
 });
 
+on("click", "[data-pdf-action]", (e) => {
+  e.preventDefault();
+  const action = e.target
+    .closest("[data-pdf-action]")
+    .getAttribute("data-pdf-action");
+  ipcRenderer.send(action);
+});
+
+on("change", "#pdf-page-slider", (e) => {
+  ipcRenderer.send("pdf:goto-page", parseInt(e.target.value));
+});
+
 const filesContainer = document.getElementById("filesContainer");
 
 let draggedElement = null;
@@ -114,9 +126,14 @@ const loadFileHandler = (file, li) => (e) => {
   document.querySelector("li.active")?.classList.remove("active");
   li.classList.add("active");
   ipcRenderer.send("file:display", file.getId());
-  footer.innerHTML = file.isVideo()
-    ? document.getElementById("video-controls-template").innerHTML
-    : "";
+
+  if (file.isVideo()) {
+    footer.innerHTML = document.getElementById("video-controls-template").innerHTML;
+  } else if (file.isPdf()) {
+    footer.innerHTML = document.getElementById("pdf-controls-template").innerHTML;
+  } else {
+    footer.innerHTML = "";
+  }
 };
 
 ipcRenderer.on("add-file", (_, fileId) => {
@@ -190,6 +207,20 @@ ipcRenderer.on("video:time-updated", (_sender, payload) => {
   bar.value = result.currentTime;
   currentTime.innerText = result.timeString.current;
   duration.innerText = result.timeString.duration;
+});
+
+ipcRenderer.on("pdf:page-updated", (_sender, payload) => {
+  const controls = select("#pdf-controls");
+  if (!controls) return;
+
+  const currentPage = select("#pdf-current-page", controls);
+  const totalPages = select("#pdf-total-pages", controls);
+  const slider = select("#pdf-page-slider", controls);
+
+  currentPage.innerText = payload.currentPage;
+  totalPages.innerText = payload.totalPages;
+  slider.max = payload.totalPages;
+  slider.value = payload.currentPage;
 });
 
 document.addEventListener("DOMContentLoaded", () => {});
