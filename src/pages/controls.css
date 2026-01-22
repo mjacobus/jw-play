@@ -245,6 +245,12 @@ a.remove-button i {
 }
 
 /* Pan Controls */
+.pan-group {
+  display: inline-flex;
+  gap: 4px;
+  white-space: nowrap;
+}
+
 .pan-btn {
   color: white;
   text-decoration: none;

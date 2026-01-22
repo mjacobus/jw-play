@@ -427,30 +427,62 @@ window.addEventListener("resize", () => {
 // Pan handlers
 const PAN_STEP = 100;
 
-ipcRenderer.on("media:pan-up", () => {
+function panUp() {
   const container = document.getElementById("container");
   if (container.classList.contains("scrollable")) {
     container.scrollBy({ top: -PAN_STEP, behavior: "smooth" });
   }
-});
+}
 
-ipcRenderer.on("media:pan-down", () => {
+function panDown() {
   const container = document.getElementById("container");
   if (container.classList.contains("scrollable")) {
     container.scrollBy({ top: PAN_STEP, behavior: "smooth" });
   }
-});
+}
 
-ipcRenderer.on("media:pan-left", () => {
+function panLeft() {
   const container = document.getElementById("container");
   if (container.classList.contains("scrollable")) {
     container.scrollBy({ left: -PAN_STEP, behavior: "smooth" });
   }
-});
+}
 
-ipcRenderer.on("media:pan-right", () => {
+function panRight() {
   const container = document.getElementById("container");
   if (container.classList.contains("scrollable")) {
     container.scrollBy({ left: PAN_STEP, behavior: "smooth" });
+  }
+}
+
+ipcRenderer.on("media:pan-up", panUp);
+ipcRenderer.on("media:pan-down", panDown);
+ipcRenderer.on("media:pan-left", panLeft);
+ipcRenderer.on("media:pan-right", panRight);
+
+// Keyboard shortcuts for panning (hjkl vim-style and arrow keys)
+document.addEventListener("keydown", (e) => {
+  // Skip if typing in an input field
+  if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
+    return;
+  }
+
+  switch (e.key) {
+    case "h":
+    case "ArrowLeft":
+      panLeft();
+      break;
+    case "j":
+    case "ArrowDown":
+      panDown();
+      break;
+    case "k":
+    case "ArrowUp":
+      panUp();
+      break;
+    case "l":
+    case "ArrowRight":
+      panRight();
+      break;
   }
 });
