@@ -275,19 +275,19 @@ a.remove-button i {
 
   .controls-left {
     order: 1;
-    flex: 1 1 100%;
-    justify-content: space-between;
+    flex: 1 1 auto;
   }
 
   .controls-center {
-    order: 2;
+    order: 3;
     flex: 1 1 100%;
     flex-wrap: wrap;
     justify-content: center;
   }
 
   .controls-right {
-    order: 1;
+    order: 2;
+    margin-left: auto;
   }
 
   .file-name {
