@@ -340,6 +340,8 @@ function applyImageZoom() {
     container.classList.remove("scrollable");
     img.style.transform = "";
     img.style.transformOrigin = "";
+    img.style.width = "";
+    img.style.height = "";
     maximizeImage(img, window);
   } else {
     // Zoomed mode - enable scrolling
