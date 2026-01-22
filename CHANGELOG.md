@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.4.0] - 2026-01-22
+
+### Added
+- Unified control bar for all media types (images, videos, PDFs)
+- File type badges with color coding (green for images, red for videos, orange for PDFs)
+- Filename display in controls for all media types
+- Close button to clear the display window
+- Zoom in/out/fit controls for images and PDFs
+- Auto-resize content on window resize
+
+### Changed
+- Control bar layout now uses flexbox for consistent styling
+- Display window supports scrollable content when zoomed beyond viewport
+
 ## [2.3.0] - 2026-01-22
 
 ### Added
