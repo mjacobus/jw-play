@@ -74,3 +74,5 @@ Tests are in `test/` directory using Jest. Test files must set `NODE_ENV=test` b
 
 - **Commit often** - Each commit should tell a story of the changes. Break work into logical, incremental commits rather than one large commit at the end.
 - **Create draft PR on first commit** - Push the branch and open a draft PR early to enable visibility and feedback.
+- **Bump version** - Update the version in `package.json` following [Semantic Versioning](https://semver.org/): patch for fixes, minor for new features, major for breaking changes.
+- **Update changelog** - Add an entry to `CHANGELOG.md` describing the changes. Follow the [Keep a Changelog](https://keepachangelog.com/) format.
