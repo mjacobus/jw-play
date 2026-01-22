@@ -129,43 +129,52 @@ const showPdf = async (file, doc, container) => {
   canvas.classList.add("vertical-center");
   container.appendChild(canvas);
 
-  const loadingTask = pdfjsLib.getDocument(file.getPath());
-  currentPdf = await loadingTask.promise;
+  try {
+    const loadingTask = pdfjsLib.getDocument(file.getPath());
+    currentPdf = await loadingTask.promise;
 
-  await renderPdfPage(currentPdfPage);
+    await renderPdfPage(currentPdfPage);
 
-  ipcRenderer.send("pdf:page-updated", {
-    currentPage: currentPdfPage,
-    totalPages: currentPdf.numPages,
-  });
+    ipcRenderer.send("pdf:page-updated", {
+      currentPage: currentPdfPage,
+      totalPages: currentPdf.numPages,
+    });
 
-  // Generate thumbnail if it doesn't exist
-  generatePdfThumbnail(file, currentPdf);
+    // Generate thumbnail if it doesn't exist
+    generatePdfThumbnail(file, currentPdf);
+  } catch (error) {
+    console.error("Failed to load PDF:", error);
+    currentPdf = null;
+  }
 };
 
 const renderPdfPage = async (pageNumber) => {
   if (!currentPdf) return;
 
-  const page = await currentPdf.getPage(pageNumber);
-  const canvas = document.getElementById("pdf-canvas");
-  const context = canvas.getContext("2d");
+  try {
+    const page = await currentPdf.getPage(pageNumber);
+    const canvas = document.getElementById("pdf-canvas");
+    const context = canvas.getContext("2d");
 
-  // Calculate scale to fit the window while maintaining aspect ratio
-  const viewport = page.getViewport({ scale: 1 });
-  const scaleX = window.innerWidth / viewport.width;
-  const scaleY = window.innerHeight / viewport.height;
-  const scale = Math.min(scaleX, scaleY);
+    // Calculate scale to fit the window while maintaining aspect ratio
+    const viewport = page.getViewport({ scale: 1 });
+    const scaleX = window.innerWidth / viewport.width;
+    const scaleY = window.innerHeight / viewport.height;
+    const scale = Math.min(scaleX, scaleY);
 
-  const scaledViewport = page.getViewport({ scale });
-  canvas.width = scaledViewport.width;
-  canvas.height = scaledViewport.height;
+    const scaledViewport = page.getViewport({ scale });
+    canvas.width = scaledViewport.width;
+    canvas.height = scaledViewport.height;
 
-  const renderContext = {
-    canvasContext: context,
-    viewport: scaledViewport,
-  };
+    const renderContext = {
+      canvasContext: context,
+      viewport: scaledViewport,
+    };
 
-  await page.render(renderContext).promise;
+    await page.render(renderContext).promise;
+  } catch (error) {
+    console.error("Failed to render PDF page:", error);
+  }
 };
 
 const generatePdfThumbnail = async (file, pdf) => {
@@ -186,7 +195,7 @@ const generatePdfThumbnail = async (file, pdf) => {
   const page = await pdf.getPage(1);
   const viewport = page.getViewport({ scale: 1 });
 
-  // Target thumbnail size: 320x180 (same as video thumbnails)
+  // Target thumbnail: 320px wide, height scaled proportionally
   const targetWidth = 320;
   const scale = targetWidth / viewport.width;
   const scaledViewport = page.getViewport({ scale });
@@ -210,38 +219,50 @@ const generatePdfThumbnail = async (file, pdf) => {
 ipcRenderer.on("pdf:next-page", async () => {
   if (!currentPdf || currentPdfPage >= currentPdf.numPages) return;
 
-  currentPdfPage++;
-  await renderPdfPage(currentPdfPage);
+  try {
+    currentPdfPage++;
+    await renderPdfPage(currentPdfPage);
 
-  ipcRenderer.send("pdf:page-updated", {
-    currentPage: currentPdfPage,
-    totalPages: currentPdf.numPages,
-  });
+    ipcRenderer.send("pdf:page-updated", {
+      currentPage: currentPdfPage,
+      totalPages: currentPdf.numPages,
+    });
+  } catch (error) {
+    console.error("Failed to navigate to next PDF page:", error);
+  }
 });
 
 ipcRenderer.on("pdf:previous-page", async () => {
   if (!currentPdf || currentPdfPage <= 1) return;
 
-  currentPdfPage--;
-  await renderPdfPage(currentPdfPage);
+  try {
+    currentPdfPage--;
+    await renderPdfPage(currentPdfPage);
 
-  ipcRenderer.send("pdf:page-updated", {
-    currentPage: currentPdfPage,
-    totalPages: currentPdf.numPages,
-  });
+    ipcRenderer.send("pdf:page-updated", {
+      currentPage: currentPdfPage,
+      totalPages: currentPdf.numPages,
+    });
+  } catch (error) {
+    console.error("Failed to navigate to previous PDF page:", error);
+  }
 });
 
 ipcRenderer.on("pdf:goto-page", async (_sender, pageNumber) => {
   if (!currentPdf) return;
 
-  const page = Math.max(1, Math.min(pageNumber, currentPdf.numPages));
-  if (page === currentPdfPage) return;
+  try {
+    const page = Math.max(1, Math.min(pageNumber, currentPdf.numPages));
+    if (page === currentPdfPage) return;
 
-  currentPdfPage = page;
-  await renderPdfPage(currentPdfPage);
+    currentPdfPage = page;
+    await renderPdfPage(currentPdfPage);
 
-  ipcRenderer.send("pdf:page-updated", {
-    currentPage: currentPdfPage,
-    totalPages: currentPdf.numPages,
-  });
+    ipcRenderer.send("pdf:page-updated", {
+      currentPage: currentPdfPage,
+      totalPages: currentPdf.numPages,
+    });
+  } catch (error) {
+    console.error("Failed to navigate to PDF page:", error);
+  }
 });

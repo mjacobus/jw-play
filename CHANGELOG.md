@@ -10,7 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - PDF file support with page navigation controls (next/prev buttons, page slider)
 - PDF thumbnails generated automatically when files are added
-- Drag and drop reordering for media files in control window
 
 ## [2.2.0]
 
