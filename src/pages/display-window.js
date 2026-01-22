@@ -24,7 +24,7 @@ let currentPdfFile = null;
 let currentMediaType = null; // 'image', 'video', or 'pdf'
 let currentFile = null;
 let currentZoomLevel = 100;
-const ZOOM_STEPS = [25, 50, 75, 100, 125, 150, 200, 300];
+const ZOOM_STEPS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 175, 200, 250, 300];
 const DEFAULT_ZOOM = 100;
 
 function video() {
