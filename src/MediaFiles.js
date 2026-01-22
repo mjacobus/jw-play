@@ -12,9 +12,31 @@ class MediaFiles {
   constructor() {}
 
   all() {
-    return Object.values(store.get("mediaFiles") || {}).map((data) => {
-      return new MediaFile(data);
+    const mediaFiles = store.get("mediaFiles") || {};
+    const order = this.getOrder();
+
+    // Return files in order, filtering out any that no longer exist
+    const orderedFiles = order
+      .filter((id) => mediaFiles[id])
+      .map((id) => new MediaFile(mediaFiles[id]));
+
+    // Add any files that exist but aren't in the order array (legacy data)
+    const orderedIds = new Set(order);
+    Object.values(mediaFiles).forEach((data) => {
+      if (!orderedIds.has(data.id)) {
+        orderedFiles.push(new MediaFile(data));
+      }
     });
+
+    return orderedFiles;
+  }
+
+  getOrder() {
+    return store.get("mediaFilesOrder") || [];
+  }
+
+  setOrder(order) {
+    store.set("mediaFilesOrder", order);
   }
 
   setFilesPath(path) {
@@ -39,6 +61,14 @@ class MediaFiles {
   delete(file) {
     store.remove(`mediaFiles.${file.getId()}`);
 
+    // Remove from order array
+    const order = this.getOrder();
+    const index = order.indexOf(file.getId());
+    if (index > -1) {
+      order.splice(index, 1);
+      this.setOrder(order);
+    }
+
     if (!file.thumbnailExists()) {
       return;
     }
@@ -55,6 +85,7 @@ class MediaFiles {
     this.all().forEach((file) => {
       this.delete(file);
     });
+    this.setOrder([]);
   }
 
   createFromPath(path) {
@@ -84,6 +115,12 @@ class MediaFiles {
     }
 
     this.save(file);
+
+    // Add to order array
+    const order = this.getOrder();
+    order.push(file.getId());
+    this.setOrder(order);
+
     return file;
   }
 

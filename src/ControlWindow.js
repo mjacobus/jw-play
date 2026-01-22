@@ -20,6 +20,10 @@ class ControlWindow extends Window {
       this.removeFile(fileId);
     });
 
+    ipcMain.on("files:reorder", (_event, order) => {
+      this.medias.setOrder(order);
+    });
+
     this.medias = new MediaFiles().setFilesPath(
       path.join(app.getPath("appData"), "JWPlay", "files")
     );

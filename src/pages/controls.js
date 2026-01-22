@@ -48,6 +48,67 @@ on("click", "[data-video-action='video:toggle-mute']", (e) => {
 
 const filesContainer = document.getElementById("filesContainer");
 
+let draggedElement = null;
+
+function handleDragStart(e) {
+  draggedElement = this;
+  this.classList.add("dragging");
+  e.dataTransfer.effectAllowed = "move";
+  e.dataTransfer.setData("text/plain", this.dataset.fileId);
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = "move";
+
+  const target = e.target.closest("li.media-file");
+  if (!target || target === draggedElement) return;
+
+  const rect = target.getBoundingClientRect();
+  const midpoint = rect.left + rect.width / 2;
+
+  // Remove existing drop indicators
+  document.querySelectorAll(".drop-before, .drop-after").forEach((el) => {
+    el.classList.remove("drop-before", "drop-after");
+  });
+
+  if (e.clientX < midpoint) {
+    target.classList.add("drop-before");
+  } else {
+    target.classList.add("drop-after");
+  }
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+
+  const target = e.target.closest("li.media-file");
+  if (!target || target === draggedElement) return;
+
+  const rect = target.getBoundingClientRect();
+  const midpoint = rect.left + rect.width / 2;
+
+  if (e.clientX < midpoint) {
+    target.parentNode.insertBefore(draggedElement, target);
+  } else {
+    target.parentNode.insertBefore(draggedElement, target.nextSibling);
+  }
+
+  // Send new order to main process
+  const newOrder = Array.from(
+    filesContainer.querySelectorAll("li.media-file")
+  ).map((li) => li.dataset.fileId);
+  ipcRenderer.send("files:reorder", newOrder);
+}
+
+function handleDragEnd() {
+  this.classList.remove("dragging");
+  document.querySelectorAll(".drop-before, .drop-after").forEach((el) => {
+    el.classList.remove("drop-before", "drop-after");
+  });
+  draggedElement = null;
+}
+
 const loadFileHandler = (file, li) => (e) => {
   e.preventDefault();
   document.querySelector("li.active")?.classList.remove("active");
@@ -62,6 +123,15 @@ ipcRenderer.on("add-file", (_, fileId) => {
   const file = files.find(fileId);
   const li = document.createElement("li");
   li.classList.add("media-file");
+  li.draggable = true;
+  li.dataset.fileId = fileId;
+
+  // Drag and drop event listeners
+  li.addEventListener("dragstart", handleDragStart);
+  li.addEventListener("dragover", handleDragOver);
+  li.addEventListener("drop", handleDrop);
+  li.addEventListener("dragend", handleDragEnd);
+
   const a = document.createElement("a");
   a.href = file.getUrl();
   a.addEventListener("click", loadFileHandler(file, li));
