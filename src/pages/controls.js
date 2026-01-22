@@ -372,4 +372,24 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+// Drag and drop files to add them
+document.addEventListener("dragover", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+});
+
+document.addEventListener("drop", (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  const filePaths = [];
+  for (const file of e.dataTransfer.files) {
+    filePaths.push(file.path);
+  }
+
+  if (filePaths.length > 0) {
+    ipcRenderer.send("files:drop", filePaths);
+  }
+});
+
 document.addEventListener("DOMContentLoaded", () => {});
