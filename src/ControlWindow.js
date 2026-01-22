@@ -32,6 +32,10 @@ class ControlWindow extends Window {
       this.medias.setOrder(order);
     });
 
+    ipcMain.on("files:drop", (_event, filePaths) => {
+      filePaths.forEach((filePath) => this.addFile(filePath));
+    });
+
     this.medias = new MediaFiles().setFilesPath(
       path.join(app.getPath("appData"), "JWPlay", "files")
     );
