@@ -19,6 +19,7 @@ body {
   display: block;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  cursor: grab;
 }
 
 #container.scrollable::-webkit-scrollbar {

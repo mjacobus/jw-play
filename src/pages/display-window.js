@@ -24,7 +24,27 @@ let currentPdfFile = null;
 let currentMediaType = null; // 'image', 'video', or 'pdf'
 let currentFile = null;
 let currentZoomLevel = 100;
-const ZOOM_STEPS = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140, 150, 175, 200, 250, 300];
+const ZOOM_STEPS = [
+  10,
+  20,
+  30,
+  40,
+  50,
+  60,
+  70,
+  80,
+  90,
+  100,
+  110,
+  120,
+  130,
+  140,
+  150,
+  175,
+  200,
+  250,
+  300,
+];
 const DEFAULT_ZOOM = 100;
 
 function video() {
@@ -497,4 +517,71 @@ document.addEventListener("keydown", (e) => {
       else if (currentMediaType === "pdf") applyPdfZoom();
       break;
   }
+});
+
+// Mouse wheel zoom
+document.addEventListener(
+  "wheel",
+  (e) => {
+    if (!currentFile) return;
+    if (currentMediaType !== "image" && currentMediaType !== "pdf") return;
+
+    e.preventDefault();
+
+    if (e.deltaY < 0) {
+      // Scroll up = zoom in
+      currentZoomLevel = getNextZoomLevel(1);
+    } else {
+      // Scroll down = zoom out
+      currentZoomLevel = getNextZoomLevel(-1);
+    }
+
+    if (currentMediaType === "image") applyImageZoom();
+    else if (currentMediaType === "pdf") applyPdfZoom();
+  },
+  { passive: false }
+);
+
+// Drag to pan
+let isDragging = false;
+let lastX = 0;
+let lastY = 0;
+
+document.addEventListener("mousedown", (e) => {
+  const container = document.getElementById("container");
+  if (!container.classList.contains("scrollable")) return;
+
+  isDragging = true;
+  lastX = e.clientX;
+  lastY = e.clientY;
+  container.style.cursor = "grabbing";
+});
+
+document.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+
+  const container = document.getElementById("container");
+  const deltaX = lastX - e.clientX;
+  const deltaY = lastY - e.clientY;
+
+  container.scrollBy(deltaX, deltaY);
+
+  lastX = e.clientX;
+  lastY = e.clientY;
+});
+
+document.addEventListener("mouseup", () => {
+  if (!isDragging) return;
+
+  isDragging = false;
+  const container = document.getElementById("container");
+  container.style.cursor = "";
+});
+
+document.addEventListener("mouseleave", () => {
+  if (!isDragging) return;
+
+  isDragging = false;
+  const container = document.getElementById("container");
+  container.style.cursor = "";
 });
