@@ -69,6 +69,22 @@ class DisplayWindow extends Window {
       this.webContents.send("media:zoom-fit");
     });
 
+    ipcMain.on("media:pan-up", () => {
+      this.webContents.send("media:pan-up");
+    });
+
+    ipcMain.on("media:pan-down", () => {
+      this.webContents.send("media:pan-down");
+    });
+
+    ipcMain.on("media:pan-left", () => {
+      this.webContents.send("media:pan-left");
+    });
+
+    ipcMain.on("media:pan-right", () => {
+      this.webContents.send("media:pan-right");
+    });
+
     this.setMenuBarVisibility(false);
     this.setFullScreenable(true);
   }

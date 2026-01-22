@@ -423,3 +423,34 @@ window.addEventListener("resize", () => {
     renderPdfPage(currentPdfPage);
   }
 });
+
+// Pan handlers
+const PAN_STEP = 100;
+
+ipcRenderer.on("media:pan-up", () => {
+  const container = document.getElementById("container");
+  if (container.classList.contains("scrollable")) {
+    container.scrollBy({ top: -PAN_STEP, behavior: "smooth" });
+  }
+});
+
+ipcRenderer.on("media:pan-down", () => {
+  const container = document.getElementById("container");
+  if (container.classList.contains("scrollable")) {
+    container.scrollBy({ top: PAN_STEP, behavior: "smooth" });
+  }
+});
+
+ipcRenderer.on("media:pan-left", () => {
+  const container = document.getElementById("container");
+  if (container.classList.contains("scrollable")) {
+    container.scrollBy({ left: -PAN_STEP, behavior: "smooth" });
+  }
+});
+
+ipcRenderer.on("media:pan-right", () => {
+  const container = document.getElementById("container");
+  if (container.classList.contains("scrollable")) {
+    container.scrollBy({ left: PAN_STEP, behavior: "smooth" });
+  }
+});

@@ -20,6 +20,17 @@ function select(selector, base = document) {
   return base.querySelector(selector);
 }
 
+function applyTranslations(container) {
+  container.querySelectorAll("[data-i18n-title]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-title");
+    try {
+      el.title = t(key);
+    } catch (e) {
+      console.warn(`Missing translation for: ${key}`);
+    }
+  });
+}
+
 const footer = document.getElementById("footer");
 
 on("click", "#video-progress-bar", (e) => {
@@ -164,6 +175,7 @@ const loadFileHandler = (file, li) => (e) => {
 
   if (templateId) {
     footer.innerHTML = document.getElementById(templateId).innerHTML;
+    applyTranslations(footer);
     const fileNameEl = document.getElementById(fileNameElementId);
     if (fileNameEl) {
       fileNameEl.textContent = file.getFilename();

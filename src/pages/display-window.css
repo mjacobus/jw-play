@@ -17,6 +17,12 @@ body {
 #container.scrollable {
   overflow: auto;
   display: block;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+#container.scrollable::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .vertical-center {
