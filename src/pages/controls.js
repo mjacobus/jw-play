@@ -3,6 +3,14 @@ const { ipcRenderer } = require("electron");
 const { mediaProgress } = require("../utils");
 const MediaFiles = require("../MediaFiles");
 const t = require("../translations");
+const pdfjsLib = require("pdfjs-dist/legacy/build/pdf.js");
+const fs = require("fs");
+const path = require("path");
+
+// Set up the worker for pdf.js
+pdfjsLib.GlobalWorkerOptions.workerSrc = require.resolve(
+  "pdfjs-dist/legacy/build/pdf.worker.js"
+);
 
 document.title = t("window.titles.controlWindow");
 
@@ -158,7 +166,12 @@ ipcRenderer.on("add-file", (_, fileId) => {
   img.title = file.getFilename();
   img.alt = file.getFilename();
   a.appendChild(img);
-  checkImage(img);
+
+  if (file.isPdf()) {
+    generatePdfThumbnail(file, img);
+  } else {
+    checkImage(img);
+  }
 
   const removeButton = document.createElement("a");
   removeButton.href = "#";
@@ -188,6 +201,53 @@ function checkImage(img, attempt = 1) {
       img.src = img.src;
       checkImage(img, attempt + 1);
     }, 1000);
+  }
+}
+
+async function generatePdfThumbnail(file, img) {
+  const thumbnailPath = file.getThumbnailPath();
+
+  // Skip if thumbnail already exists or is same as original
+  if (thumbnailPath === file.getPath() || fs.existsSync(thumbnailPath)) {
+    return;
+  }
+
+  // Create thumbnails directory if needed
+  const folder = path.dirname(thumbnailPath);
+  if (!fs.existsSync(folder)) {
+    fs.mkdirSync(folder, { recursive: true });
+  }
+
+  try {
+    const loadingTask = pdfjsLib.getDocument(file.getPath());
+    const pdf = await loadingTask.promise;
+    const page = await pdf.getPage(1);
+    const viewport = page.getViewport({ scale: 1 });
+
+    // Target thumbnail size: 320px width
+    const targetWidth = 320;
+    const scale = targetWidth / viewport.width;
+    const scaledViewport = page.getViewport({ scale });
+
+    const canvas = document.createElement("canvas");
+    canvas.width = scaledViewport.width;
+    canvas.height = scaledViewport.height;
+    const context = canvas.getContext("2d");
+
+    await page.render({
+      canvasContext: context,
+      viewport: scaledViewport,
+    }).promise;
+
+    // Convert canvas to PNG and save
+    const dataUrl = canvas.toDataURL("image/png");
+    const base64Data = dataUrl.replace(/^data:image\/png;base64,/, "");
+    fs.writeFileSync(thumbnailPath, base64Data, "base64");
+
+    // Update the img element with the new thumbnail
+    img.src = file.getThumbnailUrl();
+  } catch (err) {
+    console.error("Failed to generate PDF thumbnail:", err);
   }
 }
 
