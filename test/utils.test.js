@@ -44,14 +44,16 @@ describe("maximizeImage()", () => {
     expect(image.height).toBe(600);
   });
 
-  it("adds marging top", () => {
+  it("clears margins for flexbox centering", () => {
     image.width = 800;
     image.height = 500;
+    image.style["margin-top"] = "100px";
+    image.style["margin-left"] = "100px";
 
     maximizeImage(image, window);
 
-    expect(image.style["margin-top"]).toEqual("50px");
-    expect(image.style["margin-left"]).toEqual("0px");
+    expect(image.style["margin-top"]).toEqual("");
+    expect(image.style["margin-left"]).toEqual("");
   });
 
   describe("mediaProgress()", () => {

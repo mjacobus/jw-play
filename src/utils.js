@@ -15,12 +15,9 @@ const maximizeImage = (image, window) => {
   image.height *= ratio;
   image.width = Math.floor(image.width);
   image.height = Math.floor(image.height);
-  image.style["margin-top"] = `${Math.floor(
-    (window.innerHeight - image.height) / 2
-  )}px`;
-  image.style["margin-left"] = `${Math.floor(
-    (window.innerWidth - image.width) / 2
-  )}px`;
+  // Clear any manual margins - let flexbox handle centering
+  image.style["margin-top"] = "";
+  image.style["margin-left"] = "";
 };
 
 function secondsToTime(totalSeconds) {
