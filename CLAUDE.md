@@ -69,3 +69,8 @@ Windows communicate via Electron's IPC:
 ## Testing
 
 Tests are in `test/` directory using Jest. Test files must set `NODE_ENV=test` before requiring store to use separate config.
+
+## Workflow
+
+- **Commit often** - Each commit should tell a story of the changes. Break work into logical, incremental commits rather than one large commit at the end.
+- **Create draft PR on first commit** - Push the branch and open a draft PR early to enable visibility and feedback.
