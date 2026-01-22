@@ -53,6 +53,22 @@ class DisplayWindow extends Window {
       this.webContents.send("pdf:goto-page", pageNumber);
     });
 
+    ipcMain.on("display:clear", () => {
+      this.webContents.send("display:clear");
+    });
+
+    ipcMain.on("media:zoom-in", () => {
+      this.webContents.send("media:zoom-in");
+    });
+
+    ipcMain.on("media:zoom-out", () => {
+      this.webContents.send("media:zoom-out");
+    });
+
+    ipcMain.on("media:zoom-fit", () => {
+      this.webContents.send("media:zoom-fit");
+    });
+
     this.setMenuBarVisibility(false);
     this.setFullScreenable(true);
   }

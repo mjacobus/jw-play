@@ -66,6 +66,19 @@ on("change", "#pdf-page-slider", (e) => {
   ipcRenderer.send("pdf:goto-page", parseInt(e.target.value));
 });
 
+on("click", "[data-media-action]", (e) => {
+  e.preventDefault();
+  const action = e.target
+    .closest("[data-media-action]")
+    .getAttribute("data-media-action");
+  ipcRenderer.send(action);
+
+  if (action === "display:clear") {
+    document.querySelector("li.active")?.classList.remove("active");
+    footer.innerHTML = "";
+  }
+});
+
 const filesContainer = document.getElementById("filesContainer");
 
 let draggedElement = null;
@@ -135,10 +148,27 @@ const loadFileHandler = (file, li) => (e) => {
   li.classList.add("active");
   ipcRenderer.send("file:display", file.getId());
 
+  let templateId;
+  let fileNameElementId;
+
   if (file.isVideo()) {
-    footer.innerHTML = document.getElementById("video-controls-template").innerHTML;
+    templateId = "video-controls-template";
+    fileNameElementId = "video-file-name";
   } else if (file.isPdf()) {
-    footer.innerHTML = document.getElementById("pdf-controls-template").innerHTML;
+    templateId = "pdf-controls-template";
+    fileNameElementId = "pdf-file-name";
+  } else if (file.isImage()) {
+    templateId = "image-controls-template";
+    fileNameElementId = "image-file-name";
+  }
+
+  if (templateId) {
+    footer.innerHTML = document.getElementById(templateId).innerHTML;
+    const fileNameEl = document.getElementById(fileNameElementId);
+    if (fileNameEl) {
+      fileNameEl.textContent = file.getFilename();
+      fileNameEl.title = file.getFilename();
+    }
   } else {
     footer.innerHTML = "";
   }
@@ -281,6 +311,18 @@ ipcRenderer.on("pdf:page-updated", (_sender, payload) => {
   totalPages.innerText = payload.totalPages;
   slider.max = payload.totalPages;
   slider.value = payload.currentPage;
+});
+
+ipcRenderer.on("media:zoom-updated", (_sender, payload) => {
+  const imageZoomLevel = document.getElementById("image-zoom-level");
+  const pdfZoomLevel = document.getElementById("pdf-zoom-level");
+
+  if (imageZoomLevel) {
+    imageZoomLevel.textContent = payload.zoomLevel + "%";
+  }
+  if (pdfZoomLevel) {
+    pdfZoomLevel.textContent = payload.zoomLevel + "%";
+  }
 });
 
 document.addEventListener("DOMContentLoaded", () => {});

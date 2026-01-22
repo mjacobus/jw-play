@@ -19,43 +19,78 @@
     <div id="footer" class="fixed-bottom"></div>
   </body>
 
-  <template id="video-controls-template">
-    <div id="video-controls">
-      <div class="video-controls d-flex justify-content-center">
-        <a class="align-self-center" data-video-action="video:rewind" href="#"><i class="m-1 bi bi-skip-backward-circle-fill"></i></a>
-        <a class="align-self-center" data-video-action="video:play" href="#"><i class="m-1 bi bi-play-circle-fill"></i></a>
-        <a class="align-self-center" data-video-action="video:pause" href="#"><i class="m-1 bi bi-pause-circle-fill"></i></a>
-        <a class="align-self-center" data-video-action="video:forward" href="#"><i class="m-1 bi bi-skip-forward-circle-fill"></i></a>
-        <a class="align-self-center small align-middle" data-toggle-on-click data-video-action="video:toggle-mute" href="#"><i class="m-1 bi bi-volume-up-fill"></i></a>
-        <a class="align-self-center small option-off " data-toggle-on-click data-video-action="video:toggle-controls" href="#" ><i class="m-1 bi bi-sliders"></i></a>
+  <template id="image-controls-template">
+    <div id="image-controls" class="media-controls">
+      <div class="controls-bar">
+        <div class="controls-left">
+          <span class="file-type-badge badge-image">IMG</span>
+          <span class="file-name" id="image-file-name"></span>
+        </div>
+        <div class="controls-center">
+          <a class="zoom-btn" data-media-action="media:zoom-out" href="#" title="Zoom Out"><i class="bi bi-dash-circle-fill"></i></a>
+          <span class="zoom-level" id="image-zoom-level">100%</span>
+          <a class="zoom-btn" data-media-action="media:zoom-in" href="#" title="Zoom In"><i class="bi bi-plus-circle-fill"></i></a>
+          <a class="zoom-btn" data-media-action="media:zoom-fit" href="#" title="Fit to Window"><i class="bi bi-arrows-fullscreen"></i></a>
+        </div>
+        <div class="controls-right">
+          <a class="close-btn" data-media-action="display:clear" href="#" title="Close"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
       </div>
+    </div>
+  </template>
 
+  <template id="video-controls-template">
+    <div id="video-controls" class="media-controls">
+      <div class="controls-bar">
+        <div class="controls-left">
+          <span class="file-type-badge badge-video">VID</span>
+          <span class="file-name" id="video-file-name"></span>
+        </div>
+        <div class="controls-center">
+          <a class="video-btn" data-video-action="video:rewind" href="#"><i class="bi bi-skip-backward-circle-fill"></i></a>
+          <a class="video-btn" data-video-action="video:play" href="#"><i class="bi bi-play-circle-fill"></i></a>
+          <a class="video-btn" data-video-action="video:pause" href="#"><i class="bi bi-pause-circle-fill"></i></a>
+          <a class="video-btn" data-video-action="video:forward" href="#"><i class="bi bi-skip-forward-circle-fill"></i></a>
+          <a class="video-btn small" data-toggle-on-click data-video-action="video:toggle-mute" href="#"><i class="bi bi-volume-up-fill"></i></a>
+          <a class="video-btn small option-off" data-toggle-on-click data-video-action="video:toggle-controls" href="#"><i class="bi bi-sliders"></i></a>
+        </div>
+        <div class="controls-right">
+          <a class="close-btn" data-media-action="display:clear" href="#" title="Close"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
+      </div>
       <div class="d-flex justify-content-center">
         <input class="align-self-center" type="range" id="video-progress-bar" name="volume" min="0" max="100" data-total-time="100">
       </div>
-
       <div class="d-flex justify-content-center pb-2">
-        <span class="align-self-center mx-2 time-holder" id="video-progress-current-time" data-total-time="100">4:48</span>/
-        <span class="align-self-center ml-2 time-holder" id="video-progress-duration" data-total-time="100">4:48</span>
+        <span class="align-self-center mx-2 time-holder" id="video-progress-current-time" data-total-time="100">0:00</span>/
+        <span class="align-self-center ml-2 time-holder" id="video-progress-duration" data-total-time="100">0:00</span>
       </div>
     </div>
-
   </template>
 
   <template id="pdf-controls-template">
-    <div id="pdf-controls">
-      <div class="pdf-controls d-flex justify-content-center">
-        <a class="align-self-center" data-pdf-action="pdf:previous-page" href="#"><i class="m-1 bi bi-arrow-left-circle-fill"></i></a>
-        <a class="align-self-center" data-pdf-action="pdf:next-page" href="#"><i class="m-1 bi bi-arrow-right-circle-fill"></i></a>
+    <div id="pdf-controls" class="media-controls">
+      <div class="controls-bar">
+        <div class="controls-left">
+          <span class="file-type-badge badge-pdf">PDF</span>
+          <span class="file-name" id="pdf-file-name"></span>
+        </div>
+        <div class="controls-center">
+          <a class="pdf-btn" data-pdf-action="pdf:previous-page" href="#"><i class="bi bi-arrow-left-circle-fill"></i></a>
+          <span class="page-info"><span id="pdf-current-page">1</span>/<span id="pdf-total-pages">1</span></span>
+          <a class="pdf-btn" data-pdf-action="pdf:next-page" href="#"><i class="bi bi-arrow-right-circle-fill"></i></a>
+          <span class="separator">|</span>
+          <a class="zoom-btn" data-media-action="media:zoom-out" href="#" title="Zoom Out"><i class="bi bi-dash-circle-fill"></i></a>
+          <span class="zoom-level" id="pdf-zoom-level">100%</span>
+          <a class="zoom-btn" data-media-action="media:zoom-in" href="#" title="Zoom In"><i class="bi bi-plus-circle-fill"></i></a>
+          <a class="zoom-btn" data-media-action="media:zoom-fit" href="#" title="Fit to Window"><i class="bi bi-arrows-fullscreen"></i></a>
+        </div>
+        <div class="controls-right">
+          <a class="close-btn" data-media-action="display:clear" href="#" title="Close"><i class="bi bi-x-circle-fill"></i></a>
+        </div>
       </div>
-
       <div class="d-flex justify-content-center">
         <input class="align-self-center" type="range" id="pdf-page-slider" name="page" min="1" max="1" value="1">
-      </div>
-
-      <div class="d-flex justify-content-center pb-2">
-        <span class="align-self-center mx-2 page-holder" id="pdf-current-page">1</span>/
-        <span class="align-self-center ml-2 page-holder" id="pdf-total-pages">1</span>
       </div>
     </div>
   </template>
