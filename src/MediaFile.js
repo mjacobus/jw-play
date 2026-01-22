@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 const IMAGE_EXTENSIONS = ["png", "jpeg", "jpg", "gif"];
 const VIDEO_EXTENSIONS = ["mp4", "mpeg", "m4v", "mov"];
 const PDF_EXTENSIONS = ["pdf"];
@@ -59,7 +60,7 @@ class MediaFile {
   }
 
   getFilename() {
-    return this.getPath().split("/").pop();
+    return path.basename(this.getPath());
   }
 
   getThumbnailUrl() {
