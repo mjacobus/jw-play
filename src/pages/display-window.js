@@ -460,7 +460,7 @@ ipcRenderer.on("media:pan-down", panDown);
 ipcRenderer.on("media:pan-left", panLeft);
 ipcRenderer.on("media:pan-right", panRight);
 
-// Keyboard shortcuts for panning (hjkl vim-style and arrow keys)
+// Keyboard shortcuts for panning and zooming
 document.addEventListener("keydown", (e) => {
   // Skip if typing in an input field
   if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") {
@@ -468,6 +468,7 @@ document.addEventListener("keydown", (e) => {
   }
 
   switch (e.key) {
+    // Pan: hjkl (vim-style) and arrow keys
     case "h":
     case "ArrowLeft":
       panLeft();
@@ -483,6 +484,17 @@ document.addEventListener("keydown", (e) => {
     case "l":
     case "ArrowRight":
       panRight();
+      break;
+    // Zoom: u/i
+    case "u":
+      currentZoomLevel = getNextZoomLevel(-1);
+      if (currentMediaType === "image") applyImageZoom();
+      else if (currentMediaType === "pdf") applyPdfZoom();
+      break;
+    case "i":
+      currentZoomLevel = getNextZoomLevel(1);
+      if (currentMediaType === "image") applyImageZoom();
+      else if (currentMediaType === "pdf") applyPdfZoom();
       break;
   }
 });
