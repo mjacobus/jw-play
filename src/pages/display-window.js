@@ -20,6 +20,13 @@ let currentPdf = null;
 let currentPdfPage = 1;
 let currentPdfFile = null;
 
+// Media state for zoom and resize
+let currentMediaType = null; // 'image', 'video', or 'pdf'
+let currentFile = null;
+let currentZoomLevel = 100;
+const ZOOM_STEPS = [25, 50, 75, 100, 125, 150, 200, 300];
+const DEFAULT_ZOOM = 100;
+
 function video() {
   return (
     document.querySelector("video") || {
@@ -39,15 +46,22 @@ ipcRenderer.on("file:display", (_sender, fileId) => {
   currentPdfPage = 1;
   currentPdfFile = null;
 
+  // Reset zoom level for new file
+  currentZoomLevel = DEFAULT_ZOOM;
+  currentFile = file;
+
   if (file.isImage()) {
+    currentMediaType = "image";
     return showImage(file, document, container);
   }
 
   if (file.isVideo()) {
+    currentMediaType = "video";
     return showVideo(file, document, container);
   }
 
   if (file.isPdf()) {
+    currentMediaType = "pdf";
     return showPdf(file, document, container);
   }
 });
@@ -85,6 +99,7 @@ ipcRenderer.on("video:forward", (_sender, time) => {
 const showImage = (file, doc, container) => {
   const img = doc.createElement("img");
   container.innerHTML = "";
+  container.classList.remove("scrollable");
   container.appendChild(img);
   img.src = file.getUrl();
   img.width = file.getWidth();
@@ -94,12 +109,12 @@ const showImage = (file, doc, container) => {
 
 const showVideo = (file, doc, container) => {
   container.innerHTML = "";
+  container.classList.remove("scrollable");
   const video = doc.createElement("video");
   const source = doc.createElement("source");
   video.appendChild(source);
 
   video.width = window.innerWidth;
-  video.classList.add("vertical-center");
   source.type = "video/mp4";
   source.src = file.getUrl();
   container.appendChild(video);
@@ -121,12 +136,12 @@ const showVideo = (file, doc, container) => {
 
 const showPdf = async (file, doc, container) => {
   container.innerHTML = "";
+  container.classList.remove("scrollable");
   currentPdfFile = file;
   currentPdfPage = 1;
 
   const canvas = doc.createElement("canvas");
   canvas.id = "pdf-canvas";
-  canvas.classList.add("vertical-center");
   container.appendChild(canvas);
 
   try {
@@ -156,11 +171,21 @@ const renderPdfPage = async (pageNumber) => {
     const canvas = document.getElementById("pdf-canvas");
     const context = canvas.getContext("2d");
 
-    // Calculate scale to fit the window while maintaining aspect ratio
+    // Calculate scale based on zoom level
     const viewport = page.getViewport({ scale: 1 });
-    const scaleX = window.innerWidth / viewport.width;
-    const scaleY = window.innerHeight / viewport.height;
-    const scale = Math.min(scaleX, scaleY);
+    let scale;
+
+    if (currentZoomLevel === DEFAULT_ZOOM) {
+      // Fit to window mode
+      const scaleX = window.innerWidth / viewport.width;
+      const scaleY = window.innerHeight / viewport.height;
+      scale = Math.min(scaleX, scaleY);
+      canvas.classList.add("vertical-center");
+    } else {
+      // Custom zoom level
+      scale = currentZoomLevel / 100;
+      canvas.classList.remove("vertical-center");
+    }
 
     const scaledViewport = page.getViewport({ scale });
     canvas.width = scaledViewport.width;
@@ -264,5 +289,135 @@ ipcRenderer.on("pdf:goto-page", async (_sender, pageNumber) => {
     });
   } catch (error) {
     console.error("Failed to navigate to PDF page:", error);
+  }
+});
+
+// Clear display handler
+ipcRenderer.on("display:clear", () => {
+  const container = document.getElementById("container");
+  container.innerHTML = "";
+  currentMediaType = null;
+  currentFile = null;
+  currentPdf = null;
+  currentPdfPage = 1;
+  currentPdfFile = null;
+  currentZoomLevel = DEFAULT_ZOOM;
+});
+
+// Zoom handlers
+function getNextZoomLevel(direction) {
+  const currentIndex = ZOOM_STEPS.indexOf(currentZoomLevel);
+  if (currentIndex === -1) {
+    // Find closest zoom step
+    const closest = ZOOM_STEPS.reduce((prev, curr) =>
+      Math.abs(curr - currentZoomLevel) < Math.abs(prev - currentZoomLevel)
+        ? curr
+        : prev
+    );
+    const closestIndex = ZOOM_STEPS.indexOf(closest);
+    if (direction > 0) {
+      return ZOOM_STEPS[Math.min(closestIndex + 1, ZOOM_STEPS.length - 1)];
+    } else {
+      return ZOOM_STEPS[Math.max(closestIndex - 1, 0)];
+    }
+  }
+
+  if (direction > 0) {
+    return ZOOM_STEPS[Math.min(currentIndex + 1, ZOOM_STEPS.length - 1)];
+  } else {
+    return ZOOM_STEPS[Math.max(currentIndex - 1, 0)];
+  }
+}
+
+function applyImageZoom() {
+  const img = document.querySelector("#container img");
+  if (!img || !currentFile) return;
+
+  const container = document.getElementById("container");
+
+  if (currentZoomLevel === DEFAULT_ZOOM) {
+    // Fit to window mode
+    container.classList.remove("scrollable");
+    img.style.transform = "";
+    img.style.transformOrigin = "";
+    maximizeImage(img, window);
+  } else {
+    // Zoomed mode - enable scrolling
+    container.classList.add("scrollable");
+    const scale = currentZoomLevel / 100;
+    img.style.width = currentFile.getWidth() * scale + "px";
+    img.style.height = currentFile.getHeight() * scale + "px";
+    img.classList.remove("vertical-center");
+  }
+
+  // Send zoom level update to controls window
+  ipcRenderer.send("media:zoom-updated", { zoomLevel: currentZoomLevel });
+}
+
+async function applyPdfZoom() {
+  if (!currentPdf) return;
+
+  const container = document.getElementById("container");
+
+  if (currentZoomLevel === DEFAULT_ZOOM) {
+    container.classList.remove("scrollable");
+  } else {
+    container.classList.add("scrollable");
+  }
+
+  await renderPdfPage(currentPdfPage);
+
+  // Send zoom level update to controls window
+  ipcRenderer.send("media:zoom-updated", { zoomLevel: currentZoomLevel });
+}
+
+ipcRenderer.on("media:zoom-in", () => {
+  currentZoomLevel = getNextZoomLevel(1);
+
+  if (currentMediaType === "image") {
+    applyImageZoom();
+  } else if (currentMediaType === "pdf") {
+    applyPdfZoom();
+  }
+});
+
+ipcRenderer.on("media:zoom-out", () => {
+  currentZoomLevel = getNextZoomLevel(-1);
+
+  if (currentMediaType === "image") {
+    applyImageZoom();
+  } else if (currentMediaType === "pdf") {
+    applyPdfZoom();
+  }
+});
+
+ipcRenderer.on("media:zoom-fit", () => {
+  currentZoomLevel = DEFAULT_ZOOM;
+
+  if (currentMediaType === "image") {
+    applyImageZoom();
+  } else if (currentMediaType === "pdf") {
+    applyPdfZoom();
+  }
+});
+
+// Window resize handler
+window.addEventListener("resize", () => {
+  if (!currentFile) return;
+
+  const container = document.getElementById("container");
+
+  if (currentMediaType === "image" && currentZoomLevel === DEFAULT_ZOOM) {
+    const img = document.querySelector("#container img");
+    if (img) {
+      maximizeImage(img, window);
+    }
+  } else if (currentMediaType === "video") {
+    const video = document.querySelector("#container video");
+    if (video) {
+      video.width = window.innerWidth;
+    }
+  } else if (currentMediaType === "pdf" && currentZoomLevel === DEFAULT_ZOOM) {
+    renderPdfPage(currentPdfPage);
   }
 });

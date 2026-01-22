@@ -65,30 +65,159 @@ a.remove-button i {
   float: left;
 }
 
-#video-controls {
+/* Unified Media Controls */
+.media-controls {
   background: #4a6da7;
+  padding: 8px 0;
 }
 
-#video-controls a i {
+.controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+.controls-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.controls-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1 1 auto;
+  justify-content: center;
+}
+
+.controls-right {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+/* File Type Badges */
+.file-type-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: bold;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.badge-image {
+  background: #28a745;
   color: white;
-  font-size: 60px;
 }
 
-#video-controls a.small i {
-  font-size: 30px;
+.badge-video {
+  background: #dc3545;
+  color: white;
 }
 
-#video-controls a.option-off i {
-  color: #444;
+.badge-pdf {
+  background: #fd7e14;
+  color: white;
 }
 
-#video-controls a:hover i {
+/* File Name */
+.file-name {
+  color: white;
+  font-size: 13px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 150px;
+}
+
+/* Zoom Controls */
+.zoom-btn {
+  color: white;
+  text-decoration: none;
+}
+
+.zoom-btn i {
+  font-size: 24px;
+}
+
+.zoom-btn:hover i {
+  text-shadow: 1px 2px #395c96;
+  color: white;
+}
+
+.zoom-level {
+  color: white;
+  font-size: 13px;
+  font-weight: bold;
+  min-width: 45px;
+  text-align: center;
+}
+
+/* Close Button */
+.close-btn {
+  color: #ff6b6b;
+  text-decoration: none;
+}
+
+.close-btn i {
+  font-size: 28px;
+}
+
+.close-btn:hover {
+  color: #ff4757;
+}
+
+.close-btn:hover i {
+  text-shadow: 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+/* Separator */
+.separator {
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 4px;
+}
+
+/* Page Info for PDF */
+.page-info {
+  color: white;
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 8px;
+}
+
+/* Video Controls */
+#video-controls .video-btn {
+  color: white;
+  text-decoration: none;
+}
+
+#video-controls .video-btn i {
+  font-size: 40px;
+}
+
+#video-controls .video-btn.small i {
+  font-size: 24px;
+}
+
+#video-controls .video-btn.option-off i {
+  color: #666;
+}
+
+#video-controls .video-btn:hover i {
   text-shadow: 1px 2px #395c96;
 }
 
 #video-controls .time-holder {
   min-width: 40px;
   font-weight: bold;
+  color: white;
 }
 
 #video-progress-bar {
@@ -96,22 +225,18 @@ a.remove-button i {
   min-width: 340px;
 }
 
-#pdf-controls {
-  background: #4a6da7;
-}
-
-#pdf-controls a i {
+/* PDF Controls */
+#pdf-controls .pdf-btn {
   color: white;
-  font-size: 60px;
+  text-decoration: none;
 }
 
-#pdf-controls a:hover i {
+#pdf-controls .pdf-btn i {
+  font-size: 32px;
+}
+
+#pdf-controls .pdf-btn:hover i {
   text-shadow: 1px 2px #395c96;
-}
-
-#pdf-controls .page-holder {
-  min-width: 40px;
-  font-weight: bold;
 }
 
 #pdf-page-slider {

@@ -20,6 +20,10 @@ class ControlWindow extends Window {
       this.webContents.send("pdf:page-updated", payload);
     });
 
+    ipcMain.on("media:zoom-updated", (_event, payload) => {
+      this.webContents.send("media:zoom-updated", payload);
+    });
+
     ipcMain.on("file:remove", (_event, fileId) => {
       this.removeFile(fileId);
     });
