@@ -224,7 +224,7 @@ async function generatePdfThumbnail(file, img) {
     const page = await pdf.getPage(1);
     const viewport = page.getViewport({ scale: 1 });
 
-    // Target thumbnail size: 320px width
+    // Target thumbnail: 320px wide, height scaled proportionally
     const targetWidth = 320;
     const scale = targetWidth / viewport.width;
     const scaledViewport = page.getViewport({ scale });
