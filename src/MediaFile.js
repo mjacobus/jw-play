@@ -1,6 +1,7 @@
 const fs = require("fs");
 const IMAGE_EXTENSIONS = ["png", "jpeg", "jpg", "gif"];
 const VIDEO_EXTENSIONS = ["mp4", "mpeg", "m4v", "mov"];
+const PDF_EXTENSIONS = ["pdf"];
 
 class MediaFile {
   #data = {};
@@ -33,8 +34,12 @@ class MediaFile {
     return VIDEO_EXTENSIONS.includes(this.getExtension());
   }
 
+  isPdf() {
+    return PDF_EXTENSIONS.includes(this.getExtension());
+  }
+
   isSupported() {
-    return this.isImage() || this.isVideo();
+    return this.isImage() || this.isVideo() || this.isPdf();
   }
 
   getExtension() {

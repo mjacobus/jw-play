@@ -36,6 +36,19 @@ describe("MediaFile", () => {
     });
   });
 
+  describe(".isPdf()", () => {
+    const isPdf = (filePath) => create(filePath).isPdf();
+
+    it("returns true when file is pdf", () => {
+      expect(isPdf("foo.pdf")).toBeTruthy();
+    });
+
+    it("returns false when file is not pdf", () => {
+      expect(isPdf("foo.txt")).toBeFalsy();
+      expect(isPdf("foo.png")).toBeFalsy();
+    });
+  });
+
   describe(".isSupported()", () => {
     const isSupported = (filePath) => create(filePath).isSupported();
 
@@ -48,6 +61,7 @@ describe("MediaFile", () => {
       expect(isSupported("foo.mpeg")).toBeTruthy();
       expect(isSupported("foo.m4v")).toBeTruthy();
       expect(isSupported("foo.mov")).toBeTruthy();
+      expect(isSupported("foo.pdf")).toBeTruthy();
     });
 
     it("returns false when file is not supported", () => {

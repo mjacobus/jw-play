@@ -98,8 +98,8 @@ class MediaFiles {
 
     data.thumbnailPath = file.getPath();
 
-    if (file.isVideo()) {
-      // TODO: Remove this condition when we are able to use sharp in ci
+    if (file.isVideo() || file.isPdf()) {
+      // Thumbnail will be generated lazily (for videos by ffmpeg, for PDFs by renderer)
       data.thumbnailPath = `${this.#filesPath}/thumbnails/${file.getId()}.png`;
     }
 

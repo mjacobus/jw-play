@@ -41,6 +41,18 @@ class DisplayWindow extends Window {
       this.webContents.send("video:toggle-controls");
     });
 
+    ipcMain.on("pdf:next-page", () => {
+      this.webContents.send("pdf:next-page");
+    });
+
+    ipcMain.on("pdf:previous-page", () => {
+      this.webContents.send("pdf:previous-page");
+    });
+
+    ipcMain.on("pdf:goto-page", (_event, pageNumber) => {
+      this.webContents.send("pdf:goto-page", pageNumber);
+    });
+
     this.setMenuBarVisibility(false);
     this.setFullScreenable(true);
   }
