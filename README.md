@@ -30,8 +30,11 @@ A media presenter application designed for 2-screen setups, perfect for remote m
 
 ## Screenshots
 
-<!-- TODO: Add updated screenshots -->
-<img width="1409" alt="JW Play Screenshot" src="https://user-images.githubusercontent.com/226834/164533878-ba148626-8fa9-4ab9-879a-522c0d2d291e.png">
+<img width="800" alt="JW Play - Image display with zoom controls" src="https://github.com/user-attachments/assets/a448b03f-4542-4565-bf10-d35d6836d143">
+
+<img width="800" alt="JW Play - Video playback controls" src="https://github.com/user-attachments/assets/b38dbc0d-6849-4a3f-b621-341827976273">
+
+<img width="800" alt="JW Play - PDF viewer with page navigation" src="https://github.com/user-attachments/assets/2271ed2f-e896-4bbf-8602-5324dde5b308">
 
 ## Installation
 
