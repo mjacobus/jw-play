@@ -94,6 +94,7 @@
     }
   },
   "dependencies": {
+    "adm-zip": "^0.5.16",
     "bootstrap": "^4.6.0",
     "bootstrap-icons": "^1.4.0",
     "delegated-events": "^1.1.2",
@@ -105,6 +106,7 @@
     "image-size": "^1.0.2",
     "lodash": "^4.17.21",
     "pdfjs-dist": "^3.11.174",
+    "sql.js": "^1.13.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

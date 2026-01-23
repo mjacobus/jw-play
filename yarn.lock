@@ -853,7 +853,7 @@
 
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.11"
-  resolved "https://registry.yarnpkg.com/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.11.tgz#417db42b7f5323d79e93b34a6d7a2a12c0df43fa"
+  resolved "https://registry.npmjs.org/@mapbox/node-pre-gyp/-/node-pre-gyp-1.0.11.tgz"
   integrity sha512-Yhlar6v9WQgUp/He7BdgzOz8lqMQ8sU+jkCq7Wx8Myc5YFJLbEe7lgui/V7G1qB1DJykHSGwreceSaD60Y0PUQ==
   dependencies:
     detect-libc "^2.0.0"
@@ -1175,6 +1175,11 @@ acorn@^8.2.4:
   version "8.7.0"
   resolved "https://registry.npmjs.org/acorn/-/acorn-8.7.0.tgz"
   integrity sha512-V/LGr1APy+PXIwKebEWrkZPwoeoF+w1jiOBUmuxuiUIaOHtob8Qc9BTrYo7VuI5fR8tqsy+buA2WFooR5olqvQ==
+
+adm-zip@^0.5.16:
+  version "0.5.16"
+  resolved "https://registry.npmjs.org/adm-zip/-/adm-zip-0.5.16.tgz"
+  integrity sha512-TGw5yVi4saajsSEgz25grObGHEUaDrniwvA2qwSC060KfqGPdglhvPMA2lPIoxs3PQIItj2iag35fONcQqgUaQ==
 
 agent-base@6, agent-base@^6.0.2:
   version "6.0.2"
@@ -1847,7 +1852,7 @@ caniuse-lite@^1.0.30001317:
 
 canvas@^2.11.2:
   version "2.11.2"
-  resolved "https://registry.yarnpkg.com/canvas/-/canvas-2.11.2.tgz#553d87b1e0228c7ac0fc72887c3adbac4abbd860"
+  resolved "https://registry.npmjs.org/canvas/-/canvas-2.11.2.tgz"
   integrity sha512-ItanGBMrmRV7Py2Z+Xhs7cT+FNt5K0vPL4p9EZ/UX/Mu7hFbkxSjKF2KVtPwX7UYWp7dRKnrTvReflgrItJbdw==
   dependencies:
     "@mapbox/node-pre-gyp" "^1.0.0"
@@ -5095,7 +5100,7 @@ mute-stream@0.0.8:
 
 nan@^2.17.0:
   version "2.24.0"
-  resolved "https://registry.yarnpkg.com/nan/-/nan-2.24.0.tgz#a8919b36e692aa5b260831910e4f81419fc0a283"
+  resolved "https://registry.npmjs.org/nan/-/nan-2.24.0.tgz"
   integrity sha512-Vpf9qnVW1RaDkoNKFUvfxqAbtI8ncb8OJlqZ9wwpXzWPEsvsB1nvdUi6oYrHIkQ1Y/tMDnr1h4nczS0VB9Xykg==
 
 nanomatch@^1.2.9:
@@ -6325,7 +6330,7 @@ simple-concat@^1.0.0:
 
 simple-get@^3.0.3:
   version "3.1.1"
-  resolved "https://registry.yarnpkg.com/simple-get/-/simple-get-3.1.1.tgz#cc7ba77cfbe761036fbfce3d021af25fc5584d55"
+  resolved "https://registry.npmjs.org/simple-get/-/simple-get-3.1.1.tgz"
   integrity sha512-CQ5LTKGfCpvE1K0n2us+kuMPbk/q0EKl82s4aheV9oXjFEz6W/Y7oQFVJuU6QG77hRT4Ghb5RURteF5vnWjupA==
   dependencies:
     decompress-response "^4.2.0"
@@ -6503,6 +6508,11 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
   integrity sha1-BOaSb2YolTVPPdAVIDYzuFcpfiw=
+
+sql.js@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.npmjs.org/sql.js/-/sql.js-1.13.0.tgz"
+  integrity sha512-RJbVP1HRDlUUXahJ7VMTcu9Rm1Nzw+EBpoPr94vnbD4LwR715F3CcxE2G2k45PewcaZ57pjetYa+LoSJLAASgA==
 
 sshpk@^1.7.0:
   version "1.17.0"
