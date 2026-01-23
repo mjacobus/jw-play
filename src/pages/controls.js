@@ -178,8 +178,8 @@ const loadFileHandler = (file, li) => (e) => {
     applyTranslations(footer);
     const fileNameEl = document.getElementById(fileNameElementId);
     if (fileNameEl) {
-      fileNameEl.textContent = file.getFilename();
-      fileNameEl.title = file.getFilename();
+      fileNameEl.textContent = file.getTitle();
+      fileNameEl.title = file.getTitle();
     }
   } else {
     footer.innerHTML = "";
@@ -205,8 +205,8 @@ ipcRenderer.on("add-file", (_, fileId) => {
 
   const img = document.createElement("img");
   img.src = file.getThumbnailUrl();
-  img.title = file.getFilename();
-  img.alt = file.getFilename();
+  img.title = file.getTitle();
+  img.alt = file.getTitle();
   a.appendChild(img);
 
   if (file.isPdf()) {
@@ -222,7 +222,7 @@ ipcRenderer.on("add-file", (_, fileId) => {
   removeButton.onclick = (e) => {
     e.preventDefault();
     if (
-      confirm(t("messages.confirmFileRemoval", { file: file.getFilename() }))
+      confirm(t("messages.confirmFileRemoval", { file: file.getTitle() }))
     ) {
       filesContainer.removeChild(li);
       ipcRenderer.send("file:remove", file.getId());
