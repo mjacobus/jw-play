@@ -2,6 +2,7 @@ const { ipcMain } = require("electron");
 const fs = require("fs");
 const path = require("path");
 const MediaFiles = require("./MediaFiles");
+const PlaylistImporter = require("./PlaylistImporter");
 
 const Window = require("./Window");
 
@@ -52,6 +53,12 @@ class ControlWindow extends Window {
   }
 
   addFile(filePath) {
+    // Handle .jwlplaylist files
+    if (filePath.endsWith(".jwlplaylist")) {
+      this.#importPlaylist(filePath);
+      return;
+    }
+
     const file = this.medias.createFromPath(filePath);
 
     if (!file.exists() || !file.isSupported()) {
@@ -59,6 +66,20 @@ class ControlWindow extends Window {
     }
 
     this.webContents.send("add-file", file.getId());
+  }
+
+  async #importPlaylist(filePath) {
+    const filesDir = path.join(this.app.getPath("appData"), "JWPlay", "files");
+    const importer = new PlaylistImporter(filePath, filesDir);
+
+    try {
+      const importedFiles = await importer.import(this.medias);
+      importedFiles.forEach((file) => {
+        this.webContents.send("add-file", file.getId());
+      });
+    } catch (error) {
+      console.error("Failed to import playlist:", error);
+    }
   }
 
   addFolder(folder) {
