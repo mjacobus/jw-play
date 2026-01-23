@@ -102,8 +102,8 @@ class PlaylistImporter {
     // Copy the file to the permanent location
     fs.copyFileSync(sourceFile, destPath);
 
-    // Create the media file entry
-    return mediaFiles.createFromPath(destPath);
+    // Create the media file entry with the playlist item's label as title
+    return mediaFiles.createFromPath(destPath, { title: item.Label });
   }
 
   #getExtFromMime(mimeType) {
