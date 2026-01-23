@@ -55,7 +55,9 @@ class ControlWindow extends Window {
   addFile(filePath) {
     // Handle .jwlplaylist files
     if (filePath.endsWith(".jwlplaylist")) {
-      this.#importPlaylist(filePath);
+      this.#importPlaylist(filePath).catch((error) => {
+        console.error("Failed to import playlist:", error);
+      });
       return;
     }
 
