@@ -8,30 +8,35 @@ JWPlay is an Electron-based media presenter application designed for 2-screen se
 
 ## Commands
 
+This project uses **yarn** (not npm). Do not use `package-lock.json`.
+
 ```bash
+# Install dependencies
+yarn install
+
 # Development (with hot reload via nodemon)
-npm run dev
+yarn dev
 
 # Run tests
-npm test
+yarn test
 
 # Run a single test file
-npx jest test/MediaFile.test.js
+yarn jest test/MediaFile.test.js
 
 # Lint and format code
-npm run lint
+yarn lint
 
 # Package for development testing
-npm run package
+yarn package
 
 # Build for distribution
-npm run make
-npm run pack-win     # Windows
-npm run pack-linux   # Linux
-npm run pack-mac     # macOS
+yarn make
+yarn pack-win     # Windows
+yarn pack-linux   # Linux
+yarn pack-mac     # macOS
 
 # Clear app config (useful for testing)
-npm run clear-config
+yarn clear-config
 ```
 
 ## Architecture
