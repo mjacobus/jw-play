@@ -93,3 +93,4 @@ out/
 
 # tests
 /test/tmp
+*.jwlplaylist
