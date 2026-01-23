@@ -63,6 +63,14 @@ class MediaFile {
     return path.basename(this.getPath());
   }
 
+  getTitle() {
+    return this.#data.title || this.getFilename();
+  }
+
+  setTitle(title) {
+    this.#data.title = title;
+  }
+
   getThumbnailUrl() {
     return `file://${this.getThumbnailPath()}`;
   }

@@ -88,12 +88,17 @@ class MediaFiles {
     this.setOrder([]);
   }
 
-  createFromPath(path) {
+  createFromPath(path, options = {}) {
     if (!this.#filesPath) {
       throw new Error("Files path not set");
     }
 
     const data = { id: uuid(), path };
+
+    if (options.title) {
+      data.title = options.title;
+    }
+
     const file = new MediaFile(data);
 
     data.thumbnailPath = file.getPath();
