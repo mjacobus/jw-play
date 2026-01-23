@@ -3,6 +3,7 @@ const initSqlJs = require("sql.js");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
+const { uuid } = require("./utils");
 
 class PlaylistImporter {
   #zipPath = null;
@@ -38,7 +39,24 @@ class PlaylistImporter {
   #extract() {
     this.#tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "jwplaylist-"));
     const zip = new AdmZip(this.#zipPath);
-    zip.extractAllTo(this.#tempDir, true);
+
+    // Safe extraction: validate each entry to prevent path traversal
+    for (const entry of zip.getEntries()) {
+      const entryName = path.normalize(entry.entryName).replace(/^([/\\])+/, "");
+      const destPath = path.join(this.#tempDir, entryName);
+
+      // Skip entries that would escape the temp directory
+      if (!destPath.startsWith(this.#tempDir + path.sep)) {
+        continue;
+      }
+
+      if (entry.isDirectory) {
+        fs.mkdirSync(destPath, { recursive: true });
+      } else {
+        fs.mkdirSync(path.dirname(destPath), { recursive: true });
+        fs.writeFileSync(destPath, entry.getData());
+      }
+    }
   }
 
   async #openDatabase() {
@@ -79,20 +97,25 @@ class PlaylistImporter {
   }
 
   #importItem(item, mediaFiles) {
-    const sourceFile = path.join(this.#tempDir, item.FilePath);
+    // Prevent path traversal: resolve and validate the source path
+    const sourceFile = path.resolve(this.#tempDir, item.FilePath);
+    if (!sourceFile.startsWith(this.#tempDir + path.sep)) {
+      console.warn(`Rejected playlist item due to invalid path: ${item.FilePath}`);
+      return null;
+    }
 
     if (!fs.existsSync(sourceFile)) {
       console.warn(`Source file not found: ${sourceFile}`);
       return null;
     }
 
-    // Use the Label as the filename (it contains the original name)
+    // Sanitize label for use in filename (remove unsafe characters)
     const label = item.Label;
     const ext = path.extname(label) || this.#getExtFromMime(item.MimeType);
-    const baseName = path.basename(label, ext);
+    const baseName = this.#sanitizeFilename(path.basename(label, ext));
 
-    // Create a unique filename to avoid conflicts
-    const uniqueFilename = `${baseName}_${Date.now()}${ext}`;
+    // Create a unique filename using uuid to avoid collisions
+    const uniqueFilename = `${baseName}_${uuid()}${ext}`;
     const importedDir = path.join(this.#filesDir, "imported");
     const destPath = path.join(importedDir, uniqueFilename);
 
@@ -104,6 +127,11 @@ class PlaylistImporter {
 
     // Create the media file entry with the playlist item's label as title
     return mediaFiles.createFromPath(destPath, { title: item.Label });
+  }
+
+  #sanitizeFilename(name) {
+    // Remove characters that are unsafe for filenames across platforms
+    return name.replace(/[<>:"/\\|?*\x00-\x1f]/g, "_");
   }
 
   #getExtFromMime(mimeType) {
