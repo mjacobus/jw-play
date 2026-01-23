@@ -179,7 +179,7 @@ const loadFileHandler = (file, li) => (e) => {
     const fileNameEl = document.getElementById(fileNameElementId);
     if (fileNameEl) {
       fileNameEl.textContent = file.getTitle();
-      fileNameEl.title = file.getTitle();
+      fileNameEl.title = file.getFilename();
     }
   } else {
     footer.innerHTML = "";
@@ -205,7 +205,7 @@ ipcRenderer.on("add-file", (_, fileId) => {
 
   const img = document.createElement("img");
   img.src = file.getThumbnailUrl();
-  img.title = file.getTitle();
+  img.title = file.getFilename();
   img.alt = file.getTitle();
   a.appendChild(img);
 
